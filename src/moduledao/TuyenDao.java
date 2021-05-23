@@ -9,12 +9,11 @@ import connectSQL.LopKetNoi;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import module.Tuyen;
-import module.TuyenDiQuaTram;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import module.KhoangCachTram;
 
 /**
@@ -29,6 +28,8 @@ public class TuyenDao {
      * @param dau
      * @return
      */
+    LopKetNoi ketNoiCSDL=new LopKetNoi();
+    SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     public String chuyenArrayListStringSangString(ArrayList<String> DS, String dau) {
         String tam = "";
         for (String s : DS) {
@@ -93,8 +94,9 @@ public class TuyenDao {
         try {
             while (rs.next()) {
                 String maTuyen = rs.getString(1);
-                String tenTuyen = rs.getString(2);
-                model.addRow(new Object[]{maTuyen, tenTuyen});
+                String tenTuyen = rs.getString(3);
+                String thoiGianHieuChinh = rs.getString(2);
+                model.addRow(new Object[]{maTuyen, tenTuyen, thoiGianHieuChinh});
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,14 +104,7 @@ public class TuyenDao {
         }
     }
     
-    public void themTuyenDiQuaTram(TuyenDiQuaTram tuyenQuaTram) {
-        try {
-            LopKetNoi.update("insert into tuyendiquatram values(?,?,GETDATE(),?)", tuyenQuaTram.getMaTuyen(),
-                    tuyenQuaTram.getTenTram(),  tuyenQuaTram.getSTT());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    
     
     /**
      *
@@ -128,10 +123,11 @@ public class TuyenDao {
         } catch (Exception e) {
         }
     }
-    public boolean themTuyenVaoDB(Tuyen tuyen) {
+    public boolean themTuyenVaoDB(Tuyen tuyen, java.sql.Timestamp tsThoiGianHieuChinh) {
         try {
-            LopKetNoi.update("insert into tuyen values(?,?)", tuyen.getMaTuyen(), tuyen.getTenTuyen());
+            LopKetNoi.update("insert into tuyen(MaTuyen,TenTuyen,ThoiGianHieuChinh) values(?,?,?)", tuyen.getMaTuyen(), tuyen.getTenTuyen(),tsThoiGianHieuChinh);
         } catch (Exception e) {
+            System.out.println("Thêm tuyến vào DB thất bại!");
             return false;
         }
         return true;
@@ -141,13 +137,6 @@ public class TuyenDao {
      *
      * @param tuyen
      */
-    public void suaTuyenTrongDB(Tuyen tuyen) {
-        try {
-            LopKetNoi.update("update tuyen set TenTuyen = ? where MaTuyen = ?", tuyen.getTenTuyen(), tuyen.getMaTuyen());
-        } catch (Exception e) {
-            System.out.println("sua tuyen that bai");
-        }
-    }
     
     /**
      *
@@ -181,7 +170,7 @@ public class TuyenDao {
      */
     public void themTuyenVaoBang(Tuyen tuyen, JTable jtb) {
         DefaultTableModel model = (DefaultTableModel) jtb.getModel();
-        model.addRow(new Object[]{tuyen.getMaTuyen(), tuyen.getTenTuyen()});
+        model.addRow(new Object[]{tuyen.getMaTuyen(), tuyen.getTenTuyen(),tuyen.getThoiGianHieuChinh()});
         int hangCuoi = jtb.getRowCount();
         jtb.scrollRectToVisible(jtb.getCellRect(hangCuoi - 1, 0, true));
         jtb.clearSelection();

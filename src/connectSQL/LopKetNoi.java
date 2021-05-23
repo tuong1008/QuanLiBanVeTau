@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 import module.*;
 
 /**
@@ -27,7 +28,7 @@ public class LopKetNoi {
 
     public LopKetNoi() {
 
-        String url = "jdbc:sqlserver://;databaseName=QuanLiVeTau";
+        String url = "jdbc:sqlserver://;databaseName=QuanLiVeTau2";
         String user = "sa";
         String pass = "123";
         try {
@@ -101,18 +102,15 @@ public class LopKetNoi {
         }
         return tk;
     }
-    public DefaultListModel getJListTramTrongTuyen(String maTuyen) {
+    public DefaultListModel getJListTramTrongTuyen(String maTuyen,String thoiGianHieuChinh) {
         String sql = 
-        "select MaTuyen,TenTram,MAX(ThoiGianThemTram) as ThoiGianThemMax,STT \n" +
-        "from TuyenDiQuaTram\n" +
-        "where MaTuyen=?\n" +
-        "group by MaTuyen,TenTram,STT\n" +
-        "order by STT";
+        "select * from TuyenDiQuaTram where MaTuyen=? and ThoiGianHieuChinh=? order by STT asc";
         DefaultListModel listTram = new DefaultListModel();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, maTuyen);
-            ResultSet rs = ps.executeQuery();
+            ps.setString(2, thoiGianHieuChinh);
+           ResultSet rs = ps.executeQuery();
             while (true) {
                 if (rs.next()) {
                     listTram.addElement(rs.getString("TenTram"));
@@ -125,19 +123,15 @@ public class LopKetNoi {
         }
         return listTram;
     }
-    public DefaultListModel getJListTramChuaThem(String maTuyen) {
+    public DefaultListModel getJListTramChuaThem(String maTuyen, String thoiGianHieuChinh ) {
         String sql = 
-        "select TenTram from Tram where TenTram \n" +
-        "not in\n" +
-        "(select table1.TenTram from (select MaTuyen,TenTram,MAX(ThoiGianThemTram) as ThoiGianThemMax,STT \n" +
-        "from TuyenDiQuaTram\n" +
-        "where MaTuyen=?\n" +
-        "group by MaTuyen,TenTram,STT) as table1)\n" +
-        "order by TenTram";
+        "select TenTram from Tram where TenTram not in \n" +
+        "(select TenTram from TuyenDiQuaTram where MaTuyen=? and ThoiGianHieuChinh=?)";
         DefaultListModel listTram = new DefaultListModel();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, maTuyen);
+            ps.setString(2, thoiGianHieuChinh);
             ResultSet rs = ps.executeQuery();
             while (true) {
                 if (rs.next()) {
@@ -177,15 +171,45 @@ public class LopKetNoi {
         return tk;
     }
 
-    public boolean addNguoiDung(NguoiDung s) {
-        String sql = "insert into NguoiDung(CMND,SDT,Ten,Email,TenTaiKhoan) values(?,?,?,?,?)";
+    
+    public boolean addNguoiDungForTaiKhoan(LopKetNoi ketNoiCSDL,NguoiDung nguoiDung) {
+            //Nếu SDT và Email cùng rỗng
+            boolean trangThai=false;
+            if (nguoiDung.getEmail().equals("") && nguoiDung.getSDT().equals(""))
+            {
+                trangThai=ketNoiCSDL.update("insert into NguoiDung(CMND,Ten) values(?,?)",nguoiDung.getCMND(),nguoiDung.getTen());
+            }
+            else
+            {
+                //Nếu Chỉ có SĐT rỗng
+                if (nguoiDung.getSDT().equals("")&&(!nguoiDung.getEmail().equals("")))
+                {
+                    trangThai=ketNoiCSDL.update("insert into NguoiDung(CMND,Ten,Email) values(?,?,?)",nguoiDung.getCMND(),nguoiDung.getTen(), nguoiDung.getEmail());
+                }
+                else
+                {
+                    //Nếu chỉ có email rỗng
+                    if (nguoiDung.getEmail().equals("")&&(!nguoiDung.getSDT().equals("")))
+                    {
+                        trangThai=ketNoiCSDL.update("insert into NguoiDung(CMND,Ten,SDT) values(?,?,?)",nguoiDung.getCMND(),nguoiDung.getTen(), nguoiDung.getSDT());
+                    }
+                    else
+                    {
+                        trangThai=ketNoiCSDL.update("insert into NguoiDung(CMND,Ten,SDT,Email) values(?,?,?,?)",nguoiDung.getCMND(),nguoiDung.getTen(), nguoiDung.getSDT(),nguoiDung.getEmail());
+                    }
+                }
+                
+            }
+            return trangThai;
+    }
+    public boolean addTuyenDiQuaTram(TuyenDiQuaTram s,Timestamp tsThoiGianHieuChinh) {
+        String sql = "insert into TuyenDiQuaTram(MaTuyen,TenTram,ThoiGianHieuChinh,STT) values(?,?,?,?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, s.getCMND());
-            ps.setString(2, s.getSDT());
-            ps.setString(3, s.getTen());
-            ps.setString(4, s.getEmail());
-            ps.setString(5, s.getTenTaiKhoan());
+            ps.setString(1, s.getMaTuyen());
+            ps.setNString(2, s.getTenTram());
+            ps.setTimestamp(3, tsThoiGianHieuChinh);
+            ps.setInt(4, s.getSTT());
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
@@ -193,16 +217,15 @@ public class LopKetNoi {
         }
         return false;
     }
-    public boolean addTuyenDiQuaTram(TuyenDiQuaTram s) {
-        String sql = "insert into TuyenDiQuaTram(MaTuyen,TenTram,ThoiGianThemTram,STT) values(?,?,GETDATE(),?)";
+    public boolean deleteTuyenDiQuaTram(Tuyen s) {
+        String sql = "DELETE FROM TuyenDiQuaTram WHERE MaTuyen=? and ThoiGianHieuChinh=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, s.getMaTuyen());
-            ps.setNString(2, s.getTenTram());
-            ps.setInt(3, s.getSTT());
-
+            ps.setTimestamp(2, s.getThoiGianHieuChinh());
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
+            System.out.println("Xoá Tuyến đi qua trạm thành công");
             e.printStackTrace();
         }
         return false;
@@ -222,7 +245,6 @@ public class LopKetNoi {
                     nguoiDung.setSDT(rs.getString("SDT"));
                     nguoiDung.setTen(rs.getString("Ten"));
                     nguoiDung.setEmail(rs.getString("Email"));
-                    nguoiDung.setTenTaiKhoan(rs.getString("TenTaiKhoan"));
                 } else {
                     break;
                 }
@@ -235,13 +257,13 @@ public class LopKetNoi {
     }
 
     public boolean addTaiKhoan(TaiKhoan s) {
-        String sql = "insert into TaiKhoan(TenTaiKhoan,MatKhau,MaLoaiTaiKhoan,CMND) values(?,?,?,?)";
+        String sql = "insert into TaiKhoan(TenTaiKhoan,MatKhau,CMND,MaLoaiTaiKhoan) values(?,?,?,?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, s.getTenTaiKhoan());
             ps.setString(2, s.getMatKhau());
-            ps.setString(3, s.getMaLoaiTaiKhoan());
-            ps.setString(4, s.getCMND());
+            ps.setString(3, s.getCMND());
+            ps.setString(4,s.getMaLoaiTaiKhoan());
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
@@ -251,7 +273,7 @@ public class LopKetNoi {
     }
 
     public static void ketNoi() {
-        String url = "jdbc:sqlserver://;databaseName=QuanLiVeTau";
+        String url = "jdbc:sqlserver://;databaseName=QuanLiVeTau2";
         String user = "sa";
         String pass = "123";
         try {
@@ -367,10 +389,10 @@ String sql =
                     s[0].setMaTuyen(rs.getString("MaTuyen"));
                     s[0].setTenTram(rs.getString("TenTramDi"));
                     s[0].setSTT(rs.getInt("STTDi"));
-                    s[0].setThoiGianThemTram(rs.getTimestamp("ThoiGianThemTramDi"));
+                    //s[0].setThoiGianThemTram(rs.getTimestamp("ThoiGianThemTramDi"));
                     s[1]=new TuyenDiQuaTram();
                     s[1].setSTT(rs.getInt("STTDen"));
-                    s[1].setThoiGianThemTram(rs.getTimestamp("ThoiGianThemTramDen"));
+                    //s[1].setThoiGianThemTram(rs.getTimestamp("ThoiGianThemTramDen"));
                     s[1].setTenTram(rs.getString("TenTramDen"));
                     listTuyen.add(s);
                 } else {
@@ -473,6 +495,7 @@ String sql =
                     s.setMaToa(rs.getString("MaToa"));
                     s.setMaLoaiToa(rs.getString("MaLoaiToa"));
                     s.setSoChoNgoi(rs.getInt("SoChoNgoi"));
+                    s.setGiaChoNgoi(rs.getInt("GiaChoNgoi"));
                     s.setThoiGianThemToa(rs.getTimestamp("ThoiGian"));
                     listToa.add(s);
                 } else {
@@ -527,18 +550,21 @@ String sql =
         }
         return listChoNgoiDaDat;
     }
-    public int addVe(String tenTaiKhoan,int choNgoi,Timestamp thoiGianLenTau, Timestamp thoiGianDen,float gia, boolean khuHoi,int maChuyen) {
-        String sql = "insert into Ve(TenTaiKhoan, ChoNgoi, ThoiGianLenTau, ThoiGianDen, Gia, KhuHoi,MaChuyen) values(?,?,?,?,?,?,?)";
+    public int addVe(String soDinhDanh,int choNgoi,Timestamp thoiGianLenTau, Timestamp thoiGianDen,float gia, boolean khuHoi,int maChuyen,String tenLoaiVe,String tenTaiKhoan, String hoTenNguoiNgoi) {
+        String sql = "insert into Ve(SoDinhDanh, ChoNgoi, ThoiGianLenTau, ThoiGianDen, Gia, KhuHoi,MaChuyen,TenLoaiVe, tenTaiKhoan, hoTenNguoiNgoi) values(?,?,?,?,?,?,?,?,?,?)";
         int maVeVuaThem=-1;
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, tenTaiKhoan);
+            ps.setString(1, soDinhDanh);
             ps.setInt(2, choNgoi);
             ps.setTimestamp(3, thoiGianLenTau);
             ps.setTimestamp(4, thoiGianDen);
             ps.setFloat(5, gia);
             ps.setBoolean(6, khuHoi);
             ps.setInt(7, maChuyen);
+            ps.setString(8, tenLoaiVe);
+            ps.setString(9, tenTaiKhoan);
+            ps.setString(10, hoTenNguoiNgoi);
             ps.executeUpdate();
             String sql3 = "SELECT IDENT_CURRENT('Ve') as MaVeVuaThem";
             try {
@@ -562,7 +588,7 @@ String sql =
                 try {
                     PreparedStatement ps2 = connection.prepareStatement(sql2);
                     ps2.executeUpdate();
-                    maVeVuaThem=addVe(tenTaiKhoan,choNgoi,thoiGianLenTau, thoiGianDen,gia, khuHoi,maChuyen);
+                    maVeVuaThem=addVe(soDinhDanh,choNgoi,thoiGianLenTau, thoiGianDen,gia, khuHoi,maChuyen,tenLoaiVe,tenTaiKhoan,hoTenNguoiNgoi);
                 }
                 catch (Exception e2) {
                     e2.printStackTrace();

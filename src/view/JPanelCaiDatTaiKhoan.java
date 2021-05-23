@@ -32,10 +32,9 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
         txtCMND.setText(nguoiDung.getCMND());
         txtEmail.setText(nguoiDung.getEmail());
         txtSDT.setText(nguoiDung.getSDT());
-        txtTenTaiKhoan.setText(nguoiDung.getTenTaiKhoan());
+        txtTenTaiKhoan.setText(taiKhoan.getTenTaiKhoan());
         jpwMatKhau.setText(taiKhoan.getMatKhau());
         
-        jcbLoaiTaiKhoan.addItem(taiKhoan.getMaLoaiTaiKhoan());        
     }
 
 
@@ -68,12 +67,11 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
         txtEmail = new javax.swing.JTextField();
         txtSDT = new javax.swing.JTextField();
         txtTenTaiKhoan = new javax.swing.JTextField();
-        jlbLoaiTaiKhoan = new javax.swing.JLabel();
-        jcbLoaiTaiKhoan = new javax.swing.JComboBox<>();
         jbtSua = new javax.swing.JButton();
         jbnLuu = new javax.swing.JButton();
         jbtDoiMatKhau = new javax.swing.JButton();
         jpwMatKhau = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -107,10 +105,6 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
 
         txtTenTaiKhoan.setEnabled(false);
 
-        jlbLoaiTaiKhoan.setText("Loại tài khoản");
-
-        jcbLoaiTaiKhoan.setEnabled(false);
-
         jbtSua.setText("Sửa");
         jbtSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,19 +129,28 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
 
         jpwMatKhau.setEnabled(false);
 
+        jButton1.setText("Đăng ký tài khoản Quản trị");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addComponent(jbtSua)
-                        .addGap(239, 239, 239)
+                        .addGap(122, 122, 122)
                         .addComponent(jbnLuu)
-                        .addGap(215, 215, 215)
-                        .addComponent(jbtDoiMatKhau))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                        .addComponent(jbtDoiMatKhau)
+                        .addGap(128, 128, 128)
+                        .addComponent(jButton1))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,22 +159,17 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
                             .addComponent(jlbEmail)
                             .addComponent(jlbSDT)
                             .addComponent(jlbTenTaiKhoan)
-                            .addComponent(jlbMatKhau)
-                            .addComponent(jlbLoaiTaiKhoan))
-                        .addGap(33, 33, 33)
+                            .addComponent(jlbMatKhau))
+                        .addGap(34, 34, 34)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jcbLoaiTaiKhoan, javax.swing.GroupLayout.Alignment.LEADING, 0, 622, Short.MAX_VALUE)
+                            .addComponent(jpwMatKhau, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
                             .addComponent(txtTen, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCMND, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTenTaiKhoan, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpwMatKhau, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSDT))))
+                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSDT)
+                            .addComponent(txtTenTaiKhoan, javax.swing.GroupLayout.Alignment.LEADING))))
                 .addGap(10, 10, 10))
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jcbLoaiTaiKhoan, jpwMatKhau, txtCMND, txtEmail, txtSDT, txtTen, txtTenTaiKhoan});
-
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -199,19 +197,16 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlbMatKhau)
                     .addComponent(jpwMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlbLoaiTaiKhoan)
-                    .addComponent(jcbLoaiTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtSua)
                     .addComponent(jbnLuu)
-                    .addComponent(jbtDoiMatKhau))
+                    .addComponent(jbtDoiMatKhau)
+                    .addComponent(jButton1))
                 .addGap(20, 20, 20))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jcbLoaiTaiKhoan, jpwMatKhau, txtCMND, txtEmail, txtSDT, txtTen, txtTenTaiKhoan});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jpwMatKhau, txtCMND, txtEmail, txtSDT, txtTen, txtTenTaiKhoan});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -273,8 +268,14 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
         jpwMatKhau.setText(taiKhoan.getMatKhau());
     }//GEN-LAST:event_jbtDoiMatKhauActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new JDialogSignUp(taiKhoan).setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
@@ -282,10 +283,8 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
     private javax.swing.JButton jbnLuu;
     private javax.swing.JButton jbtDoiMatKhau;
     private javax.swing.JButton jbtSua;
-    private javax.swing.JComboBox<String> jcbLoaiTaiKhoan;
     private javax.swing.JLabel jlbCMND;
     private javax.swing.JLabel jlbEmail;
-    private javax.swing.JLabel jlbLoaiTaiKhoan;
     private javax.swing.JLabel jlbMatKhau;
     private javax.swing.JLabel jlbSDT;
     private javax.swing.JLabel jlbTen;

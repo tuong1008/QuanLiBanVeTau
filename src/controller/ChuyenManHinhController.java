@@ -12,9 +12,9 @@ import java.awt.event.MouseListener;
 import java.sql.SQLException;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import module.TaiKhoan;
 import view.JPanelCaiDatTaiKhoan;
@@ -32,13 +32,12 @@ import view.JPanelThongKe;
 public class ChuyenManHinhController {
 
     private JPanel view; // khi bam vao label minh se hien thi panel len cai jpn view nay
-
+    private view.MainFrame mainFr;
     List<DanhMucBean> list = null;
-
+    String khachHayQuanTri;
     TaiKhoan taiKhoan; //luu tai khoan dang nhap luc dau
 
-    public ChuyenManHinhController() {
-    }
+    
 
     public ChuyenManHinhController(JPanel view) {
         this.view = view;
@@ -47,14 +46,16 @@ public class ChuyenManHinhController {
     public void setView(JPanel jpnItem, JLabel jlbItem) { // set vua vao se vao danh muc bean dau tien la dat ve
         jpnItem.setBackground(new Color(0, 0, 0));
         jlbItem.setForeground(new Color(51, 204, 255));
-
         view.removeAll();
         view.setLayout(new BorderLayout());
         view.add(new JPanelDatVe(taiKhoan));
         view.validate();
         view.repaint();
     }
-
+    public void setMainFrame(view.MainFrame mainFr)
+    {
+        this.mainFr=mainFr;
+    }
     public void setEvents(List<DanhMucBean> list) { // bat su kien click vao menu
         this.list = list;
         for (DanhMucBean i : list) {
@@ -91,29 +92,67 @@ public class ChuyenManHinhController {
             switch (kind) {
                 case "DatVe":
                     node = new JPanelDatVe(taiKhoan);
+                    view.removeAll();
+                    view.setLayout(new BorderLayout());
+                    view.add(node);
+                    view.validate();
+                    view.repaint();
+                    setChangeBackground();
                     break;
                 case "QuanLiLoTrinh":
                     node = new JPanelQuanLiLoTrinh();
+                    view.removeAll();
+                    view.setLayout(new BorderLayout());
+                    view.add(node);
+                    view.validate();
+                    view.repaint();
+                    setChangeBackground();
                     break;
                 case "QuanLiTau":
                     node = new JPanelQuanLiToaTau();
+                    view.removeAll();
+                    view.setLayout(new BorderLayout());
+                    view.add(node);
+                    view.validate();
+                    view.repaint();
+                    setChangeBackground();
                     break;
                 case "QuanLiTuyen":
                     node = new JPanelQuanLiTuyen();
+                    view.removeAll();
+                    view.setLayout(new BorderLayout());
+                    view.add(node);
+                    view.validate();
+                    view.repaint();
+                    setChangeBackground();       
                     break;
                 case "ThongKe":
                     node = new JPanelThongKe();
+                    view.removeAll();
+                    view.setLayout(new BorderLayout());
+                    view.add(node);
+                    view.validate();
+                    view.repaint();
+                    setChangeBackground();
                     break;
                 case "CaiDatTaiKhoan":
                     node = new JPanelCaiDatTaiKhoan(taiKhoan);
+                    view.removeAll();
+                    view.setLayout(new BorderLayout());
+                    view.add(node);
+                    view.validate();
+                    view.repaint();
+                    setChangeBackground();
+                    break;
+                case "DangXuat":
+                    int input = JOptionPane.showConfirmDialog(view, "Bạn có chắc chắn muốn đăng xuất không?", "Cảnh báo", JOptionPane.YES_NO_OPTION);
+                    if (input == JOptionPane.YES_OPTION) {
+                        mainFr.getLoginFrame().setVisible(true);
+                        mainFr.dispose();
+                    }
                     break;
             }
-            view.removeAll();
-            view.setLayout(new BorderLayout());
-            view.add(node);
-            view.validate();
-            view.repaint();
-            setChangeBackground();
+            
         }
 
         @Override

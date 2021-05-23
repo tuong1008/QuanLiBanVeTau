@@ -6,6 +6,7 @@
 package view.datve;
 
 import java.util.ArrayList;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
@@ -19,8 +20,8 @@ public class JPanelNgoiCung80 extends NewJPanel {
     /**
      * Creates new form JDialogNgoiCung80
      */
-    public JPanelNgoiCung80(String maTau, String maToa, String thoiGianDi,String thoiGianDen, DefaultTableModel model, String  chieuDi,ArrayList<Integer> DSGheDaDat) {
-        super(maTau,maToa,thoiGianDi, thoiGianDen,model, chieuDi,DSGheDaDat);
+    public JPanelNgoiCung80(String maTau, String maToa, String thoiGianDi,String thoiGianDen, DefaultTableModel model,JRadioButton jRadio1Chieu, String  chieuDi,ArrayList<Integer> DSGheDaDat, int donGia) {
+        super(maTau,maToa,thoiGianDi, thoiGianDen,model,jRadio1Chieu, chieuDi,DSGheDaDat,donGia);
         initComponents();
         jTextField1.setText(thoiGianDi);
         jTextField2.setText(thoiGianDen);

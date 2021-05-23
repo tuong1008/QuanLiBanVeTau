@@ -34,6 +34,7 @@ import module.TuyenDiQuaTram;
 public class JPanelTimVeTau extends javax.swing.JPanel {
 
     LopKetNoi ketNoiCSDL;
+    TaiKhoan taiKhoan;
     ArrayList<Tram> DSTram;
     ArrayList<TuyenDiQuaTram[]> DSTuyen;  //Dùng Tuyến Đi Qua Trạm mà không dùng Tuyến là vì để lấy được Mã trạm mà khách cần lên, VÌ TÌM TUYẾN THEO TRẠM
     ArrayList<TuyenDiQuaTram[]> DSTuyen_ChieuVe;
@@ -48,7 +49,6 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
     DefaultTableModel model;
     int maVeChieuDi; //lưu để tạo vé Khứ hồi, vì thêm vào csdl rồi sẽ khó lấy ra 1 cách chính xác,
     Timestamp thoiGianLenTauChieuDi;// ví dụ như chạy nhiều luồng thì lấy maVeChieuDi sẽ không chính xác
-    public TaiKhoan taiKhoan;
     javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel jLabelChieuVe;
     /**
@@ -56,12 +56,12 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
      */
     public JPanelTimVeTau(TaiKhoan taiKhoan) {
         initComponents();
+        this.taiKhoan=taiKhoan;
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jLabelChieuVe = new javax.swing.JLabel();
         jLabelChieuVe.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelChieuVe.setForeground(new java.awt.Color(0, 0, 255));
 
-        this.taiKhoan=taiKhoan;
         //JTabbedPaneDSTau=new TreeMap<String,JTabbedPane>();
         JTabbedPaneDSToa=new TreeMap<String, NewJPanel>();
         DSTauPhuHop=new ArrayList<TauChayTuyen>();
@@ -356,11 +356,11 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Chiều","Mã Tàu", "Mã Toa", "Ghế Số", "Thời Gian Đi", "Thời Gian Đến"
+                "Chiều","Mã Tàu", "Mã Toa", "Ghế Số","Giá", "Thời Gian Đi", "Thời Gian Đến"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false,false,false,false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -378,6 +378,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(163);
             jTable1.getColumnModel().getColumn(5).setResizable(false);
             jTable1.getColumnModel().getColumn(5).setPreferredWidth(163);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(163);
         }
         //giao diện chọn ghế
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -455,7 +457,6 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                     jFormattedTextFieldNgayVe.setEnabled(true);
                     jButtonTimVe.setEnabled(true);
                     jButtonDatVe1.setEnabled(false);
-                    JOptionPane.showMessageDialog(this, "Không tìm được tàu phù hợp");
                 }
                     boolean timDuocItNhat1Tau=false;
                     for (TauChayTuyen j:DSTau)
@@ -464,6 +465,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                     if (tauPhuHop!=null)
                     {
                     timDuocItNhat1Tau=true;
+                    jButtonTimVe.setEnabled(false);
+                    jButtonDatVe1.setEnabled(true);
                     DSTauPhuHop.add(tauPhuHop);
                     String thoiGianDi=tauPhuHop.getThoiGianDenTramDi().toString();  
                     String thoiGianDen=tauPhuHop.getThoiGianDen().toString();
@@ -480,22 +483,22 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                         NewJPanel newJPanel;
                         switch (l.getSoChoNgoi()) {
                             case 80:
-                                newJPanel=new JPanelNgoiCung80(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jLabelChieuVe.getText(),DSGheDaDat);
+                                newJPanel=new JPanelNgoiCung80(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều đi",DSGheDaDat,l.getGiaChoNgoi());
                                 jTabbedPaneTau.add(l.getMaToa(),newJPanel);
                                 JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
                                 break;
                             case 56:
-                                newJPanel=new JPanelNgoiMem56(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jLabelChieuVe.getText(),DSGheDaDat);
+                                newJPanel=new JPanelNgoiMem56(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều đi",DSGheDaDat,l.getGiaChoNgoi());
                                 JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
                                 jTabbedPaneTau.add(l.getMaToa(),newJPanel);
                                 break;
                             case 42:
-                                newJPanel=new JPanelGiuongNamKhoang642(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jLabelChieuVe.getText(),DSGheDaDat);
+                                newJPanel=new JPanelGiuongNamKhoang642(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều đi",DSGheDaDat,l.getGiaChoNgoi());
                                 JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
                                 jTabbedPaneTau.add(l.getMaToa(),newJPanel);
                                 break;
                             case 28:
-                                newJPanel=new JPanelGiuongNamKhoang428(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jLabelChieuVe.getText(),DSGheDaDat);
+                                newJPanel=new JPanelGiuongNamKhoang428(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều đi",DSGheDaDat,l.getGiaChoNgoi());
                                 JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
                                 jTabbedPaneTau.add(l.getMaToa(),newJPanel);
                                 break;
@@ -557,7 +560,6 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                     jFormattedTextFieldNgayVe.setEnabled(true);
                     jButtonTimVe.setEnabled(true);
                     jButtonDatVe1.setEnabled(false);
-                    JOptionPane.showMessageDialog(this, "Không tìm được tàu phù hợp");
                 }
                     boolean timDuocItNhat1Tau=false;
                     for (TauChayTuyen j:DSTau)
@@ -566,6 +568,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                     if (tauPhuHop!=null)
                     {
                     timDuocItNhat1Tau=true;
+                    jButtonTimVe.setEnabled(false);
+                    jButtonDatVe1.setEnabled(true);
                     DSTauPhuHop_ChieuVe.add(tauPhuHop);
                     String thoiGianDi=tauPhuHop.getThoiGianDenTramDi().toString();  
                     String thoiGianDen=tauPhuHop.getThoiGianDen().toString();
@@ -582,22 +586,22 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                         NewJPanel newJPanel;
                         switch (l.getSoChoNgoi()) {
                             case 80:
-                                newJPanel=new JPanelNgoiCung80(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jLabelChieuVe.getText(),DSGheDaDat);
+                                newJPanel=new JPanelNgoiCung80(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều về",DSGheDaDat,l.getGiaChoNgoi());
                                 jTabbedPaneTau.add(l.getMaToa(),newJPanel);
                                 JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
                                 break;
                             case 56:
-                                newJPanel=new JPanelNgoiMem56(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jLabelChieuVe.getText(),DSGheDaDat);
+                                newJPanel=new JPanelNgoiMem56(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều về",DSGheDaDat,l.getGiaChoNgoi());
                                 JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
                                 jTabbedPaneTau.add(l.getMaToa(),newJPanel);
                                 break;
                             case 42:
-                                newJPanel=new JPanelGiuongNamKhoang642(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jLabelChieuVe.getText(),DSGheDaDat);
+                                newJPanel=new JPanelGiuongNamKhoang642(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều về",DSGheDaDat,l.getGiaChoNgoi());
                                 JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
                                 jTabbedPaneTau.add(l.getMaToa(),newJPanel);
                                 break;
                             case 28:
-                                newJPanel=new JPanelGiuongNamKhoang428(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jLabelChieuVe.getText(),DSGheDaDat);
+                                newJPanel=new JPanelGiuongNamKhoang428(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều về",DSGheDaDat,l.getGiaChoNgoi());
                                 JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
                                 jTabbedPaneTau.add(l.getMaToa(),newJPanel);
                                 break;
@@ -644,7 +648,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             {
                 String maToaCanXoa=model.getValueAt(dongDuocChon,1).toString();
                 String soCuaChoNgoiCanXoa=model.getValueAt(dongDuocChon, 2).toString();
-                String thoiGianDiCuaToaCanXoa=model.getValueAt(dongDuocChon,3).toString();
+                String thoiGianDiCuaToaCanXoa=model.getValueAt(dongDuocChon,4).toString();
                 NewJPanel jpnChuaChoNgoiCanXoa=JTabbedPaneDSToa.get(maToaCanXoa+" "+thoiGianDiCuaToaCanXoa);  //jpn chứa chỗ ngồi cần xoá
                 jpnChuaChoNgoiCanXoa.enableJToggleButton(jpnChuaChoNgoiCanXoa.getJToggleButtonByText(soCuaChoNgoiCanXoa));//lấy JToggleButton rồi enable nó
                 model.removeRow(dongDuocChon);
@@ -653,7 +657,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             {
                 String maToaCanXoa=model.getValueAt(dongDuocChon,2).toString();
                 String soCuaChoNgoiCanXoa=model.getValueAt(dongDuocChon, 3).toString();
-                String thoiGianDiCuaToaCanXoa=model.getValueAt(dongDuocChon,4).toString();
+                String thoiGianDiCuaToaCanXoa=model.getValueAt(dongDuocChon,5).toString();
                 NewJPanel jpnChuaChoNgoiCanXoa=JTabbedPaneDSToa.get(maToaCanXoa+" "+thoiGianDiCuaToaCanXoa);  //jpn chứa chỗ ngồi cần xoá
                 jpnChuaChoNgoiCanXoa.enableJToggleButton(jpnChuaChoNgoiCanXoa.getJToggleButtonByText(soCuaChoNgoiCanXoa));//lấy JToggleButton rồi enable nó
                 model.removeRow(dongDuocChon);
@@ -689,11 +693,11 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã Tàu", "Mã Toa", "Ghế Số", "Thời Gian Đi", "Thời Gian Đến"
+                "Mã Tàu", "Mã Toa", "Ghế Số","Giá", "Thời Gian Đi", "Thời Gian Đến"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false,false,false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -710,6 +714,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(163);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(163);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(163);
         }
         
         //giao dien
@@ -734,71 +740,17 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (jRadioButton1Chieu.isSelected())
         {
-            for (int count=0;count<model.getRowCount();count++)
-        {
-            int doLechCot=0;
-            if (jRadioButtonKhuHoi.isSelected()) doLechCot=1;
-            String tempMaTau=model.getValueAt(count,0+doLechCot).toString();//Table---|maTau,maToa,i.getText(),thoiGianDi,thoiGianDen|
-            String tempMaToa=model.getValueAt(count, 1+doLechCot).toString();
-            int tempChoNgoiSo=Integer.valueOf(model.getValueAt(count, 2+doLechCot).toString());
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-            Date tempThoiGianDi=null;
-            try {
-                tempThoiGianDi=formatter.parse(model.getValueAt(count, 3+doLechCot).toString());
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
-            Timestamp timeStampThoiGianDi=new Timestamp(tempThoiGianDi.getTime());
-            Date tempThoiGianDen=null;
-            try {
-                tempThoiGianDen=formatter.parse(model.getValueAt(count, 4+doLechCot).toString());
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
-            Timestamp timeStampThoiGianDen=new Timestamp(tempThoiGianDen.getTime());
-            //get Tuyến theo Mã Tàu
-            TauChayTuyen tempTauChayTuyen=null;
-            for (TauChayTuyen i:DSTauPhuHop)
-            {
-                if ((i.getMaTau().equals(tempMaTau))&&(i.getThoiGianDenTramDi().compareTo(timeStampThoiGianDi)==0))
-                {
-                    tempTauChayTuyen=i;
-                    break;
-                }
-            }
-            //get Trạm đi, Trạm đến theo Mã Tuyến
-            TuyenDiQuaTram[] tempTuyenDiQuaTram=null;
-            for (TuyenDiQuaTram[] i:DSTuyen)
-            {
-                if (i[0].getMaTuyen().equals(tempTauChayTuyen.getMaTuyen()))
-                {
-                    tempTuyenDiQuaTram=i;
-                    break;
-                }
-            }
-            Toa tempToa=null;
-            for (Toa i:DSToaCuaTatCaTau)
-            {
-                if (i.getMaToa().equals(tempMaToa))
-                {
-                    tempToa=i;
-                    break;
-                }
-            }
-            int tempMaChuyen=ketNoiCSDL.addChuyenDi(tempTauChayTuyen.getMaTuyen(), tempTuyenDiQuaTram[0].getTenTram(), tempTuyenDiQuaTram[0].getThoiGianThemTram(), tempTuyenDiQuaTram[1].getTenTram(),tempTuyenDiQuaTram[1].getThoiGianThemTram(),tempMaTau,tempTauChayTuyen.getThoiGianKhoiHanh(),tempToa.getMaToa(),tempToa.getThoiGianThemToa());
-            int tempMaVe=ketNoiCSDL.addVe(taiKhoan.getTenTaiKhoan(), tempChoNgoiSo, timeStampThoiGianDi, timeStampThoiGianDen, 0, false,tempMaChuyen);
-            if (tempMaVe!=-1)
-            {
-               JOptionPane.showMessageDialog(this, "Thêm Vé 1 chiều thành công!");
-            }
-        }
+            Vector<Vector> dataTable=model.getDataVector();
+//              System.out.println(dataTable.elementAt(i));
+            new JDialogTaoVe1Chieu(taiKhoan,dataTable,DSTuyen,DSTuyen_ChieuVe,DSTauPhuHop,DSTauPhuHop_ChieuVe,DSToaCuaTatCaTau,DSToaCuaTatCaTau_ChieuVe, true).setVisible(true);
+            jButtonResetActionPerformed(evt);
         }
         if (jRadioButtonKhuHoi.isSelected())
         {
                 Vector<Vector> dataTable=model.getDataVector();
 //              System.out.println(dataTable.elementAt(i));
-                new JDialogTaoCapVeKhuHoi(dataTable,DSTuyen,DSTuyen_ChieuVe,DSTauPhuHop,DSTauPhuHop_ChieuVe,DSToaCuaTatCaTau,DSToaCuaTatCaTau_ChieuVe,taiKhoan, true).setVisible(true);
-                
+                new JDialogTaoCapVeKhuHoi(taiKhoan,dataTable,DSTuyen,DSTuyen_ChieuVe,DSTauPhuHop,DSTauPhuHop_ChieuVe,DSToaCuaTatCaTau,DSToaCuaTatCaTau_ChieuVe, true).setVisible(true);
+                jButtonResetActionPerformed(evt);
         }
         
         

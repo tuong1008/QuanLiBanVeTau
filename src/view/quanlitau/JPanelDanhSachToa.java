@@ -766,7 +766,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                 ResultSet rs=ketNoiCSDL.select("select * from ToaThuocTau where MaToa=?",tempMaToa);
                 if (rs.next())
                 {
-                    JOptionPane.showMessageDialog(this, "Đang có Tàu chứa Toa này, không thể sửa!");
+                    JOptionPane.showMessageDialog(this, "Quá khứ có Tàu chứa Toa này, không thể sửa!");
                 }
                 else
                 {

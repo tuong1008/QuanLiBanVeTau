@@ -15,7 +15,7 @@ public class TuyenDiQuaTram {
 
      private String maTuyen, tenTram;
     private int STT;
-    private Timestamp thoiGianThemTram;  //thoiGianThemTram là thời điểm chỉnh sửa Trạm trong Tuyến
+    private Timestamp thoiGianHieuChinh;  //thoiGianThemTram là thời điểm chỉnh sửa Trạm trong Tuyến
 
     public String getMaTuyen() {
         return maTuyen;
@@ -29,8 +29,8 @@ public class TuyenDiQuaTram {
         return STT;
     }
 
-    public Timestamp getThoiGianThemTram() {
-        return thoiGianThemTram;
+    public Timestamp getThoiGianHieuChinh() {
+        return thoiGianHieuChinh;
     }
 
     public void setMaTuyen(String maTuyen) {
@@ -45,8 +45,8 @@ public class TuyenDiQuaTram {
         this.STT = STT;
     }
 
-    public void setThoiGianThemTram(Timestamp thoiGianThemTram) {
-        this.thoiGianThemTram = thoiGianThemTram;
+    public void setThoiGianHieuChinh(Timestamp thoiGianHieuChinh) {
+        this.thoiGianHieuChinh = thoiGianHieuChinh;
     }
 
 }

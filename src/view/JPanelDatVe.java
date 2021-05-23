@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import module.TaiKhoan;
 
 
+
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -19,10 +20,11 @@ public class JPanelDatVe extends javax.swing.JPanel {
     /**
      * Creates new form JPanelDatVe
      */
-    TaiKhoan tk;
-    public JPanelDatVe(TaiKhoan tk) {
-        initComponents();
-        this.tk=tk;
+    TaiKhoan taiKhoan;
+    public JPanelDatVe(TaiKhoan taiKhoan) {
+        initComponents();        
+        this.taiKhoan=taiKhoan;
+        if (this.taiKhoan.getMaLoaiTaiKhoan().equals("KH")) jpnThemLoaiVe.setVisible(false);
         
       
     }
@@ -40,6 +42,8 @@ public class JPanelDatVe extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jpnTraCuuThongTin = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jpnThemLoaiVe = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 204));
 
@@ -65,12 +69,12 @@ public class JPanelDatVe extends javax.swing.JPanel {
         jpnTimVeTauLayout.setHorizontalGroup(
             jpnTimVeTauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnTimVeTauLayout.createSequentialGroup()
-                .addGap(0, 15, Short.MAX_VALUE)
+                .addGap(0, 11, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jpnTimVeTauLayout.setVerticalGroup(
             jpnTimVeTauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
         );
 
         jpnTraCuuThongTin.setBackground(new java.awt.Color(153, 153, 255));
@@ -99,6 +103,36 @@ public class JPanelDatVe extends javax.swing.JPanel {
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
         );
 
+        jpnThemLoaiVe.setBackground(new java.awt.Color(255, 102, 102));
+        jpnThemLoaiVe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jpnThemLoaiVeMousePressed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/baseline_note_add_white_18dp.png"))); // NOI18N
+        jLabel3.setText("Thêm loại vé");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel3MousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpnThemLoaiVeLayout = new javax.swing.GroupLayout(jpnThemLoaiVe);
+        jpnThemLoaiVe.setLayout(jpnThemLoaiVeLayout);
+        jpnThemLoaiVeLayout.setHorizontalGroup(
+            jpnThemLoaiVeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnThemLoaiVeLayout.createSequentialGroup()
+                .addGap(0, 15, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jpnThemLoaiVeLayout.setVerticalGroup(
+            jpnThemLoaiVeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,7 +142,9 @@ public class JPanelDatVe extends javax.swing.JPanel {
                 .addComponent(jpnTimVeTau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpnTraCuuThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(220, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jpnThemLoaiVe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +152,8 @@ public class JPanelDatVe extends javax.swing.JPanel {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jpnTraCuuThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpnTimVeTau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jpnTimVeTau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpnThemLoaiVe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(313, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -125,7 +162,7 @@ public class JPanelDatVe extends javax.swing.JPanel {
         // TODO add your handling code here:
         this.removeAll();
         this.setLayout(new BorderLayout());
-        this.add(new JPanelTimVeTau(tk));
+        this.add(new JPanelTimVeTau(taiKhoan));
         this.validate();
         this.repaint();
     }//GEN-LAST:event_jLabel1MousePressed
@@ -134,7 +171,7 @@ public class JPanelDatVe extends javax.swing.JPanel {
         // TODO add your handling code here:
          this.removeAll();
         this.setLayout(new BorderLayout());
-        this.add(new JPanelTimVeTau(tk));
+        this.add(new JPanelTimVeTau(taiKhoan));
         this.validate();
         this.repaint();
     }//GEN-LAST:event_jpnTimVeTauMousePressed
@@ -143,15 +180,35 @@ public class JPanelDatVe extends javax.swing.JPanel {
         // TODO add your handling code here:
          this.removeAll();
         this.setLayout(new BorderLayout());
-        this.add(new JPanelTimVeTau(tk));
+        this.add(new view.datve.JPanelDanhSachVe(taiKhoan));
         this.validate();
         this.repaint();
     }//GEN-LAST:event_jpnTraCuuThongTinMousePressed
+
+    private void jLabel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MousePressed
+        // TODO add your handling code here:
+        this.removeAll();
+        this.setLayout(new BorderLayout());
+        this.add(new view.datve.JPanelThemLoaiVe(taiKhoan));
+        this.validate();
+        this.repaint();
+    }//GEN-LAST:event_jLabel3MousePressed
+
+    private void jpnThemLoaiVeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpnThemLoaiVeMousePressed
+        // TODO add your handling code here:
+        this.removeAll();
+        this.setLayout(new BorderLayout());
+        this.add(new view.datve.JPanelThemLoaiVe(taiKhoan));
+        this.validate();
+        this.repaint();
+    }//GEN-LAST:event_jpnThemLoaiVeMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jpnThemLoaiVe;
     private javax.swing.JPanel jpnTimVeTau;
     private javax.swing.JPanel jpnTraCuuThongTin;
     // End of variables declaration//GEN-END:variables

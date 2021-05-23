@@ -6,7 +6,11 @@
 package view.datve;
 
 import connectSQL.LopKetNoi;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
@@ -25,20 +29,34 @@ public class NewJPanel extends javax.swing.JPanel {
     String maToa;
     String thoiGianDi;
     String thoiGianDen;
+    Object giaThatSu;
     DefaultTableModel model;
+    SimpleDateFormat formatter;
     ArrayList<JToggleButton> listButton;
     ArrayList<Integer> DSGheDaDat;
+    JRadioButton jRadio1Chieu;
     String chieuDi;
     LopKetNoi ketNoiCSDL;
-    public NewJPanel(String maTau,String maToa,String thoiGianDi,String thoiGianDen,DefaultTableModel model, String chieuDi,ArrayList<Integer> DSGheDaDat) {
+    public NewJPanel(String maTau,String maToa,String thoiGianDi,String thoiGianDen,DefaultTableModel model, JRadioButton jRadio1Chieu,String chieuDi,ArrayList<Integer> DSGheDaDat,int donGia) {
         initComponents();
+        formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         this.model=model;
         this.maTau=maTau;
         this.maToa=maToa;
         this.thoiGianDi=thoiGianDi;
         this.thoiGianDen=thoiGianDen;
-        this.chieuDi=chieuDi;
+        try {
+            Date tempNgayDi=formatter.parse(thoiGianDi);
+            Date tempNgayVe=formatter.parse(thoiGianDen);
+            float dentaHour=(tempNgayVe.getTime()-tempNgayDi.getTime())/(float)3600000;
+            NumberFormat myFormat = NumberFormat.getInstance();
+            myFormat.setGroupingUsed(true);
+            giaThatSu=myFormat.format(donGia*dentaHour);
+        } catch (Exception e) {
+        }
+        this.jRadio1Chieu=jRadio1Chieu;
         this.DSGheDaDat=DSGheDaDat;
+        this.chieuDi=chieuDi;
     }
     public void enableJToggleButton(JToggleButton jtb)
     {
@@ -59,14 +77,14 @@ public class NewJPanel extends javax.swing.JPanel {
     }
     public void jToggleButtoniActionPerformed(JToggleButton i)
     {
-        if (chieuDi.length()==0)
+        if (jRadio1Chieu.isSelected())
         {
-            model.addRow(new Object[] {maTau,maToa,i.getText(),thoiGianDi,thoiGianDen});
+            model.addRow(new Object[] {maTau,maToa,i.getText(),giaThatSu,thoiGianDi,thoiGianDen});
             i.setEnabled(false);
         }
         else
         {
-            model.addRow(new Object[] {chieuDi,maTau,maToa,i.getText(),thoiGianDi,thoiGianDen});
+            model.addRow(new Object[] {chieuDi,maTau,maToa,i.getText(),giaThatSu,thoiGianDi,thoiGianDen});
             i.setEnabled(false);
         }
     }

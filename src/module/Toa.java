@@ -14,7 +14,7 @@ import java.sql.Timestamp;
  */
 public class Toa {
     private String maToa, tenToa;
-    private int soChoNgoi;
+    private int soChoNgoi, giaChoNgoi;
     private String maLoaiToa;
     private Timestamp thoiGianThemToa;
     public Toa() {
@@ -24,6 +24,7 @@ public class Toa {
         this.maToa = maToa;
         this.tenToa = tenToa;
         this.soChoNgoi = soChoNgoi;
+        this.giaChoNgoi=giaChoNgoi;
         this.maLoaiToa = maLoaiToa;
         this.thoiGianThemToa=thoiGianThemToa;
     }
@@ -66,6 +67,14 @@ public class Toa {
 
     public void setThoiGianThemToa(Timestamp thoiGianThemToa) {
         this.thoiGianThemToa = thoiGianThemToa;
+    }
+
+    public int getGiaChoNgoi() {
+        return giaChoNgoi;
+    }
+
+    public void setGiaChoNgoi(int giaChoNgoi) {
+        this.giaChoNgoi = giaChoNgoi;
     }
     
     

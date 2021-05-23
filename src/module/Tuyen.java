@@ -6,6 +6,7 @@
 
 package module;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
  */
 public class Tuyen {
     private String maTuyen, tenTuyen;
+    private java.sql.Timestamp thoiGianHieuChinh;
 
 
 
@@ -28,6 +30,14 @@ public class Tuyen {
         this.tenTuyen = tenTuyen;
 
 
+    }
+
+    public Timestamp getThoiGianHieuChinh() {
+        return thoiGianHieuChinh;
+    }
+
+    public void setThoiGianHieuChinh(Timestamp thoiGianHieuChinh) {
+        this.thoiGianHieuChinh = thoiGianHieuChinh;
     }
 
     public String getMaTuyen() {

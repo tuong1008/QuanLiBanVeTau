@@ -41,6 +41,7 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
     private DefaultListModel<String> lmToaThuocTau;
     private DefaultListModel<String> jListDSToaModel;
     ListTransferHandler lh;
+    int chucNangSua;//-1|0|1   k sửa|update|insert
     
 
     /**
@@ -56,7 +57,8 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         jlToaThuocTau.setModel(lmToaThuocTau);
         ketNoiCSDL=new LopKetNoi();
 
-        loadBangTau(ketNoiCSDL.select("select * from tau"), jtbTau,ketNoiCSDL);
+        loadBangTau(ketNoiCSDL.select("select MaTau,ThoiGianHieuChinhTau from tau\n" +
+        "group by MaTau,ThoiGianHieuChinhTau"), jtbTau,ketNoiCSDL);
     }
 
     /**
@@ -77,15 +79,10 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jlToaThuocTau = new javax.swing.JList<>();
         btnXacNhan = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jlbMaTau = new javax.swing.JLabel();
         jlbToaThuocTau = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListDSToa = new javax.swing.JList<>();
-        cbbTuyen = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
-        jtfThoiGianKhoiHanh = new javax.swing.JTextField();
-        jlbThoiGianKhoiHanh = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jLabel49 = new javax.swing.JLabel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -104,9 +101,10 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         jSeparator25 = new javax.swing.JSeparator();
         jSeparator26 = new javax.swing.JSeparator();
 
-        jdlThongTinTau.setMinimumSize(new java.awt.Dimension(435, 500));
+        jdlThongTinTau.setMinimumSize(new java.awt.Dimension(574, 467));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setMinimumSize(new java.awt.Dimension(574, 467));
 
         jlbTenDialog.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jlbTenDialog.setText("THÊM TÀU");
@@ -139,9 +137,6 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setText("Chọn Tuyến");
-
         jlbMaTau.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
         jlbMaTau.setForeground(new java.awt.Color(255, 51, 0));
         jlbMaTau.setText(" a");
@@ -155,50 +150,31 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         jListDSToa.setDropMode(javax.swing.DropMode.INSERT);
         jScrollPane1.setViewportView(jListDSToa);
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("Thời gian khởi hành:");
-
-        jtfThoiGianKhoiHanh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jtfThoiGianKhoiHanh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfThoiGianKhoiHanhActionPerformed(evt);
-            }
-        });
-
-        jlbThoiGianKhoiHanh.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
-        jlbThoiGianKhoiHanh.setForeground(new java.awt.Color(255, 51, 0));
-        jlbThoiGianKhoiHanh.setText("a");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3))
+                .addGap(113, 113, 113)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
-                        .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addGap(42, 42, 42)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jlbToaThuocTau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jlbMaTau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jtfMaTau)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                            .addComponent(cbbTuyen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jtfThoiGianKhoiHanh, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlbThoiGianKhoiHanh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
-                                .addComponent(jlbTenDialog)))))
-                .addGap(48, 48, 48)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                .addComponent(jlbTenDialog)))
+                        .addGap(48, 48, 48)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -212,26 +188,16 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
                     .addComponent(jtfMaTau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlbMaTau)
-                .addGap(10, 10, 10)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlbToaThuocTau)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(cbbTuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jtfThoiGianKhoiHanh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlbThoiGianKhoiHanh)
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jdlThongTinTauLayout = new javax.swing.GroupLayout(jdlThongTinTau.getContentPane());
@@ -242,7 +208,7 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         );
         jdlThongTinTauLayout.setVerticalGroup(
             jdlThongTinTauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
@@ -257,11 +223,11 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
 
             },
             new String [] {
-                "MÃ TÀU", "MÃ TUYẾN", "THỜI GIAN KHỞI HÀNH"
+                "MÃ TÀU", "THỜI GIAN HIỆU CHỈNH TÀU"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -467,28 +433,40 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         if (hangDangChon < 0) {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn đối tượng! Vui lòng chọn 1 dòng trong bảng");
         } else {
-            String tempMaTau=jtbTau.getValueAt(hangDangChon, 0).toString();
+            String maTau = jtbTau.getValueAt(hangDangChon, 0).toString();
+            String strThoiGianHieuChinhTau=jtbTau.getValueAt(hangDangChon, 1).toString();
+            java.sql.Timestamp tsThoiGianHieuChinhTauMax=null;
             try {
-                ResultSet rs=ketNoiCSDL.select("select * from TauChayTuyen where MaTau=?",tempMaTau);
+                ResultSet rs=ketNoiCSDL.select("select MAX(ThoiGianHieuChinhTau) from Tau where MaTau=?",maTau);
                 if (rs.next())
                 {
-                    JOptionPane.showMessageDialog(this, "Tàu này đã có Tuyến, không thể sửa!");
+                    tsThoiGianHieuChinhTauMax=rs.getTimestamp(1);
                 }
-                else
+                rs=ketNoiCSDL.select("select MaChuyen from ChuyenDi where ID_TCT in (select ID_TCT from TauChayTuyen\n" +
+                "where MaTau=? and ThoiGianHieuChinhTau=?)",maTau,strThoiGianHieuChinhTau);
+                if (rs.next())
                 {
-                    ResultSet rs2=ketNoiCSDL.select("select * from ToaThuocTau where MaTau=?",tempMaTau);
-                    if (rs2.next())
+                    if (strThoiGianHieuChinhTau.equals(tsThoiGianHieuChinhTauMax.toString()))
                     {
-                        JOptionPane.showMessageDialog(this, "Trạm này đang có khoảng cách với 1 Trạm khác, không thể sửa!");
+                        //bằng max thì insert
+                        chucNangSua=1;
+                        hienThiDialog(sua);
                     }
                     else
                     {
-                        hienThiDialog(sua);
+                        //không sửa vì đã đặt vé
+                        chucNangSua=-1;
+                        JOptionPane.showMessageDialog(this, "Không sửa được vì đã đặt vé!");
                     }
                 }
+                else
+                {
+                    //được update vì chưa thêm vào vé
+                    chucNangSua=0;
+                    hienThiDialog(sua);
+                }
             } catch (Exception e) {
-                System.out.println("Lỗi lúc bấm nút sửa");
-                e.printStackTrace();
+                System.out.println("Không tìm được Thời gian thời gian hiệu chỉnh MAX hoặc Lỗi kiểm tra tàu đã được đặt vé chưa");
             }
         }
     }//GEN-LAST:event_btnSua1ActionPerformed
@@ -502,8 +480,12 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
             int input = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa không?", "Cảnh báo", JOptionPane.YES_NO_OPTION);
             if (input == JOptionPane.YES_OPTION) {
                 String maTau = jtbTau.getValueAt(hangDangChon, 0).toString();
+                String thoiGianHieuChinhTau=jtbTau.getValueAt(hangDangChon, 1).toString();
                 try {
-                    if (LopKetNoi.update("delete from tau where maTau = ?", maTau)) {
+                    if (ketNoiCSDL.update("delete from ToaThuocTau\n" +
+                    "where MaTau=? and ThoiGianHieuChinhTau=?", maTau,thoiGianHieuChinhTau)
+                      &&ketNoiCSDL.update("delete from Tau\n" +
+                    "where MaTau=? and ThoiGianHieuChinhTau=?",maTau,thoiGianHieuChinhTau)) {//nếu xoá tàu k được vì đã phân tuyến cho tàu
                         tbmTau.removeRow(hangDangChon);
                         hangDangChon = -1;
                         jtbTau.clearSelection();
@@ -566,6 +548,7 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(jdlThongTinTau, "Thêm thành công");
                 setTruongRong();
                 setThongBaoRong();
+                jdlThongTinTau.dispose();
             } else {
                 JOptionPane.showMessageDialog(jdlThongTinTau, "Thêm thất bại");
             }
@@ -583,24 +566,8 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
     private void jtfMaTauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfMaTauActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfMaTauActionPerformed
-
-    private void jtfThoiGianKhoiHanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfThoiGianKhoiHanhActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfThoiGianKhoiHanhActionPerformed
 //===============================================================================================
-// load ds can thiet
-    private void loadTuyenVaoCBB(LopKetNoi ketNoiCSDL)
-    {
-        cbbTuyen.removeAllItems();
-        try {
-            ResultSet rs = ketNoiCSDL.select("select MaTuyen from Tuyen");
-            while (rs.next())
-            {
-                cbbTuyen.addItem(rs.getString("MaTuyen"));
-            }
-        } catch (Exception e) {
-        }
-    }
+
     private void loadBangTau(ResultSet rs, JTable jtbTau, LopKetNoi ketNoiCSDL) {
 
         DefaultTableModel model = (DefaultTableModel) jtbTau.getModel();
@@ -608,7 +575,8 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         try {
             while (rs.next()) {
                 String maTau = rs.getString(1);
-                model.addRow(new Object[]{maTau});
+                java.sql.Timestamp thoiGianHieuChinhTau=rs.getTimestamp(2);
+                model.addRow(new Object[]{maTau,thoiGianHieuChinhTau});
             }
         } catch (Exception e) {
             System.out.println("Load bảng tàu thất bại!");
@@ -630,6 +598,7 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
     private void tatTruong() {
         jtfMaTau.setEditable(false);
         jlToaThuocTau.setEnabled(false);
+        jListDSToa.setEnabled(false);
     }
 
     private void setTruongRong() {
@@ -641,7 +610,6 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         list.clearSelection();
         for (Object value : ds) {
             int index = getIndex((DefaultListModel) list.getModel(), value);
-            System.out.println(index);
             if (index >= 0) {
                 list.addSelectionInterval(index, index);
             }
@@ -656,18 +624,7 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         return model.indexOf(value);
     }
 
-    private ArrayList<String> getDSToaThuocTau(String maTau) {
-        ArrayList<String> dsToa = new ArrayList<>();
-        try {
-            ResultSet rs = LopKetNoi.select("select maToa from ToaThuocTau where maTau = ?", maTau);
-            while (rs.next()) {
-                dsToa.add(rs.getString(1));
-            }
-        } catch (Exception e) {
-            System.out.println("get ds toa that bai");
-        }
-        return dsToa;
-    }
+    
     private DefaultListModel<String> getDSToa() {
         DefaultListModel<String> dsToa = new DefaultListModel<String>();
         try {
@@ -682,36 +639,45 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
     }
 
     private void loadThongTinSua() {
-        String maTau = (String) jtbTau.getValueAt(hangDangChon, 0);
+        String maTau = jtbTau.getValueAt(hangDangChon, 0).toString();
+        String strThoiGianHieuChinhTau=jtbTau.getValueAt(hangDangChon, 1).toString();
         jtfMaTau.setText(maTau);
-        loadDSToaChuaCoTauVaoList(ketNoiCSDL);
-        ArrayList<String> DSToa = getDSToaThuocTau(jtbTau.getValueAt(hangDangChon, 0).toString());
-        lmToaThuocTau = (DefaultListModel<String>) jlToaThuocTau.getModel();
-        for (String s : DSToa) {
-            lmToaThuocTau.addElement(s);
-        }
+        lmToaThuocTau = loadDSToaCuaTauVaoList(ketNoiCSDL, maTau,strThoiGianHieuChinhTau);
         jlToaThuocTau.setModel(lmToaThuocTau);
-        setSelectedValues(jlToaThuocTau, DSToa);
-
+        jListDSToaModel=loadDSToaChuaCoTauVaoList(ketNoiCSDL);
+        jListDSToa.setModel(jListDSToaModel);
     }
 
     private DefaultListModel loadDSToaChuaCoTauVaoList(LopKetNoi ketNoiCSDL) {
         DefaultListModel<String> model = new DefaultListModel<>();
         try {
-            ResultSet rs = ketNoiCSDL.select("select table2.MaToa from Toa as table2\n" +
-                "where table2.MaToa not in\n" +
-                "(select table1.MaToa from (select MaTau,MaToa,MAX(ThoiGian) as ThoiGianThemToa from ToaThuocTau\n" +
-                "group by MaTau,MaToa) as table1)");
+            ResultSet rs = ketNoiCSDL.select("select table1.MaToa from Toa as table1 where table1.MaToa\n" +
+        "not in(select table2.MaToa from\n" +
+        "(select MaTau,MaToa,MAX(ThoiGianHieuChinhTau) as ThoiGianKhoiHanh from ToaThuocTau\n" +
+        "group by MaTau,MaToa) as table2)");
             while (rs.next()) {
                 model.addElement(rs.getString(1));
             }
         } catch (Exception e) {
-            System.out.println("load ds toa vao list sai");
+            System.out.println("load ds toa chua co tau vao list that bai");
             e.printStackTrace();
         }
         return model;
     }
-
+    private DefaultListModel loadDSToaCuaTauVaoList(LopKetNoi ketNoiCSDL, String maTau,String strThoiGianHieuChinhTau) {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        try {
+            ResultSet rs = ketNoiCSDL.select("select MaTau,MaToa from ToaThuocTau\n" +
+        "where MaTau=? and ThoiGianHieuChinhTau=?",maTau,strThoiGianHieuChinhTau);
+            while (rs.next()) {
+                model.addElement(rs.getString(2));
+            }
+        } catch (Exception e) {
+            System.out.println("load ds toa cua Tau vao list that bai");
+            e.printStackTrace();
+        }
+        return model;
+    }
     private void hienThiDialog(String loai) {
         setThongBaoRong();
         hienTruong();
@@ -730,21 +696,20 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
                 }
             }
             });
-            loadTuyenVaoCBB(ketNoiCSDL);
         } else if (loai.equals(sua)) {
             jtfMaTau.setEditable(false);
             loadThongTinSua();
         } else if (loai.equals(thongTin)) {
             tatTruong();
             setThongBaoRong();
-            jtfMaTau.setText(jtbTau.getValueAt(hangDangChon, 0).toString());
-            lmToaThuocTau.removeAllElements();
-            ArrayList<String> dsToa = getDSToaThuocTau(jtbTau.getValueAt(hangDangChon, 0).toString());
-            for (String s : dsToa) {
-                lmToaThuocTau.addElement(s);
-            }
-            setSelectedValues(jlToaThuocTau, dsToa);
+            String maTau=jtbTau.getValueAt(hangDangChon, 0).toString();
+            String strThoiGianHieuChinhTau=jtbTau.getValueAt(hangDangChon, 1).toString();
+            jtfMaTau.setText(maTau);
+            lmToaThuocTau = loadDSToaCuaTauVaoList(ketNoiCSDL, maTau,strThoiGianHieuChinhTau);
             jlToaThuocTau.setModel(lmToaThuocTau);
+            jListDSToaModel=loadDSToaChuaCoTauVaoList(ketNoiCSDL);
+            jListDSToa.setModel(jListDSToaModel);
+            
         }
 
         jlbTenDialog.setText(loai);
@@ -785,6 +750,18 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         }
 
     }
+    private boolean kiemTraSuaTau(LopKetNoi ketNoiCSDL) {
+        if (lmToaThuocTau.size()==0)
+            {
+                jlbToaThuocTau.setText("Tàu phải có ít nhất 1 Toa!");
+                return false;
+            }
+            else
+            {
+                jlbToaThuocTau.setText(" ");
+            }
+        return true;
+    }
     
     private String timLoaiToaTheoMa(String maToa,LopKetNoi ketNoiCSDL)
     {
@@ -798,56 +775,106 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         return "";
     }
     private boolean themTau(LopKetNoi ketNoiCSDL) {
-        try {
-            if (kiemTraThemTau(ketNoiCSDL)) {
-            SimpleDateFormat formatter= new SimpleDateFormat("yyyy/MM/dd hh:mm");
-            String maTau = jtfMaTau.getText().trim().toUpperCase();
-            String maTuyen=cbbTuyen.getSelectedItem().toString();
-            String strThoiGianKhoiHanh=jtfThoiGianKhoiHanh.getText();
-            java.sql.Timestamp tsThoiGianKhoiHanh=new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanh).getTime());
-            ketNoiCSDL.update("insert into tau(MaTau) values(?)", maTau);
-            for (int i=0;i<lmToaThuocTau.getSize();i++) {
-                ketNoiCSDL.update("insert into ToaThuocTau values(?,?,?)", maTau, lmToaThuocTau.get(i),tsThoiGianKhoiHanh);
-            }
-            ketNoiCSDL.update("insert into tau(MaTau) values(?)", maTau);
-            // them vao bang
-            tbmTau.addRow(new Object[]{maTau});
-            int hangCuoi = jtbTau.getRowCount();
-            jtbTau.scrollRectToVisible(jtbTau.getCellRect(hangCuoi - 1, 0, true));
-            jtbTau.clearSelection();
-            jtbTau.setRowSelectionInterval(hangCuoi - 1, hangCuoi - 1);
-            return true;
-
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            jlbThoiGianKhoiHanh.setText("Thời gian khởi hành phải nhập đúng định dạng yyyy/MM/dd hh:mm");
+        if (kiemTraThemTau(ketNoiCSDL)) {
+        String maTau = jtfMaTau.getText().trim().toUpperCase();
+        java.sql.Timestamp tsThoiGianHieuChinhTau=new java.sql.Timestamp(System.currentTimeMillis());            
+        ketNoiCSDL.update("insert into tau(MaTau,ThoiGianHieuChinhTau) values(?,?)", maTau, tsThoiGianHieuChinhTau);
+        for (int i=0;i<lmToaThuocTau.getSize();i++) {
+            ketNoiCSDL.update("insert into ToaThuocTau values(?,?,?)", maTau,tsThoiGianHieuChinhTau, lmToaThuocTau.get(i));
         }
-        return false;
+        // them vao bang
+        tbmTau.addRow(new Object[]{maTau, tsThoiGianHieuChinhTau});
+        int hangCuoi = jtbTau.getRowCount();
+        jtbTau.scrollRectToVisible(jtbTau.getCellRect(hangCuoi - 1, 0, true));
+        jtbTau.clearSelection();
+        jtbTau.setRowSelectionInterval(hangCuoi - 1, hangCuoi - 1);
+        return true;
+
+        } else {
+            return false;
+        }    
     }
 
     private boolean suaTau() {
-        String maTau = jtfMaTau.getText();
-        ArrayList<String> DSToa = (ArrayList<String>) jlToaThuocTau.getSelectedValuesList();
-        try {
-            LopKetNoi.update("update tau set soLuongToa = ? where maTau = ?", DSToa.size(), maTau);
-            LopKetNoi.update("delete from ToaThuocTau where maTau = ? ", maTau);
-            String chuoiToa = "";
-            for (String toa : DSToa) {
-                LopKetNoi.update("insert into ToaThuocTau values(?,?)", maTau, toa);
-                chuoiToa += toa + "-";
+        if (kiemTraSuaTau(ketNoiCSDL)) {
+            String maTau = jtfMaTau.getText();
+            String strThoiGianHieuChinhTau=jtbTau.getValueAt(hangDangChon, 1).toString();
+            if (chucNangSua==1)
+                {
+                    //bằng 1 thì insert
+                    java.sql.Timestamp thoiGianHieuChinhTauMoi=new java.sql.Timestamp(System.currentTimeMillis());
+                    ketNoiCSDL.update("insert into Tau(MaTau,ThoiGianHieuChinhTau) values(?,?)",maTau,thoiGianHieuChinhTauMoi);
+                    loadBangTau(ketNoiCSDL.select("select MaTau,ThoiGianHieuChinhTau from tau\n" +
+                    "group by MaTau,ThoiGianHieuChinhTau"), jtbTau, ketNoiCSDL);
+                    hangDangChon++;
+                    jtbTau.setRowSelectionInterval(hangDangChon, hangDangChon);
+                    for (int i=0;i<lmToaThuocTau.size();i++)
+                    {
+                        ketNoiCSDL.update("insert into ToaThuocTau values(?,?,?)",maTau,thoiGianHieuChinhTauMoi,lmToaThuocTau.getElementAt(i));
+                    }
+                }
+            else
+            {
+                if (chucNangSua==0)
+                {
+                    //được update vì chưa thêm vào vé
+                    ketNoiCSDL.update("delete from ToaThuocTau where MaTau=? and ThoiGianHieuChinhTau=?",maTau,strThoiGianHieuChinhTau);
+                    for (int i=0;i<lmToaThuocTau.size();i++)
+                    {
+                        ketNoiCSDL.update("insert into ToaThuocTau values(?,?,?)",maTau,strThoiGianHieuChinhTau,lmToaThuocTau.getElementAt(i));
+                    }
+                }
             }
-            chuoiToa = chuoiToa.substring(0, chuoiToa.length() - 1);
-            jtbTau.setValueAt(chuoiToa, hangDangChon, 1);
-            jtbTau.setValueAt(DSToa.size(), hangDangChon, 2);
-
-        } catch (Exception e) {
-            System.out.println("sua tau that bai");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+            return true;
+                    
+//        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+//        String maTauCu=jtbTau.getValueAt(hangDangChon, 0).toString();
+//        java.sql.Timestamp thoiGianThemToaCu=null;
+//        try {
+//            ResultSet rs=ketNoiCSDL.select("select MAX(ThoiGian) from ToaThuocTau where MaTau=?",maTauCu);
+//            if (rs.next())
+//            {
+//                thoiGianThemToaCu=rs.getTimestamp(1);
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Lỗi parse sang Date ThoiGianKhoiHanhCu, ThoiGianDenCu");
+//            e.printStackTrace();
+//        }
+//        //ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=?",maTauCu,maTuyenCu,thoiGianKhoiHanhCu);
+//        String maTauMoi=null;
+//        String maTuyenMoi=null;
+//        java.sql.Timestamp thoiGianKhoiHanhMoi=null;
+//        java.sql.Timestamp tsThoiGianDenMoi=null;
+//        try {
+//           // String strThoiGianKhoiHanhMoi=jtfThoiGianKhoiHanh.getText();
+//            //maTauMoi = cbbMaTau.getSelectedItem().toString();
+//            //maTuyenMoi=cbbTuyen.getSelectedItem().toString();
+//            //thoiGianKhoiHanhMoi=new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanhMoi).getTime());
+//            ResultSet rs=ketNoiCSDL.select("select [dbo].[tinhThoiGianDenCuaTau](?,?)",maTuyenMoi,thoiGianKhoiHanhMoi);
+//            if (rs.next())
+//            {
+//                tsThoiGianDenMoi=rs.getTimestamp(1);
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Tính thời gian đến hoặc thêm TauChayTuyen bị lỗi");
+//        }
+//        //if (kiemTraThemTau(ketNoiCSDL,maTauMoi,maTuyenMoi,thoiGianKhoiHanhMoi,tsThoiGianDenMoi)) {
+//            // update thành công 
+//            tbmTau.setValueAt(maTauMoi, hangDangChon,0 );
+//            tbmTau.setValueAt(maTuyenMoi,hangDangChon,1);
+//            tbmTau.setValueAt(thoiGianKhoiHanhMoi,hangDangChon,2);
+//            tbmTau.setValueAt(tsThoiGianDenMoi,hangDangChon,3);
+//            return true;
+//        //    }
+//        //else {
+//            //update không thành công xoá thằng mới
+//         //   ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=?",maTauMoi,maTuyenMoi,thoiGianKhoiHanhMoi);
+//            //insert lại thằng cũ
+//         //   ketNoiCSDL.update("insert into TauChayTuyen(MaTau,MaTuyen,ThoiGianKhoiHanh,ThoiGianDen) values(?,?,?,?)", maTauCu,maTuyenCu,thoiGianKhoiHanhCu,thoiGianDenCu);
+//          //  return false;
+//        //} 
+    }
+        return false;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -859,15 +886,12 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
     private javax.swing.JButton btnXoa1;
     private javax.swing.JComboBox<String> cbbSapXep1;
     private javax.swing.JComboBox<String> cbbTimKiem1;
-    private javax.swing.JComboBox<String> cbbTuyen;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JList<String> jListDSToa;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
@@ -880,11 +904,9 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
     private javax.swing.JList<String> jlToaThuocTau;
     private javax.swing.JLabel jlbMaTau;
     private javax.swing.JLabel jlbTenDialog;
-    private javax.swing.JLabel jlbThoiGianKhoiHanh;
     private javax.swing.JLabel jlbToaThuocTau;
     private javax.swing.JTable jtbTau;
     private javax.swing.JTextField jtfMaTau;
-    private javax.swing.JTextField jtfThoiGianKhoiHanh;
     private javax.swing.JTextField jtfTimKiem1;
     // End of variables declaration//GEN-END:variables
 }

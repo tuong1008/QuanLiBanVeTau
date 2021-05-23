@@ -17,48 +17,27 @@ import module.NguoiDung;
  */
 public class JDialogSignUp extends javax.swing.JDialog {
 
-    ArrayList<LoaiTaiKhoan> listLoaiTK;
     LopKetNoi ketNoiCSDL;
+    TaiKhoan taiKhoan;
     /**
      * Creates new form JDialogSignUp
      */
-    public JDialogSignUp(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public JDialogSignUp() {
+        super((Frame)null,true);
         initComponents();
-        
+        taiKhoan=null;
         setLocationRelativeTo(this);
-        LopKetNoi ketNoiCSDL=new LopKetNoi();
-        listLoaiTK=ketNoiCSDL.getDSLoaiTK();
-        for (LoaiTaiKhoan i: listLoaiTK)
-        {
-            jComboBox1.addItem(i.getTenLoaiTaiKhoan());
-        }
+        ketNoiCSDL=new LopKetNoi();
     }
-    public JDialogSignUp()
+    public JDialogSignUp(TaiKhoan taiKhoan)
     {
         super((Frame)null,true);
         initComponents();
-        
+        this.taiKhoan=this.taiKhoan;
         setLocationRelativeTo(this);
         ketNoiCSDL=new LopKetNoi();
-        listLoaiTK=ketNoiCSDL.getDSLoaiTK();
-        for (LoaiTaiKhoan i: listLoaiTK)
-        {
-            jComboBox1.addItem(i.getTenLoaiTaiKhoan());
-        }
     }
-    public String timMaLoaiTaiKhoan(String tenLoaiTK)    //tìm Mã loại tài khoản tương ứng với Tên loại tài khoản
-                                                        //để có Mã loại tài khoản và nhập vào bảng Tài khoản
-    {
-        for (LoaiTaiKhoan ii:listLoaiTK)
-        {
-            if (ii.getTenLoaiTaiKhoan().equals(tenLoaiTK))
-            {
-                return ii.getMaLoaiTaiKhoan();
-            }
-        }
-        return null; 
-    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,15 +56,13 @@ public class JDialogSignUp extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        jtfHoTen = new javax.swing.JTextField();
+        jtfCMND = new javax.swing.JTextField();
+        jtfEmail = new javax.swing.JTextField();
+        jtfSDT = new javax.swing.JTextField();
+        jtfTenTaiKhoan = new javax.swing.JTextField();
+        jtfMatKhau = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -112,8 +89,6 @@ public class JDialogSignUp extends javax.swing.JDialog {
             }
         });
 
-        jLabel8.setText("Loại tài khoản");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -128,22 +103,19 @@ public class JDialogSignUp extends javax.swing.JDialog {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
+                            .addComponent(jLabel7))
+                        .addGap(1, 1, 1)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(33, 33, 33)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-                                    .addComponent(jTextField3)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                    .addComponent(jtfSDT, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                                    .addComponent(jtfEmail)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jtfCMND, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jtfHoTen, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jtfTenTaiKhoan, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jtfMatKhau, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(190, 190, 190)
                         .addComponent(jButton1)))
@@ -155,32 +127,28 @@ public class JDialogSignUp extends javax.swing.JDialog {
                 .addGap(43, 43, 43)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfCMND, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 19, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfSDT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfTenTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                    .addComponent(jtfMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -227,19 +195,26 @@ public class JDialogSignUp extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         NguoiDung newUser= new NguoiDung();
         TaiKhoan newAccount= new TaiKhoan();
-        newUser.setCMND(jTextField2.getText());
-        newUser.setSDT(jTextField4.getText());
-        newUser.setTen(jTextField1.getText());
-        newUser.setEmail(jTextField3.getText());
-        newUser.setTenTaiKhoan(jTextField5.getText());
+        newUser.setCMND(jtfCMND.getText());
+        newUser.setSDT(jtfSDT.getText());
+        newUser.setTen(jtfHoTen.getText());
+        newUser.setEmail(jtfEmail.getText());
+        newUser.setTenTaiKhoan(jtfTenTaiKhoan.getText());
         
-        newAccount.setTenTaiKhoan(jTextField5.getText());
-        newAccount.setMatKhau(jTextField6.getText());
-        newAccount.setMaLoaiTaiKhoan(timMaLoaiTaiKhoan((String) jComboBox1.getSelectedItem()));
-        newAccount.setCMND(jTextField2.getText());
+        newAccount.setTenTaiKhoan(jtfTenTaiKhoan.getText());
+        newAccount.setMatKhau(jtfMatKhau.getText());
+        newAccount.setCMND(jtfCMND.getText());
+        if (taiKhoan==null)
+        {
+            newAccount.setMaLoaiTaiKhoan("KH");
+        }
+        else
+        {
+            newAccount.setMaLoaiTaiKhoan("QT");
+        }
         
         String ketQua="";
-        if (ketNoiCSDL.addNguoiDung(newUser))
+        if (ketNoiCSDL.addNguoiDungForTaiKhoan(ketNoiCSDL,newUser))
         {
             ketQua=ketQua+"Thêm Người dùng ";
         }
@@ -251,6 +226,7 @@ public class JDialogSignUp extends javax.swing.JDialog {
         {
             ketQua=ketQua+"và thêm Tài khoản thành công!";
             JOptionPane.showMessageDialog(rootPane, ketQua);
+            this.dispose();
         }
         else
         {
@@ -287,23 +263,11 @@ public class JDialogSignUp extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                JDialogSignUp dialog = new JDialogSignUp(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -311,14 +275,13 @@ public class JDialogSignUp extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jtfCMND;
+    private javax.swing.JTextField jtfEmail;
+    private javax.swing.JTextField jtfHoTen;
+    private javax.swing.JTextField jtfMatKhau;
+    private javax.swing.JTextField jtfSDT;
+    private javax.swing.JTextField jtfTenTaiKhoan;
     // End of variables declaration//GEN-END:variables
 }
