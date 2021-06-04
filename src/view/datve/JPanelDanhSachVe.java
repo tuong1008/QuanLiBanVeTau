@@ -32,7 +32,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
     public JPanelDanhSachVe(TaiKhoan taiKhoan) {
         initComponents();
         this.taiKhoan=taiKhoan;
-        formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         ketNoiCSDL=new LopKetNoi();
         jtbVeModel = (DefaultTableModel) jtbVe.getModel();
         if (taiKhoan.getMaLoaiTaiKhoan().equals("KH"))
@@ -295,9 +295,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                                                 .addComponent(jLabel12))
                                             .addGap(18, 18, 18)
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addComponent(jtfMaToa, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(jtfMaToa, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                     .addComponent(jtfMaTau)
                                                     .addComponent(jtfTenTramDen)
@@ -465,7 +463,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
         }
         java.sql.Timestamp thoiGianDi=null;
         try {
-            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             thoiGianDi=new java.sql.Timestamp(formatter.parse(jtbVeModel.getValueAt(hangDangChon, 1).toString()).getTime());
         } catch (Exception e) {
             System.out.println("Parse Thời gian đi từ bảng bị lỗi");
@@ -491,14 +489,10 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
             {
                 jtbVeModel.addRow(new Object[] {"","","","","","","","",""});
                 jtbVeModel.setValueAt(rs.getInt(1), dem, 0);
-                String thoiGianDi=rs.getTimestamp(2).toString();  
-                thoiGianDi=thoiGianDi.substring(0, thoiGianDi.length()-5);  //bỏ giây và mili giây
-                jtbVeModel.setValueAt(thoiGianDi, dem, 1);
+                jtbVeModel.setValueAt(rs.getTimestamp(2), dem, 1);
                 jtbVeModel.setValueAt(rs.getString(3), dem, 2);
                 jtbVeModel.setValueAt(rs.getInt(4), dem, 3);
-                String thoiGianDen=rs.getTimestamp(5).toString();  
-                thoiGianDen=thoiGianDen.substring(0, thoiGianDi.length()-5);  //bỏ giây và mili giây
-                jtbVeModel.setValueAt(thoiGianDen, dem, 4);
+                jtbVeModel.setValueAt(rs.getTimestamp(5), dem, 4);
                 jtbVeModel.setValueAt(rs.getInt(8), dem, 5);
                 jtbVeModel.setValueAt(rs.getBoolean(9), dem, 6);
                 jtbVeModel.setValueAt(rs.getString(10), dem, 7);
@@ -509,7 +503,22 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
             System.out.println("Không có vé nào");
         }
     }
-
+    public void setAllTextFieldEmpty()
+    {
+        jtfTen.setText("");
+        jtfSoDinhDanh.setText("");
+        jtfTenTramDi.setText("");
+        jtfTenTramDen.setText("");
+        jtfMaTau.setText("");
+        jtfMaToa.setText("");
+        jtfThoiGianDi.setText("");
+        jtfThoiGianDen.setText("");
+        jtfChoNgoi.setText("");
+        jtfTenTramDi_ChieuVe.setText("");
+        jtfTenTramDen_ChieuVe.setText("");
+        jtfMaTau_ChieuVe.setText("");
+        jtfMaToa_ChieuVe.setText("");
+    }
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         if (hangDangChon < 0) {
@@ -526,6 +535,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                     jtbVeModel.removeRow(hangDangChon);
                     hangDangChon = -1;
                     jtbVe.clearSelection();
+                    setAllTextFieldEmpty();
                 } else {
                     JOptionPane.showMessageDialog(this, "Không thể xóa vì có tàu đang chạy trên tuyến này");
                 }
@@ -632,7 +642,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
             
             java.sql.Timestamp tsThoiGianLenTau_ChieuDi=new java.sql.Timestamp(formatter.parse(thoiGianLenTau_ChieuDi).getTime());
         } catch (Exception e) {
-            System.out.println("Lỗi parse thoiGianLenTau_ChieuDu");
+            System.out.println("Lỗi parse thoiGianLenTau_ChieuDi");
         }
         try {
             ResultSet rs = ketNoiCSDL.select("select * from Ve_KhuHoi where MaVe_ChieuDi=? and ThoiGianLenTau_ChieuDi=?",maVe,thoiGianLenTau_ChieuDi);
@@ -654,13 +664,17 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
     private void loadThongTinChuyenDi(LopKetNoi ketNoiCSDL, int maChuyen)
     {
         try {
-            ResultSet rs = ketNoiCSDL.select("select * from ChuyenDi where MaChuyen=?",maChuyen);
+            ResultSet rs = ketNoiCSDL.select("select * from ChuyenDi\n" +
+            "join TauChayTuyen\n" +
+            "on ChuyenDi.ID_TCT=TauChayTuyen.ID_TCT\n" +
+            "and ChuyenDi.MaChuyen=?",maChuyen);
             if (rs.next())
             {
-                jtfTenTramDi.setText(rs.getString(3));
-                jtfTenTramDen.setText(rs.getString(5));
-                jtfMaTau.setText(rs.getString(7));
-                jtfMaToa.setText(rs.getString(9));                
+                jtfTenTramDi.setText(rs.getString("TenTramDi"));
+                jtfTenTramDen.setText(rs.getString("TenTramDen"));
+                jtfMaTau.setText(rs.getString("MaTau")+"_"+rs.getString("ThoiGianHieuChinhTau"));
+                jtfMaTau.setToolTipText(rs.getString("MaTau")+"_"+rs.getString("ThoiGianHieuChinhTau"));
+                jtfMaToa.setText(rs.getString("MaToa"));                
             }
         } catch (Exception e) {
             System.out.println("Lỗi load thông tin chuyến!");
@@ -669,13 +683,17 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
     private void loadThongTinChuyenVe(LopKetNoi ketNoiCSDL, int maChuyen)
     {
         try {
-            ResultSet rs = ketNoiCSDL.select("select * from ChuyenDi where MaChuyen=?",maChuyen);
+            ResultSet rs = ketNoiCSDL.select("select * from ChuyenDi\n" +
+            "join TauChayTuyen\n" +
+            "on ChuyenDi.ID_TCT=TauChayTuyen.ID_TCT\n" +
+            "and ChuyenDi.MaChuyen=?",maChuyen);
             if (rs.next())
             {
-                jtfTenTramDi_ChieuVe.setText(rs.getString(3));
-                jtfTenTramDen_ChieuVe.setText(rs.getString(5));
-                jtfMaTau_ChieuVe.setText(rs.getString(7));
-                jtfMaToa_ChieuVe.setText(rs.getString(9));                
+                jtfTenTramDi_ChieuVe.setText(rs.getString("TenTramDi"));
+                jtfTenTramDen_ChieuVe.setText(rs.getString("TenTramDen"));
+                jtfMaTau_ChieuVe.setText(rs.getString("MaTau")+"_"+rs.getString("ThoiGianHieuChinhTau"));
+                jtfMaTau_ChieuVe.setToolTipText(rs.getString("MaTau")+"_"+rs.getString("ThoiGianHieuChinhTau"));
+                jtfMaToa_ChieuVe.setText(rs.getString("MaToa"));                
             }
         } catch (Exception e) {
             System.out.println("Lỗi load thông tin chuyến!");

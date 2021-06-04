@@ -7,7 +7,6 @@ package view;
 
 import controller.ChuyenManHinhView;
 import java.awt.BorderLayout;
-import view.quanlilotrinh.JPanelChuyen;
 import view.quanlilotrinh.JPanelTauChayTuyen;
 
 /**
@@ -134,7 +133,7 @@ public class JPanelQuanLiLoTrinh extends javax.swing.JPanel {
 
     private void jpnHieuChinhMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpnHieuChinhMousePressed
         // TODO add your handling code here:
-        new ChuyenManHinhView(this, new JPanelChuyen()).change();
+//        new ChuyenManHinhView(this, new JPanelChuyen()).change();
     }//GEN-LAST:event_jpnHieuChinhMousePressed
 
 

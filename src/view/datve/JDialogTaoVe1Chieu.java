@@ -45,6 +45,7 @@ public class JDialogTaoVe1Chieu extends javax.swing.JDialog {
     ArrayList<TauChayTuyen> DSTauPhuHop;
     ArrayList<Toa> DSTatCaToa;
     JComboBox<String> cbbLoaiVe;
+    int ID_TCT;
     public TaiKhoan taiKhoan;
     public JDialogTaoVe1Chieu()
     {
@@ -59,7 +60,6 @@ public class JDialogTaoVe1Chieu extends javax.swing.JDialog {
 //        model1.addRow(new Object[] {"5","","","",""});
 //        model2.addRow(new Object[] {"1","","","",""});
 //        model2.addRow(new Object[] {"","","","",""});
-    
     }
     public JDialogTaoVe1Chieu(TaiKhoan taiKhoan,Vector<Vector> dataTable,ArrayList<TuyenDiQuaTram[]> DSTuyen,ArrayList<TuyenDiQuaTram[]> DSTuyen_ChieuVe,ArrayList<TauChayTuyen> DSTauPhuHop, ArrayList<TauChayTuyen> DSTauPhuHop_ChieuVe, ArrayList<Toa> DSTatCaToa, ArrayList<Toa> DSTatCaToa_ChieuVe, boolean modal) {
         super(((Frame) null), modal);
@@ -348,7 +348,7 @@ public class JDialogTaoVe1Chieu extends javax.swing.JDialog {
                 String strGiaDaGiam=jTable1.getValueAt(i, 5).toString();
                 strGiaDaGiam=strGiaDaGiam.replace(",", "");
                 int giaDaGiam=Integer.valueOf(strGiaDaGiam);
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date tempThoiGianDi=null;
                 try {
                     tempThoiGianDi=formatter.parse(jTable1.getValueAt(i, 6).toString());
@@ -377,7 +377,7 @@ public class JDialogTaoVe1Chieu extends javax.swing.JDialog {
                 TuyenDiQuaTram[] tempTuyenDiQuaTram=null;
                 for (TuyenDiQuaTram[] j:DSTuyen)
                 {
-                    if (j[0].getMaTuyen().equals(tempTauChayTuyen.getMaTuyen()))
+                    if ((j[0].getMaTuyen().equals(tempTauChayTuyen.getMaTuyen()))&&(j[0].getThoiGianHieuChinh().compareTo(tempTauChayTuyen.getThoiGianHieuChinhTuyen())==0))
                     {
                         tempTuyenDiQuaTram=j;
                         break;
@@ -393,7 +393,22 @@ public class JDialogTaoVe1Chieu extends javax.swing.JDialog {
                     }
                 }
                 //Tạo vé chiều đi bằng bảng model1
-                int tempMaChuyen=ketNoiCSDL.addChuyenDi(tempTauChayTuyen.getMaTuyen(), tempTuyenDiQuaTram[0].getTenTram(), tempTuyenDiQuaTram[0].getThoiGianHieuChinh(), tempTuyenDiQuaTram[1].getTenTram(),tempTuyenDiQuaTram[1].getThoiGianHieuChinh(),tempMaTau,tempTauChayTuyen.getThoiGianKhoiHanh(),tempToa.getMaToa(),tempToa.getThoiGianThemToa());
+                try {
+                    ResultSet rs=ketNoiCSDL.select("select ID_TCT from TauChayTuyen where MaTau=? and ThoiGianHieuChinhTau=?\n" +
+                    "and MaTuyen=? and ThoiGianHieuChinh=? and ThoiGianKhoiHanh=?"
+                            ,tempMaTau
+                            ,tempTauChayTuyen.getThoiGianHieuChinhTau()
+                            ,tempTuyenDiQuaTram[0].getMaTuyen()
+                            ,tempTuyenDiQuaTram[0].getThoiGianHieuChinh()
+                            ,tempTauChayTuyen.getThoiGianKhoiHanh());
+                    if (rs.next())
+                    {
+                        ID_TCT=rs.getInt(1);
+                    }
+                } catch (Exception e) {
+                    System.out.println("get ID_TCT thất bại");
+                }
+                int tempMaChuyen=ketNoiCSDL.addChuyenDi(tempTuyenDiQuaTram[0].getTenTram(), tempTuyenDiQuaTram[1].getTenTram(),ID_TCT,tempToa.getMaToa());
                 int tempMaVe=ketNoiCSDL.addVe(soDinhDanh, tempChoNgoiSo, timeStampThoiGianDi, timeStampThoiGianDen, giaDaGiam, false,tempMaChuyen,tenLoaiVe,taiKhoan.getTenTaiKhoan(),hoTenNguoiNgoi);
         }
             JOptionPane.showMessageDialog(rootPane, "Thêm vé thành công!");

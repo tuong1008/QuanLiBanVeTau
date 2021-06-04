@@ -51,6 +51,7 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
     ArrayList<Toa> DSTatCaToa;
     ArrayList<Toa> DSTatCaToa_ChieuVe;
     JComboBox<String> cbbLoaiVe;
+    int ID_TCT;
     public JDialogTaoCapVeKhuHoi()
     {
         super((Frame) null,true);
@@ -583,7 +584,7 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
                 TuyenDiQuaTram[] tempTuyenDiQuaTram_ChieuVe=null;
                 for (TuyenDiQuaTram[] j:DSTuyen_ChieuVe)
                 {
-                    if (j[0].getMaTuyen().equals(tempTauChayTuyen_ChieuVe.getMaTuyen()))
+                    if ((j[0].getMaTuyen().equals(tempTauChayTuyen_ChieuVe.getMaTuyen()))&&(j[0].getThoiGianHieuChinh().compareTo(tempTauChayTuyen_ChieuVe.getThoiGianHieuChinhTuyen())==0))
                     {
                         tempTuyenDiQuaTram_ChieuVe=j;
                         break;
@@ -600,7 +601,22 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
                 }
                 
                 //Tạo vé 1 chiều bằng bảng model2
-                int tempMaChuyen_ChieuVe=ketNoiCSDL.addChuyenDi(tempTauChayTuyen_ChieuVe.getMaTuyen(), tempTuyenDiQuaTram_ChieuVe[0].getTenTram(), tempTuyenDiQuaTram_ChieuVe[0].getThoiGianHieuChinh(), tempTuyenDiQuaTram_ChieuVe[1].getTenTram(),tempTuyenDiQuaTram_ChieuVe[1].getThoiGianHieuChinh(),tempMaTau_ChieuVe,tempTauChayTuyen_ChieuVe.getThoiGianKhoiHanh(),tempToa_ChieuVe.getMaToa(),tempToa_ChieuVe.getThoiGianThemToa());
+                try {
+                    ResultSet rs=ketNoiCSDL.select("select ID_TCT from TauChayTuyen where MaTau=? and ThoiGianHieuChinhTau=?\n" +
+                    "and MaTuyen=? and ThoiGianHieuChinh=? and ThoiGianKhoiHanh=?"
+                            ,tempMaTau_ChieuVe
+                            ,tempTauChayTuyen_ChieuVe.getThoiGianHieuChinhTau()
+                            ,tempTuyenDiQuaTram_ChieuVe[0].getMaTuyen()
+                            ,tempTuyenDiQuaTram_ChieuVe[0].getThoiGianHieuChinh()
+                            ,tempTauChayTuyen_ChieuVe.getThoiGianKhoiHanh());
+                    if (rs.next())
+                    {
+                        ID_TCT=rs.getInt(1);
+                    }
+                } catch (Exception e) {
+                    System.out.println("get ID_TCT thất bại");
+                }
+                int tempMaChuyen_ChieuVe=ketNoiCSDL.addChuyenDi(tempTuyenDiQuaTram_ChieuVe[0].getTenTram(), tempTuyenDiQuaTram_ChieuVe[1].getTenTram(),ID_TCT,tempToa_ChieuVe.getMaToa());
                 int tempMaVe_ChieuVe=ketNoiCSDL.addVe(soDinhDanh, tempChoNgoiSo_ChieuVe, timeStampThoiGianDi_ChieuVe, timeStampThoiGianDen_ChieuVe, giaDaGiam,false,tempMaChuyen_ChieuVe,tenLoaiVe,taiKhoan.getTenTaiKhoan(),hoTenNguoiNgoi);
             }
             else
@@ -612,7 +628,7 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
                 String strGiaDaGiam=jTable1.getValueAt(i, 5).toString();
                 strGiaDaGiam=strGiaDaGiam.replace(",", "");
                 int giaDaGiam=Integer.valueOf(strGiaDaGiam);
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date tempThoiGianDi=null;
                 try {
                     tempThoiGianDi=formatter.parse(jTable1.getValueAt(i, 6).toString());
@@ -641,7 +657,7 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
                 TuyenDiQuaTram[] tempTuyenDiQuaTram=null;
                 for (TuyenDiQuaTram[] j:DSTuyen)
                 {
-                    if (j[0].getMaTuyen().equals(tempTauChayTuyen.getMaTuyen()))
+                    if ((j[0].getMaTuyen().equals(tempTauChayTuyen.getMaTuyen())&&(j[0].getThoiGianHieuChinh().compareTo(tempTauChayTuyen.getThoiGianHieuChinhTuyen())==0)))
                     {
                         tempTuyenDiQuaTram=j;
                         break;
@@ -657,7 +673,22 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
                     }
                 }
                 //Tạo vé chiều đi bằng bảng model1
-                int tempMaChuyen=ketNoiCSDL.addChuyenDi(tempTauChayTuyen.getMaTuyen(), tempTuyenDiQuaTram[0].getTenTram(), tempTuyenDiQuaTram[0].getThoiGianHieuChinh(), tempTuyenDiQuaTram[1].getTenTram(),tempTuyenDiQuaTram[1].getThoiGianHieuChinh(),tempMaTau,tempTauChayTuyen.getThoiGianKhoiHanh(),tempToa.getMaToa(),tempToa.getThoiGianThemToa());
+                try {
+                    ResultSet rs=ketNoiCSDL.select("select ID_TCT from TauChayTuyen where MaTau=? and ThoiGianHieuChinhTau=?\n" +
+                    "and MaTuyen=? and ThoiGianHieuChinh=? and ThoiGianKhoiHanh=?"
+                            ,tempMaTau
+                            ,tempTauChayTuyen.getThoiGianHieuChinhTau()
+                            ,tempTuyenDiQuaTram[0].getMaTuyen()
+                            ,tempTuyenDiQuaTram[0].getThoiGianHieuChinh()
+                            ,tempTauChayTuyen.getThoiGianKhoiHanh());
+                    if (rs.next())
+                    {
+                        ID_TCT=rs.getInt(1);
+                    }
+                } catch (Exception e) {
+                    System.out.println("get ID_TCT thất bại");
+                }
+                int tempMaChuyen=ketNoiCSDL.addChuyenDi(tempTuyenDiQuaTram[0].getTenTram(),tempTuyenDiQuaTram[1].getTenTram(),ID_TCT,tempToa.getMaToa());
                 if (!jTable2.getValueAt(i, 1).equals(""))
                 {
                     int tempMaVe=ketNoiCSDL.addVe(soDinhDanh, tempChoNgoiSo, timeStampThoiGianDi, timeStampThoiGianDen, giaDaGiam, true,tempMaChuyen,tenLoaiVe,taiKhoan.getTenTaiKhoan(),hoTenNguoiNgoi);
@@ -696,7 +727,7 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
                     TuyenDiQuaTram[] tempTuyenDiQuaTram_ChieuVe=null;
                     for (TuyenDiQuaTram[] j:DSTuyen_ChieuVe)
                     {
-                        if (j[0].getMaTuyen().equals(tempTauChayTuyen_ChieuVe.getMaTuyen()))
+                        if ((j[0].getMaTuyen().equals(tempTauChayTuyen_ChieuVe.getMaTuyen())&&(j[0].getThoiGianHieuChinh().compareTo(tempTauChayTuyen_ChieuVe.getThoiGianHieuChinhTuyen())==0)))
                         {
                             tempTuyenDiQuaTram_ChieuVe=j;
                             break;
@@ -712,7 +743,22 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
                         }
                     }
                     //Tạo vé chiều về bằng bảng model2
-                    int tempMaChuyen_ChieuVe=ketNoiCSDL.addChuyenDi(tempTauChayTuyen_ChieuVe.getMaTuyen(), tempTuyenDiQuaTram_ChieuVe[0].getTenTram(), tempTuyenDiQuaTram_ChieuVe[0].getThoiGianHieuChinh(), tempTuyenDiQuaTram_ChieuVe[1].getTenTram(),tempTuyenDiQuaTram_ChieuVe[1].getThoiGianHieuChinh(),tempMaTau_ChieuVe,tempTauChayTuyen_ChieuVe.getThoiGianKhoiHanh(),tempToa_ChieuVe.getMaToa(),tempToa_ChieuVe.getThoiGianThemToa());
+                    try {
+                    ResultSet rs=ketNoiCSDL.select("select ID_TCT from TauChayTuyen where MaTau=? and ThoiGianHieuChinhTau=?\n" +
+                    "and MaTuyen=? and ThoiGianHieuChinh=? and ThoiGianKhoiHanh=?"
+                            ,tempMaTau_ChieuVe
+                            ,tempTauChayTuyen_ChieuVe.getThoiGianHieuChinhTau()
+                            ,tempTuyenDiQuaTram_ChieuVe[0].getMaTuyen()
+                            ,tempTuyenDiQuaTram_ChieuVe[0].getThoiGianHieuChinh()
+                            ,tempTauChayTuyen_ChieuVe.getThoiGianKhoiHanh());
+                    if (rs.next())
+                    {
+                        ID_TCT=rs.getInt(1);
+                    }
+                } catch (Exception e) {
+                    System.out.println("get ID_TCT thất bại");
+                }
+                    int tempMaChuyen_ChieuVe=ketNoiCSDL.addChuyenDi(tempTuyenDiQuaTram_ChieuVe[0].getTenTram(), tempTuyenDiQuaTram_ChieuVe[1].getTenTram(),ID_TCT,tempToa_ChieuVe.getMaToa());
                     ketNoiCSDL.addVeKhuHoi(tempMaVe, timeStampThoiGianDi_ChieuVe, timeStampThoiGianDen_ChieuVe, tempChoNgoiSo_ChieuVe, tempMaVe, timeStampThoiGianDi, tempMaChuyen_ChieuVe, giaDaGiam);
                 }
                 else//nếu có chiều đi mà không chiều về

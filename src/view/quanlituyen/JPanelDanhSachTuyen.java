@@ -840,7 +840,8 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
             int input = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa không?", "Cảnh báo", JOptionPane.YES_NO_OPTION);
             if (input == JOptionPane.YES_OPTION) {
                 String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
-                boolean kt = tuyenDao.xoaTuyenTrongDB(maTuyen, ketNoiCSDL);
+                String thoiGianHieuChinhTuyen=jtbTuyen.getValueAt(hangDangChon, 2).toString();
+                boolean kt = tuyenDao.xoaTuyenTrongDB(maTuyen, ketNoiCSDL, thoiGianHieuChinhTuyen);
                 if (kt) {
                     tuyenDao.xoaTramKhoiBang(hangDangChon, tbmBangTuyen);
                     hangDangChon = -1;
@@ -1030,9 +1031,9 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                 {
                     //bằng 1 thì insert
                     java.sql.Timestamp thoiGianHieuChinhTauMoi=new java.sql.Timestamp(System.currentTimeMillis());
-                    ketNoiCSDL.update("insert into Tuyen) values(?,?,?)",tuyen.getMaTuyen(),thoiGianHieuChinhTauMoi,tuyen.getTenTuyen());
-                    tuyenDao.loadDSTuyenVaoBang(ketNoiCSDL.select("select MaTuyen,ThoiGianHieuChinh from Tuyen\n" +
-                    "group by MaTuyen,ThoiGianHieuChinh"), tbmBangTuyen);
+                    ketNoiCSDL.update("insert into Tuyen values(?,?,?)",tuyen.getMaTuyen(),thoiGianHieuChinhTauMoi,tuyen.getTenTuyen());
+                    tuyenDao.loadDSTuyenVaoBang(ketNoiCSDL.select("select MaTuyen,TenTuyen,ThoiGianHieuChinh from Tuyen\n" +
+                    "group by MaTuyen,TenTuyen,ThoiGianHieuChinh"), tbmBangTuyen);
                     hangDangChon++;
                     jtbTuyen.setRowSelectionInterval(hangDangChon, hangDangChon);
                     for (int i=0;i<jListCacTramDiQuaModel.size();i++)

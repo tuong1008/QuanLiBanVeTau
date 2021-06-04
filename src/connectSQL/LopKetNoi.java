@@ -369,14 +369,11 @@ public class LopKetNoi {
     public ArrayList<TuyenDiQuaTram[]> getTuyenPhuHop(String tenTramDi, String tenTramDen) {     //Hàm lấy danh sách mã tuyến phù hợp với yêu cầu trạm đi và trạm đến
         ArrayList<TuyenDiQuaTram[]> listTuyen = new ArrayList<TuyenDiQuaTram[]>();
 String sql = 
-"select table1.MaTuyen, table1.TenTram as TenTramDi, table1.STT as STTDi, table1.ThoiGianThemTram as ThoiGianThemTramDi,\n" +
-" table2.TenTram as TenTramDen, table2.STT as STTDen, table2.ThoiGianThemTram as ThoiGianThemTramDen from TuyenDiQuaTram as table1\n" +
+"select table1.MaTuyen, table1.TenTram as TenTramDi, table1.STT as STTDi, table1.ThoiGianHieuChinh,\n" +
+"table2.TenTram as TenTramDen, table2.STT as STTDen from TuyenDiQuaTram as table1\n" +
 "join TuyenDiQuaTram as table2\n" +
-"on  table1.MaTuyen=table2.MaTuyen and table1.TenTram=? and table2.TenTram=? and table1.STT<table2.STT and \n" +
-"table1.ThoiGianThemTram=(select MAX(table3.ThoiGianThemTram) from TuyenDiQuaTram as table3\n" +
-"where table3.MaTuyen=table1.MaTuyen and TenTram=table1.TenTram)and\n" +
-"table2.ThoiGianThemTram=(select MAX(table3.ThoiGianThemTram) from TuyenDiQuaTram as table3\n" +
-"where table3.MaTuyen=table2.MaTuyen and table3.TenTram=table2.TenTram);";
+"on  table1.MaTuyen=table2.MaTuyen and table1.TenTram=? and table2.TenTram=? and table1.STT<table2.STT\n" +
+"and table1.ThoiGianHieuChinh=table2.ThoiGianHieuChinh;";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setNString(1, tenTramDi);
@@ -389,7 +386,7 @@ String sql =
                     s[0].setMaTuyen(rs.getString("MaTuyen"));
                     s[0].setTenTram(rs.getString("TenTramDi"));
                     s[0].setSTT(rs.getInt("STTDi"));
-                    //s[0].setThoiGianThemTram(rs.getTimestamp("ThoiGianThemTramDi"));
+                    s[0].setThoiGianHieuChinh(rs.getTimestamp("ThoiGianHieuChinh"));
                     s[1]=new TuyenDiQuaTram();
                     s[1].setSTT(rs.getInt("STTDen"));
                     //s[1].setThoiGianThemTram(rs.getTimestamp("ThoiGianThemTramDen"));
@@ -404,20 +401,24 @@ String sql =
         }
         return listTuyen;
     }
-    public ArrayList<TauChayTuyen> getTauTheoMaTuyen(String maTuyen,String ngayDi) {     //Hàm lấy danh sách tàu theo mã tuyến
+    public ArrayList<TauChayTuyen> getTauTheoMaTuyen(String maTuyen,String ngayDi, java.sql.Timestamp thoiGianHieuChinhTuyen) {     //Hàm lấy danh sách tàu theo mã tuyến
         ArrayList<TauChayTuyen> listTau = new ArrayList<TauChayTuyen>();
-        String sql = "select * from TauChayTuyen where MaTuyen=? and ThoiGianDen > ?";
+        String sql = "select * from TauChayTuyen where MaTuyen=? and ThoiGianDen > ? and ThoiGianHieuChinh=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, maTuyen);
             ps.setString(2, ngayDi);
+            ps.setTimestamp(3, thoiGianHieuChinhTuyen);
             ResultSet rs = ps.executeQuery();
             while (true) {
                 if (rs.next()) {
                     TauChayTuyen s=new TauChayTuyen();
                     s.setMaTau(rs.getString("MaTau"));
-                    s.setThoiGianKhoiHanh(rs.getTimestamp("ThoiGianKhoiHanh"));
+                    s.setThoiGianHieuChinhTau(rs.getTimestamp("ThoiGianHieuChinhTau"));
                     s.setMaTuyen(maTuyen);
+                    s.setThoiGianHieuChinhTuyen(rs.getTimestamp("ThoiGianHieuChinh"));
+                    s.setThoiGianKhoiHanh(rs.getTimestamp("ThoiGianKhoiHanh"));
+                    s.setThoiGianDen(rs.getTimestamp("ThoiGianDen"));
                     listTau.add(s);
                 } else {
                     break;
@@ -428,9 +429,9 @@ String sql =
         }
         return listTau;
     }
-    public TauChayTuyen getTauPhuHop(TuyenDiQuaTram[] s,String maTau, Timestamp thoiGianTauXuatPhat, String ngayCanTim) {     //Hàm lấy danh sách tàu theo mã tuyến
+    public TauChayTuyen getTauPhuHop(TuyenDiQuaTram[] s,String maTau, Timestamp thoiGianTauXuatPhat, String ngayCanTim, Timestamp thoiGianHieuChinhTau) {     //Hàm lấy danh sách tàu theo mã tuyến
         TauChayTuyen thongTinTauPhuHop=null;
-        String sql = "select * from [dbo].[tinhTauTuyenThoiGianTheoYeuCau](?,?,?,?,?,?);";
+        String sql = "select * from [dbo].[tinhTauTuyenThoiGianTheoYeuCau](?,?,?,?,?,?,?);";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, s[0].getMaTuyen());
@@ -438,16 +439,19 @@ String sql =
             ps.setInt(3, s[1].getSTT());//STT của Trạm Đến
             ps.setString(4, maTau);
             ps.setTimestamp(5, thoiGianTauXuatPhat);
-            ps.setString(6, ngayCanTim);
+            ps.setTimestamp(6, s[0].getThoiGianHieuChinh());
+            ps.setString(7, ngayCanTim);
             ResultSet rs = ps.executeQuery();
             while (true) {
                 if (rs.next()) {
                     thongTinTauPhuHop = new TauChayTuyen();
                     thongTinTauPhuHop.setMaTau(rs.getString("MaTau"));
                     thongTinTauPhuHop.setMaTuyen(rs.getString("MaTuyen"));
+                    thongTinTauPhuHop.setThoiGianHieuChinhTuyen(rs.getTimestamp("ThoiGianHieuChinhTuyen"));
                     thongTinTauPhuHop.setThoiGianDenTramDi(rs.getTimestamp("ThoiGianTauXuatPhat"));//Thời gian tàu đi từ trạm mà khách chọn
                     thongTinTauPhuHop.setThoiGianDen(rs.getTimestamp("ThoiGianTauDenDich"));//Thời gian tàu đến đích mà khách chọn
                     thongTinTauPhuHop.setThoiGianKhoiHanh(thoiGianTauXuatPhat);//Thời tàu đi từ trạm đầu tiên
+                    thongTinTauPhuHop.setThoiGianHieuChinhTau(thoiGianHieuChinhTau);
                 } else {
                     break;
                 }
@@ -477,17 +481,18 @@ String sql =
         return currentIndex;
     }
     
-    public ArrayList<Toa> getToaTheoMaTau(String maTau) {     //Hàm lấy danh sách Toa theo mã Tàu
+    public ArrayList<Toa> getToaTheoMaTau(String maTau, java.sql.Timestamp thoiGianHieuChinhTau) {     //Hàm lấy danh sách Toa theo mã Tàu
         ArrayList<Toa> listToa = new ArrayList<Toa>();
         String sql = 
 "select * from Toa as table1\n" +
 "join ToaThuocTau as table2\n" +
-"on table1.MaToa=table2.MaToa and table2.MaTau=? and table2.ThoiGian = (select MAX(ThoiGian) from ToaThuocTau where MaToa=table1.MaToa and MaTau=table2.MaTau)\n" +
+"on table1.MaToa=table2.MaToa and table2.MaTau=? and table2.ThoiGianHieuChinhTau = ? " +
 "join LoaiToa as table3\n" +
 "on table1.MaLoaiToa=table3.MaLoaiToa";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, maTau);
+            ps.setTimestamp(2, thoiGianHieuChinhTau);
             ResultSet rs = ps.executeQuery();
             while (true) {
                 if (rs.next()) {
@@ -496,7 +501,7 @@ String sql =
                     s.setMaLoaiToa(rs.getString("MaLoaiToa"));
                     s.setSoChoNgoi(rs.getInt("SoChoNgoi"));
                     s.setGiaChoNgoi(rs.getInt("GiaChoNgoi"));
-                    s.setThoiGianThemToa(rs.getTimestamp("ThoiGian"));
+                    s.setThoiGianHieuChinhTau(rs.getTimestamp("ThoiGianHieuChinhTau"));
                     listToa.add(s);
                 } else {
                     break;
@@ -508,15 +513,20 @@ String sql =
         }
         return listToa;
     }
-    public ArrayList<Integer> getChoNgoiDaDat(String maTau,Timestamp thoiGianKhoiHanh, String maToa, Timestamp thoiGianThemToa) {     //Hàm lấy danh sách Chỗ ngồi đã đặt trong toa
+    public ArrayList<Integer> getChoNgoiDaDat(String maTau,Timestamp thoiGianKhoiHanh, String maToa, Timestamp thoiGianHieuChinh, Timestamp thoiGianHieuChinhTau, String maTuyen) {     //Hàm lấy danh sách Chỗ ngồi đã đặt trong toa
         ArrayList<Integer> listChoNgoiDaDat = new ArrayList<Integer>();
-        String sql = "select ChoNgoi from Ve where MaChuyen in (select MaChuyen from ChuyenDi where MaTau=? and ThoiGianKhoiHanh=? and MaToa=? and ThoiGianThemToa=?)";
+        String sql = "select ChoNgoi from Ve where MaChuyen \n" +
+"in (select MaChuyen from ChuyenDi where MaToa=? and ID_TCT in \n" +
+"(select ID_TCT from TauChayTuyen where MaTau=? and ThoiGianHieuChinhTau=?\n" +
+"and MaTuyen=? and ThoiGianHieuChinh=? and ThoiGianKhoiHanh=?))";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, maTau);
-            ps.setTimestamp(2, thoiGianKhoiHanh);
-            ps.setString(3, maToa);
-            ps.setTimestamp(4, thoiGianThemToa);
+            ps.setString(1, maToa);
+            ps.setString(2, maTau);
+            ps.setTimestamp(3, thoiGianHieuChinhTau);
+            ps.setString(4, maTuyen);
+            ps.setTimestamp(5, thoiGianHieuChinh);
+            ps.setTimestamp(6, thoiGianKhoiHanh);
             ResultSet rs = ps.executeQuery();
             while (true) {
                 if (rs.next()) {
@@ -529,13 +539,17 @@ String sql =
         } catch (Exception e) {
             e.printStackTrace();
         }
-        sql = "select ChoNgoi_ChieuVe from Ve_KhuHoi where MaChuyen_ChieuVe in (select MaChuyen from ChuyenDi where MaTau=? and ThoiGianKhoiHanh=? and MaToa=? and ThoiGianThemToa=?)";
+        sql = "select ChoNgoi_ChieuVe from Ve_KhuHoi where MaChuyen_ChieuVe in (select MaChuyen from ChuyenDi where MaToa=? and ID_TCT in \n" +
+        "(select ID_TCT from TauChayTuyen where MaTau=? and ThoiGianHieuChinhTau=?\n" +
+        "and MaTuyen=? and ThoiGianHieuChinh=? and ThoiGianKhoiHanh=?))";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, maTau);
-            ps.setTimestamp(2, thoiGianKhoiHanh);
-            ps.setString(3, maToa);
-            ps.setTimestamp(4, thoiGianThemToa);
+            ps.setString(1, maToa);
+            ps.setString(2, maTau);
+            ps.setTimestamp(3, thoiGianHieuChinhTau);
+            ps.setString(4, maTuyen);
+            ps.setTimestamp(5, thoiGianHieuChinh);
+            ps.setTimestamp(6, thoiGianKhoiHanh);
             ResultSet rs = ps.executeQuery();
             while (true) {
                 if (rs.next()) {
@@ -615,21 +629,17 @@ String sql =
         }
         return false;
     }
-    public int addChuyenDi(String maTuyen,String tenTramDi,Timestamp thoiGianThemTramDi,String tenTramDen, Timestamp thoiGianThemTramDen,String maTau, Timestamp thoiGianKhoiHanh, String maToa, Timestamp thoiGianThemToa) {
+    public int addChuyenDi(String tenTramDi,String tenTramDen,int ID_TCT, String maToa) {
         int maChuyenLamKhoaNgoai=-1;
         //Tìm thử Chuyến đi đã tồn tại chưa
-        String sql1 = "select MaChuyen from ChuyenDi where MaTuyen=? and TenTramDi=? and ThoiGianThemTramDi=? and TenTramDen=? and ThoiGianThemTramDen=? and MaTau=? and ThoiGianKhoiHanh=? and MaToa=? and ThoiGianThemToa=?";
+        String sql1 = "select MaChuyen from ChuyenDi where TenTramDi=? and TenTramDen=? and MaToa=? \n" +
+            "and ID_TCT=?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql1);
-            ps.setString(1, maTuyen);
-            ps.setNString(2, tenTramDi);
-            ps.setTimestamp(3, thoiGianThemTramDi);
-            ps.setNString(4, tenTramDen);
-            ps.setTimestamp(5, thoiGianThemTramDen);
-            ps.setString(6, maTau);
-            ps.setTimestamp(7, thoiGianKhoiHanh);
-            ps.setString(8, maToa);
-            ps.setTimestamp(9, thoiGianThemToa);
+            ps.setNString(1, tenTramDi);
+            ps.setNString(2, tenTramDen);
+            ps.setString(3, maToa);
+            ps.setInt(4, ID_TCT);
             ResultSet rs = ps.executeQuery();
             while (true) {
                 if (rs.next()) {                    
@@ -644,18 +654,13 @@ String sql =
         //nếu chưa thì thêm chuyến mới
         if (maChuyenLamKhoaNgoai==-1)
         {
-            String sql2 = "insert into ChuyenDi(MaTuyen, tenTramDi, ThoiGianThemTramDi, tenTramDen, ThoiGianThemTramDen, MaTau, ThoiGianKhoiHanh, MaToa, ThoiGianThemToa) values(?,?,?,?,?,?,?,?,?)";
+            String sql2 = "insert into ChuyenDi(TenTramDi,TenTramDen, ID_TCT, MaToa) values(?,?,?,?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql2);
-            ps.setString(1, maTuyen);
-            ps.setNString(2, tenTramDi);
-            ps.setTimestamp(3, thoiGianThemTramDi);
-            ps.setNString(4, tenTramDen);
-            ps.setTimestamp(5, thoiGianThemTramDen);
-            ps.setString(6, maTau);
-            ps.setTimestamp(7, thoiGianKhoiHanh);
-            ps.setString(8, maToa);
-            ps.setTimestamp(9, thoiGianThemToa);
+            ps.setNString(1, tenTramDi);
+            ps.setNString(2, tenTramDen);
+            ps.setInt(3, ID_TCT);
+            ps.setString(4, maToa);
             ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

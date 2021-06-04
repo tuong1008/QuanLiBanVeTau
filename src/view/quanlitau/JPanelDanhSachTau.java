@@ -333,7 +333,6 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jSeparator26)
                             .addComponent(jSeparator25)
-                            .addComponent(jScrollPane13)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel13Layout.createSequentialGroup()
@@ -357,6 +356,10 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
                                     .addComponent(cbbSapXep1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnThongTin1, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(0, 32, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 737, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,9 +389,9 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
                     .addComponent(jtfTimKiem1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel51)
                     .addComponent(cbbTimKiem1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -651,10 +654,14 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
     private DefaultListModel loadDSToaChuaCoTauVaoList(LopKetNoi ketNoiCSDL) {
         DefaultListModel<String> model = new DefaultListModel<>();
         try {
-            ResultSet rs = ketNoiCSDL.select("select table1.MaToa from Toa as table1 where table1.MaToa\n" +
-        "not in(select table2.MaToa from\n" +
-        "(select MaTau,MaToa,MAX(ThoiGianHieuChinhTau) as ThoiGianKhoiHanh from ToaThuocTau\n" +
-        "group by MaTau,MaToa) as table2)");
+            ResultSet rs = ketNoiCSDL.select("select table1.MaToa \n" +
+            "from Toa as table1 \n" +
+            "where table1.MaToa\n" +
+            "not in(\n" +
+            "select table2.MaToa \n" +
+            "from (select MaTau,MaToa,ThoiGianHieuChinhTau as ThoiGianHieuChinhTau from ToaThuocTau as table3\n" +
+            "where ThoiGianHieuChinhTau = \n" +
+            "(select MAX(ThoiGianHieuChinhTau) as TGHCT1 from ToaThuocTau where MaTau=table3.MaTau)) as table2)");
             while (rs.next()) {
                 model.addElement(rs.getString(1));
             }

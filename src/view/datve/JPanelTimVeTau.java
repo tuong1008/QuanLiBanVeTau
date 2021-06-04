@@ -422,7 +422,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         try {
             formatter.parse(strNgayDi);
             DSTuyen=ketNoiCSDL.getTuyenPhuHop(tenTramDi, tenTramDen);
-            if (DSTuyen.size()==0)
+            if (DSTuyen.isEmpty())
             {
                 JOptionPane.showMessageDialog(this, "Không có tàu nào chạy "+jLabelChieuDi.getText().toLowerCase()+" trong ngày đã chọn!");
                 if (jLabelChieuDi.getText().equals("")) 
@@ -448,8 +448,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                 model=(DefaultTableModel) jTable1.getModel();
                 for (TuyenDiQuaTram[] i:DSTuyen)
                 {
-                    DSTau=ketNoiCSDL.getTauTheoMaTuyen(i[0].getMaTuyen(),strNgayDi); //DS Tàu có khoảng thời gian phù hợp
-                    if (DSTau.size()==0)
+                    DSTau=ketNoiCSDL.getTauTheoMaTuyen(i[0].getMaTuyen(),strNgayDi,i[0].getThoiGianHieuChinh()); //DS Tàu có khoảng thời gian phù hợp
+                    if (DSTau.isEmpty())
                 {
                     jRadioButton1Chieu.setEnabled(true);
                     jRadioButtonKhuHoi.setEnabled(true);
@@ -461,7 +461,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                     boolean timDuocItNhat1Tau=false;
                     for (TauChayTuyen j:DSTau)
                 {
-                    TauChayTuyen tauPhuHop=ketNoiCSDL.getTauPhuHop(i,j.getMaTau(), j.getThoiGianKhoiHanh(), strNgayDi);
+                    TauChayTuyen tauPhuHop=ketNoiCSDL.getTauPhuHop(i,j.getMaTau(), j.getThoiGianKhoiHanh(), strNgayDi, j.getThoiGianHieuChinhTau());
                     if (tauPhuHop!=null)
                     {
                     timDuocItNhat1Tau=true;
@@ -475,11 +475,11 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                     JTabbedPane jTabbedPaneTau=new JTabbedPane();
                     //JTabbedPaneDSTau.put(tauPhuHop.getMaTau(),jTabbedPaneTau);
                     jTabbedPane1.add(tauPhuHop.getMaTau(),jTabbedPaneTau);
-                    DSToa=ketNoiCSDL.getToaTheoMaTau(tauPhuHop.getMaTau());
+                    DSToa=ketNoiCSDL.getToaTheoMaTau(tauPhuHop.getMaTau(),tauPhuHop.getThoiGianHieuChinhTau());
                     for (Toa l:DSToa)
                     {   
                         DSToaCuaTatCaTau.add(l);
-                        ArrayList<Integer> DSGheDaDat= ketNoiCSDL.getChoNgoiDaDat(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianKhoiHanh(), l.getMaToa(), l.getThoiGianThemToa());
+                        ArrayList<Integer> DSGheDaDat= ketNoiCSDL.getChoNgoiDaDat(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianKhoiHanh(), l.getMaToa(), tauPhuHop.getThoiGianHieuChinhTuyen(),l.getThoiGianHieuChinhTau(),tauPhuHop.getMaTuyen());
                         NewJPanel newJPanel;
                         switch (l.getSoChoNgoi()) {
                             case 80:
@@ -551,7 +551,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                 model=(DefaultTableModel) jTable1.getModel();
                 for (TuyenDiQuaTram[] i:DSTuyen_ChieuVe)
                 {
-                    DSTau=ketNoiCSDL.getTauTheoMaTuyen(i[0].getMaTuyen(),strNgayDi); //DS Tàu có khoảng thời gian phù hợp
+                    DSTau=ketNoiCSDL.getTauTheoMaTuyen(i[0].getMaTuyen(),strNgayDi,i[0].getThoiGianHieuChinh()); //DS Tàu có khoảng thời gian phù hợp
                     if (DSTau.size()==0)
                 {
                     jRadioButton1Chieu.setEnabled(true);
@@ -564,7 +564,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                     boolean timDuocItNhat1Tau=false;
                     for (TauChayTuyen j:DSTau)
                 {
-                    TauChayTuyen tauPhuHop=ketNoiCSDL.getTauPhuHop(i,j.getMaTau(), j.getThoiGianKhoiHanh(), strNgayDi);
+                    TauChayTuyen tauPhuHop=ketNoiCSDL.getTauPhuHop(i,j.getMaTau(), j.getThoiGianKhoiHanh(), strNgayDi,j.getThoiGianHieuChinhTau());
                     if (tauPhuHop!=null)
                     {
                     timDuocItNhat1Tau=true;
@@ -578,11 +578,11 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                     JTabbedPane jTabbedPaneTau=new JTabbedPane();
                     //JTabbedPaneDSTau.put(tauPhuHop.getMaTau(),jTabbedPaneTau);
                     jTabbedPane2.add(tauPhuHop.getMaTau(),jTabbedPaneTau);
-                    DSToa=ketNoiCSDL.getToaTheoMaTau(tauPhuHop.getMaTau());
+                    DSToa=ketNoiCSDL.getToaTheoMaTau(tauPhuHop.getMaTau(),tauPhuHop.getThoiGianHieuChinhTau());
                     for (Toa l:DSToa)
                     {   
                         DSToaCuaTatCaTau_ChieuVe.add(l);
-                        ArrayList<Integer> DSGheDaDat= ketNoiCSDL.getChoNgoiDaDat(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianKhoiHanh(), l.getMaToa(), l.getThoiGianThemToa());
+                        ArrayList<Integer> DSGheDaDat= ketNoiCSDL.getChoNgoiDaDat(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianKhoiHanh(), l.getMaToa(), tauPhuHop.getThoiGianHieuChinhTuyen(),l.getThoiGianHieuChinhTau(),tauPhuHop.getMaTuyen());
                         NewJPanel newJPanel;
                         switch (l.getSoChoNgoi()) {
                             case 80:

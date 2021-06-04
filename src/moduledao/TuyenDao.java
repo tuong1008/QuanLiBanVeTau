@@ -93,9 +93,9 @@ public class TuyenDao {
         model.setRowCount(0);
         try {
             while (rs.next()) {
-                String maTuyen = rs.getString(1);
-                String tenTuyen = rs.getString(3);
-                String thoiGianHieuChinh = rs.getString(2);
+                String maTuyen = rs.getString("MaTuyen");
+                String tenTuyen = rs.getString("TenTuyen");
+                String thoiGianHieuChinh = rs.getString("ThoiGianHieuChinh");
                 model.addRow(new Object[]{maTuyen, tenTuyen, thoiGianHieuChinh});
             }
         } catch (Exception e) {
@@ -143,20 +143,16 @@ public class TuyenDao {
      * @param maTuyen
      * @return
      */
-    public boolean xoaTuyenTrongDB(String maTuyen,LopKetNoi ketNoiCSDL) {
+    public boolean xoaTuyenTrongDB(String maTuyen,LopKetNoi ketNoiCSDL, String thoiGianHieuChinhTuyen) {
         try {
-            ResultSet rs = ketNoiCSDL.select("select * from tuyendiquatram where  MaTuyen = ?", maTuyen);
-            if (rs.next()) {
-                return false;
+            if (ketNoiCSDL.update("delete from TuyenDiQuaTram\n"
+                    + "where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, thoiGianHieuChinhTuyen)
+                    && ketNoiCSDL.update("delete from Tuyen\n"
+                            + "where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, thoiGianHieuChinhTuyen)) {//nếu xoá tàu k được vì đã phân tuyến cho tàu
+                return true;
             } else {
-                ResultSet rs2 = ketNoiCSDL.select("select * from TauChayTuyen where  MaTuyen = ?", maTuyen);
-                if (rs2.next()) {
-                    return false;
-                } else {
-                    LopKetNoi.update("delete from Tuyen where MaTuyen = ?", maTuyen);
-                }
+                return false;
             }
-            return true;
         } catch (Exception e) {
             System.out.println("Tuyến đã đi qua Trạm hoặc có Tàu đang chạy, không thể xoá!");
             return false;

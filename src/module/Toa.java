@@ -16,17 +16,17 @@ public class Toa {
     private String maToa, tenToa;
     private int soChoNgoi, giaChoNgoi;
     private String maLoaiToa;
-    private Timestamp thoiGianThemToa;
+    private Timestamp thoiGianHieuChinhTau;
     public Toa() {
     }
 
-    public Toa(String maToa, String tenToa, int soChoNgoi, String maLoaiToa, Timestamp thoiGianThemToa) {
+    public Toa(String maToa, String tenToa, int soChoNgoi,int giaChoNgoi, String maLoaiToa, Timestamp thoiGianHieuChinhTau) {
         this.maToa = maToa;
         this.tenToa = tenToa;
         this.soChoNgoi = soChoNgoi;
         this.giaChoNgoi=giaChoNgoi;
         this.maLoaiToa = maLoaiToa;
-        this.thoiGianThemToa=thoiGianThemToa;
+        this.thoiGianHieuChinhTau=thoiGianHieuChinhTau;
     }
 
     public String getMaToa() {
@@ -61,12 +61,12 @@ public class Toa {
         this.maLoaiToa = maLoaiToa;
     }
 
-    public Timestamp getThoiGianThemToa() {
-        return thoiGianThemToa;
+    public Timestamp getThoiGianHieuChinhTau() {
+        return thoiGianHieuChinhTau;
     }
 
-    public void setThoiGianThemToa(Timestamp thoiGianThemToa) {
-        this.thoiGianThemToa = thoiGianThemToa;
+    public void setThoiGianHieuChinhTau(Timestamp thoiGianHieuChinhTau) {
+        this.thoiGianHieuChinhTau = thoiGianHieuChinhTau;
     }
 
     public int getGiaChoNgoi() {

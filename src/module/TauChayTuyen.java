@@ -13,7 +13,23 @@ import java.sql.Timestamp;
  */
 public class TauChayTuyen {
     private String maTau, maTuyen;
-    private Timestamp thoiGianKhoiHanh, thoiGianDen, thoiGianDenTramDi;
+    private Timestamp thoiGianKhoiHanh, thoiGianDen, thoiGianDenTramDi, thoiGianHieuChinhTau, thoiGianHieuChinhTuyen;
+
+    public Timestamp getThoiGianHieuChinhTau() {
+        return thoiGianHieuChinhTau;
+    }
+
+    public Timestamp getThoiGianHieuChinhTuyen() {
+        return thoiGianHieuChinhTuyen;
+    }
+
+    public void setThoiGianHieuChinhTau(Timestamp thoiGianHieuChinhTau) {
+        this.thoiGianHieuChinhTau = thoiGianHieuChinhTau;
+    }
+
+    public void setThoiGianHieuChinhTuyen(Timestamp thoiGianHieuChinhTuyen) {
+        this.thoiGianHieuChinhTuyen = thoiGianHieuChinhTuyen;
+    }
 
     public String getMaTau() {
         return maTau;
