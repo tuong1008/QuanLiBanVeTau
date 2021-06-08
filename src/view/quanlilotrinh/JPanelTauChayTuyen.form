@@ -17,7 +17,11 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jPanel2" min="-2" pref="322" max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jPanel2" min="-2" pref="369" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -41,21 +45,32 @@
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnXacNhan" min="-2" pref="137" max="-2" attributes="0"/>
-                          <Component id="cbbMaTau" alignment="1" pref="209" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jlbMaTau" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jtfThoiGianKhoiHanh" alignment="1" max="32767" attributes="0"/>
                           <Component id="jlbThoiGianKhoiHanh" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                              <Component id="jlbTenDialog" min="-2" max="-2" attributes="0"/>
-                          </Group>
                           <Component id="cbbTuyen" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cbbMaTau" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="datePickerThoiGianKhoiHanh" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="timePickerThoiGianKhoiHanh" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                      <Component id="jlbTenDialog" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="btnXacNhan" alignment="0" min="-2" pref="137" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jSpinnerStep" alignment="1" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="149" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -64,7 +79,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jlbTenDialog" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbbMaTau" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -79,11 +94,17 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jtfThoiGianKhoiHanh" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="datePickerThoiGianKhoiHanh" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="timePickerThoiGianKhoiHanh" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Component id="jlbThoiGianKhoiHanh" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jSpinnerStep" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                       <Component id="btnXacNhan" min="-2" pref="47" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -93,29 +114,29 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jlbTenDialog">
               <Properties>
+                <Property name="text" type="java.lang.String" value="TH&#xca;M T&#xc0;U"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="18" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="TH&#xca;M T&#xc0;U"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
+                <Property name="text" type="java.lang.String" value="M&#xe3; t&#xe0;u:"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="M&#xe3; t&#xe0;u:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnXacNhan">
               <Properties>
+                <Property name="text" type="java.lang.String" value="X&#xc1;C NH&#x1eac;N"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="15" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="X&#xc1;C NH&#x1eac;N"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXacNhanActionPerformed"/>
@@ -123,21 +144,21 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
+                <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n Tuy&#x1ebf;n"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n Tuy&#x1ebf;n"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jlbMaTau">
               <Properties>
+                <Property name="text" type="java.lang.String" value=" a"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="2"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="33" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value=" a"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbbTuyen">
@@ -152,31 +173,21 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
+                <Property name="text" type="java.lang.String" value="Th&#x1edd;i gian kh&#x1edf;i h&#xe0;nh:"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Th&#x1edd;i gian kh&#x1edf;i h&#xe0;nh:"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jtfThoiGianKhoiHanh">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="14" style="0"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtfThoiGianKhoiHanhFocusLost"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jlbThoiGianKhoiHanh">
               <Properties>
+                <Property name="text" type="java.lang.String" value="a"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="2"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="33" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="a"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbbMaTau">
@@ -188,6 +199,33 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
+            </Component>
+            <Component class="com.github.lgooddatepicker.components.DatePicker" name="datePickerThoiGianKhoiHanh">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.github.lgooddatepicker.components.DatePicker(dateSettings)"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="DatePickerSettings dateSettings;&#xa;dateSettings = new DatePickerSettings();"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="dateSettings.setVetoPolicy(new SampleDateVetoPolicy());"/>
+              </AuxValues>
+            </Component>
+            <Component class="com.github.lgooddatepicker.components.TimePicker" name="timePickerThoiGianKhoiHanh">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.github.lgooddatepicker.components.TimePicker(timeSettings)"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="B&#x1b0;&#x1edb;c nh&#x1ea3;y:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="jSpinnerStep">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -324,13 +362,13 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel49">
           <Properties>
+            <Property name="text" type="java.lang.String" value="PH&#xc2;N C&#xd4;NG T&#xc0;U"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="PH&#xc2;N C&#xd4;NG T&#xc0;U"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane13">
@@ -408,21 +446,21 @@
         </Container>
         <Component class="javax.swing.JLabel" name="jLabel50">
           <Properties>
+            <Property name="text" type="java.lang.String" value="Ch&#x1ee9;c n&#x103;ng"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Ch&#x1ee9;c n&#x103;ng"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnThem1">
           <Properties>
+            <Property name="text" type="java.lang.String" value="TH&#xca;M"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="TH&#xca;M"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThem1ActionPerformed"/>
@@ -430,13 +468,13 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnSua1">
           <Properties>
+            <Property name="text" type="java.lang.String" value="S&#x1eec;A"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="S&#x1eec;A"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSua1ActionPerformed"/>
@@ -444,13 +482,13 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnXoa1">
           <Properties>
+            <Property name="text" type="java.lang.String" value="X&#xd3;A"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="X&#xd3;A"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoa1ActionPerformed"/>
@@ -458,10 +496,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel51">
           <Properties>
+            <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfTimKiem1">
@@ -471,14 +509,14 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="cbbTimKiem1">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="12" style="1"/>
-            </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="2">
                 <StringItem index="0" value="M&#xe3; t&#xe0;u"/>
-                <StringItem index="1" value="M&#xe3; toa"/>
+                <StringItem index="1" value="M&#xe3; tuy&#x1ebf;n"/>
               </StringArray>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
             </Property>
           </Properties>
           <AuxValues>
@@ -487,14 +525,19 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="cbbSapXep1">
           <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Th&#x1edd;i  gian hi&#x1ec7;u ch&#x1ec9;nh t&#xe0;u t&#x103;ng"/>
+                <StringItem index="1" value="Th&#x1edd;i  gian hi&#x1ec7;u ch&#x1ec9;nh t&#xe0;u gi&#x1ea3;m"/>
+                <StringItem index="2" value="Th&#x1edd;i  gian hi&#x1ec7;u ch&#x1ec9;nh tuy&#x1ebf;n t&#x103;ng"/>
+                <StringItem index="3" value="Th&#x1edd;i  gian hi&#x1ec7;u ch&#x1ec9;nh tuy&#x1ebf;n gi&#x1ea3;m"/>
+              </StringArray>
+            </Property>
+            <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="null" type="code"/>
+            </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
-                <StringItem index="0" value="M&#xe3; t&#xe0;u a-z"/>
-                <StringItem index="1" value="M&#xe3; t&#xe0;u z-a"/>
-              </StringArray>
             </Property>
           </Properties>
           <Events>
@@ -506,19 +549,19 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel52">
           <Properties>
+            <Property name="text" type="java.lang.String" value="S&#x1eaf;p x&#x1ebf;p:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="S&#x1eaf;p x&#x1ebf;p:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnTroVe1">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/images/outline_arrow_back_black_24dp_1.png"/>
+            </Property>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
           </Properties>
           <Events>

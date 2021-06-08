@@ -6,35 +6,38 @@
 
 package module;
 
-import java.util.Date;
 
 /**
  * 
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class Ve {
+public class Ve implements Comparable<Ve> {
+
+    @Override
+    public int compareTo(Ve o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     private String maVe, tenTaiKhoan;
     private int choNgoi;
-    private Date thoiGianLenTau, thoiGianDen;
-    private String trangThaiVe, trangThaiThanhToan;
+    private String thoiGianLenTau, thoiGianDen;
+    private String khuHoi;
     private float gia;
-    private String maLoaiVe, maToa;
+    private String tenLoaiVe, maChuyen;
 
     public Ve() {
     }
 
-    public Ve(String maVe, String tenTaiKhoan, int choNgoi, Date thoiGianLenTau, Date thoiGianDen, 
-            String trangThaiVe, String trangThaiThanhToan, float gia, String maLoaiVe, String maToa) {
+    public Ve(String maVe, String tenTaiKhoan, int choNgoi, String thoiGianLenTau, String thoiGianDen, 
+            String khuHoi, float gia, String tenLoaiVe, String maChuyen) {
         this.maVe = maVe;
         this.tenTaiKhoan = tenTaiKhoan;
         this.choNgoi = choNgoi;
         this.thoiGianLenTau = thoiGianLenTau;
         this.thoiGianDen = thoiGianDen;
-        this.trangThaiVe = trangThaiVe;
-        this.trangThaiThanhToan = trangThaiThanhToan;
+        this.khuHoi = khuHoi;
         this.gia = gia;
-        this.maLoaiVe = maLoaiVe;
-        this.maToa = maToa;
+        this.tenLoaiVe = tenLoaiVe;
+        this.maChuyen = maChuyen;
     }
 
     public String getMaVe() {
@@ -61,36 +64,28 @@ public class Ve {
         this.choNgoi = choNgoi;
     }
 
-    public Date getThoiGianLenTau() {
+    public String getThoiGianLenTau() {
         return thoiGianLenTau;
     }
 
-    public void setThoiGianLenTau(Date thoiGianLenTau) {
+    public void setThoiGianLenTau(String thoiGianLenTau) {
         this.thoiGianLenTau = thoiGianLenTau;
     }
 
-    public Date getThoiGianDen() {
+    public String getThoiGianDen() {
         return thoiGianDen;
     }
 
-    public void setThoiGianDen(Date thoiGianDen) {
+    public void setThoiGianDen(String thoiGianDen) {
         this.thoiGianDen = thoiGianDen;
     }
 
-    public String getTrangThaiVe() {
-        return trangThaiVe;
+    public String getKhuHoi() {
+        return khuHoi;
     }
 
-    public void setTrangThaiVe(String trangThaiVe) {
-        this.trangThaiVe = trangThaiVe;
-    }
-
-    public String getTrangThaiThanhToan() {
-        return trangThaiThanhToan;
-    }
-
-    public void setTrangThaiThanhToan(String trangThaiThanhToan) {
-        this.trangThaiThanhToan = trangThaiThanhToan;
+    public void setKhuHoi(String khuHoi) {
+        this.khuHoi = khuHoi;
     }
 
     public float getGia() {
@@ -101,20 +96,20 @@ public class Ve {
         this.gia = gia;
     }
 
-    public String getMaLoaiVe() {
-        return maLoaiVe;
+    public String getTenLoaiVe() {
+        return tenLoaiVe;
     }
 
-    public void setMaLoaiVe(String maLoaiVe) {
-        this.maLoaiVe = maLoaiVe;
+    public void setTenLoaiVe(String tenLoaiVe) {
+        this.tenLoaiVe = tenLoaiVe;
     }
 
-    public String getMaToa() {
-        return maToa;
+    public String getMaChuyen() {
+        return maChuyen;
     }
 
-    public void setMaToa(String maToa) {
-        this.maToa = maToa;
+    public void setMaChuyen(String maChuyen) {
+        this.maChuyen = maChuyen;
     }
     
 }

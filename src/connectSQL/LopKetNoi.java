@@ -175,31 +175,7 @@ public class LopKetNoi {
     public boolean addNguoiDungForTaiKhoan(LopKetNoi ketNoiCSDL,NguoiDung nguoiDung) {
             //Nếu SDT và Email cùng rỗng
             boolean trangThai=false;
-            if (nguoiDung.getEmail().equals("") && nguoiDung.getSDT().equals(""))
-            {
-                trangThai=ketNoiCSDL.update("insert into NguoiDung(CMND,Ten) values(?,?)",nguoiDung.getCMND(),nguoiDung.getTen());
-            }
-            else
-            {
-                //Nếu Chỉ có SĐT rỗng
-                if (nguoiDung.getSDT().equals("")&&(!nguoiDung.getEmail().equals("")))
-                {
-                    trangThai=ketNoiCSDL.update("insert into NguoiDung(CMND,Ten,Email) values(?,?,?)",nguoiDung.getCMND(),nguoiDung.getTen(), nguoiDung.getEmail());
-                }
-                else
-                {
-                    //Nếu chỉ có email rỗng
-                    if (nguoiDung.getEmail().equals("")&&(!nguoiDung.getSDT().equals("")))
-                    {
-                        trangThai=ketNoiCSDL.update("insert into NguoiDung(CMND,Ten,SDT) values(?,?,?)",nguoiDung.getCMND(),nguoiDung.getTen(), nguoiDung.getSDT());
-                    }
-                    else
-                    {
-                        trangThai=ketNoiCSDL.update("insert into NguoiDung(CMND,Ten,SDT,Email) values(?,?,?,?)",nguoiDung.getCMND(),nguoiDung.getTen(), nguoiDung.getSDT(),nguoiDung.getEmail());
-                    }
-                }
-                
-            }
+            trangThai=ketNoiCSDL.update("insert into NguoiDung(CMND,Ten,SDT,Email,TenTaiKhoan) values(?,?,?,?,?)",nguoiDung.getCMND(),nguoiDung.getTen(), nguoiDung.getSDT(),nguoiDung.getEmail(),nguoiDung.getTenTaiKhoan());
             return trangThai;
     }
     public boolean addTuyenDiQuaTram(TuyenDiQuaTram s,Timestamp tsThoiGianHieuChinh) {
@@ -273,7 +249,7 @@ public class LopKetNoi {
     }
 
     public static void ketNoi() {
-        String url = "jdbc:sqlserver://;databaseName=QuanLiVeTau2";
+        String url = "jdbc:sqlserver://localhost\\\\MSSQLSERVER:1433;databaseName=QuanLiVeTau2";
         String user = "sa";
         String pass = "123";
         try {

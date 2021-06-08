@@ -241,7 +241,7 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jtfTimKiem" min="-2" pref="151" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="cbbTiemKiem" min="-2" pref="151" max="-2" attributes="0"/>
+                                          <Component id="cbbTimKiem" min="-2" pref="151" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                       </Group>
@@ -287,7 +287,7 @@
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jtfTimKiem" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbbTiemKiem" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbbTimKiem" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="328" max="-2" attributes="0"/>
@@ -422,13 +422,16 @@
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfTimKiemKeyReleased"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbbTiemKiem">
+        <Component class="javax.swing.JComboBox" name="cbbTimKiem">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="0"/>
+              <StringArray count="2">
+                <StringItem index="0" value="T&#xea;n lo&#x1ea1;i v&#xe9;"/>
+                <StringItem index="1" value="H&#x1ec7; s&#x1ed1;"/>
+              </StringArray>
             </Property>
           </Properties>
           <AuxValues>
@@ -441,7 +444,13 @@
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="0"/>
+              <StringArray count="2">
+                <StringItem index="0" value="T&#xea;n lo&#x1ea1;i v&#xe9; a-z"/>
+                <StringItem index="1" value="T&#xea;n lo&#x1ea1;i v&#xe9; z-a"/>
+              </StringArray>
+            </Property>
+            <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="null" type="code"/>
             </Property>
           </Properties>
           <Events>

@@ -236,16 +236,17 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Component id="jPanel13" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -261,54 +262,61 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="btnTroVe1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="255" max="-2" attributes="0"/>
-                          <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jSeparator26" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jSeparator25" alignment="0" max="32767" attributes="0"/>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jSeparator26" alignment="0" pref="1" max="32767" attributes="0"/>
+                                              <Component id="jSeparator25" alignment="0" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel50" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                                           <Component id="btnThem1" min="-2" pref="111" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
                                           <Component id="btnSua1" min="-2" pref="106" max="-2" attributes="0"/>
-                                          <EmptySpace pref="64" max="32767" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
                                           <Component id="btnXoa1" min="-2" pref="100" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" alignment="1" attributes="0">
+                                  </Group>
+                                  <Component id="btnThongTin1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="btnTroVe1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="326" max="-2" attributes="0"/>
+                                          <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
                                           <Component id="jLabel51" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jtfTimKiem1" min="-2" pref="151" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="cbbTimKiem1" min="-2" pref="151" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="jLabel52" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="jLabel52" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="cbbSapXep1" alignment="1" min="-2" pref="147" max="-2" attributes="0"/>
-                                      <Component id="btnThongTin1" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="cbbSapXep1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="0" pref="32" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="23" max="32767" attributes="0"/>
+                          <Component id="jScrollPane13" min="-2" pref="848" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jScrollPane13" min="-2" pref="737" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -484,9 +492,8 @@
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
+              <StringArray count="1">
                 <StringItem index="0" value="M&#xe3; t&#xe0;u"/>
-                <StringItem index="1" value="M&#xe3; toa"/>
               </StringArray>
             </Property>
           </Properties>
@@ -501,9 +508,12 @@
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="2">
-                <StringItem index="0" value="M&#xe3; t&#xe0;u a-z"/>
-                <StringItem index="1" value="M&#xe3; t&#xe0;u z-a"/>
+                <StringItem index="0" value="Th&#x1edd;i gian hi&#x1ec7;u ch&#x1ec9;nh t&#xe0;u t&#x103;ng d&#x1ea7;n"/>
+                <StringItem index="1" value="Th&#x1edd;i gian hi&#x1ec7;u ch&#x1ec9;nh t&#xe0;u gi&#x1ea3;m d&#x1ea7;n"/>
               </StringArray>
+            </Property>
+            <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="null" type="code"/>
             </Property>
           </Properties>
           <Events>

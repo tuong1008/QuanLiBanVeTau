@@ -44,7 +44,6 @@ public class MainFrame extends javax.swing.JFrame{
             list.add(new DanhMucBean("QuanLiTau", jpnQuanLiTau, jlbQuanLiTau));
             list.add(new DanhMucBean("QuanLiTuyen", jpnQuanLiTuyen, jlbQuanLiTuyen));
             list.add(new DanhMucBean("ThongKe", jpnThongKe, jlbThongKe));
-            list.add(new DanhMucBean("CaiDatTaiKhoan", jpnCaiDatTaiKhoan, jlbCaiDatTaiKhoan));
         }
         else
         {
@@ -52,8 +51,8 @@ public class MainFrame extends javax.swing.JFrame{
             jpnQuanLiTau.setVisible(false);
             jpnQuanLiTuyen.setVisible(false);
             jpnThongKe.setVisible(false);
-            jpnCaiDatTaiKhoan.setVisible(false);
         }
+        list.add(new DanhMucBean("CaiDatTaiKhoan", jpnCaiDatTaiKhoan, jlbCaiDatTaiKhoan));
         list.add(new DanhMucBean("DangXuat", jpnDangXuat, jlbDangXuat));
         controller.setEvents(list);
 

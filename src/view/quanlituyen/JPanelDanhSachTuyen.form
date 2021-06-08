@@ -694,10 +694,15 @@
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
+              <StringArray count="4">
                 <StringItem index="0" value="T&#xea;n tuy&#x1ebf;n a-z"/>
                 <StringItem index="1" value="T&#xea;n tuy&#x1ebf;n z-a"/>
+                <StringItem index="2" value="Th&#x1edd;i gian t&#x103;ng d&#x1ea7;n"/>
+                <StringItem index="3" value="Th&#x1a1;i gian gi&#x1ea3;m d&#x1ea7;n"/>
               </StringArray>
+            </Property>
+            <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="null" type="code"/>
             </Property>
           </Properties>
           <Events>

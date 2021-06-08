@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package view.datve;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import connectSQL.LopKetNoi;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -14,7 +15,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import module.Tau;
-import module.Tuyen;
 import javax.swing.JTabbedPane;
 import module.Toa;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import module.SampleDateVetoPolicy;
 import module.TaiKhoan;
 import module.TauChayTuyen;
 import module.TuyenDiQuaTram;
@@ -51,10 +52,14 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
     Timestamp thoiGianLenTauChieuDi;// ví dụ như chạy nhiều luồng thì lấy maVeChieuDi sẽ không chính xác
     javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel jLabelChieuVe;
+    DatePickerSettings dateSettingsNgayDi;
+    DatePickerSettings dateSettingsNgayVe;
     /**
      * Creates new form PanelTimVeTau
      */
     public JPanelTimVeTau(TaiKhoan taiKhoan) {
+        dateSettingsNgayDi = new DatePickerSettings();
+        dateSettingsNgayVe = new DatePickerSettings();
         initComponents();
         this.taiKhoan=taiKhoan;
         jTabbedPane2 = new javax.swing.JTabbedPane();
@@ -95,10 +100,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         jButtonTimVe = new javax.swing.JButton();
         jRadioButton1Chieu = new javax.swing.JRadioButton();
         jRadioButtonKhuHoi = new javax.swing.JRadioButton();
-        jFormattedTextFieldNgayDi = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jFormattedTextFieldNgayVe = new javax.swing.JFormattedTextField();
         jComboBoxGaDi = new javax.swing.JComboBox<>();
         jComboBoxGaDen = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -111,6 +114,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jLabelChieuDi = new javax.swing.JLabel();
+        datePickerNgayDi = new com.github.lgooddatepicker.components.DatePicker(dateSettingsNgayDi);
+        datePickerNgayVe = new com.github.lgooddatepicker.components.DatePicker(dateSettingsNgayVe);
 
         setBackground(new java.awt.Color(204, 204, 255));
 
@@ -144,8 +149,6 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             }
         });
 
-        jFormattedTextFieldNgayDi.setEnabled(false);
-
         jLabel5.setText("Ngày đi");
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -154,8 +157,6 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         });
 
         jLabel6.setText("Ngày về");
-
-        jFormattedTextFieldNgayVe.setEnabled(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -214,6 +215,12 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         jLabelChieuDi.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelChieuDi.setForeground(new java.awt.Color(0, 0, 255));
 
+        dateSettingsNgayDi.setVetoPolicy(new SampleDateVetoPolicy());
+        datePickerNgayDi.setEnabled(false);
+
+        dateSettingsNgayVe.setVetoPolicy(new SampleDateVetoPolicy());
+        datePickerNgayVe.setEnabled(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -245,23 +252,20 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(28, 28, 28)
                                 .addComponent(jRadioButtonKhuHoi))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jFormattedTextFieldNgayDi, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jFormattedTextFieldNgayVe, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButtonDatVe1)
-                                .addGap(69, 69, 69)
-                                .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(datePickerNgayVe, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(datePickerNgayDi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jButtonDatVe1)
+                                    .addGap(69, 69, 69)
+                                    .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(8, 8, 8)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(110, 110, 110))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
+                                .addGap(37, 37, 37)
                                 .addComponent(jLabelChieuDi, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -301,11 +305,10 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                             .addComponent(jComboBoxGaDen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
                             .addComponent(jRadioButtonKhuHoi)
-                            .addGap(2, 2, 2)
-                            .addComponent(jFormattedTextFieldNgayDi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(6, 6, 6)
-                            .addComponent(jFormattedTextFieldNgayVe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(13, 13, 13)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(datePickerNgayDi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(8, 8, 8)
+                            .addComponent(datePickerNgayVe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jButtonDatVe1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,11 +330,11 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(335, 335, 335)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -339,16 +342,16 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButtonKhuHoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonKhuHoiActionPerformed
         // TODO add your handling code here:
-        jFormattedTextFieldNgayDi.setEnabled(true);
-        jFormattedTextFieldNgayVe.setEnabled(true);
+        datePickerNgayDi.setEnabled(true);
+        datePickerNgayVe.setEnabled(true);
         jLabelChieuDi.setText("Chiều đi");
         jLabelChieuVe.setText("Chiều về");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -416,8 +419,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         // TODO add your handling code here:
         String tenTramDi=(String)jComboBoxGaDi.getSelectedItem();
         String tenTramDen=(String)jComboBoxGaDen.getSelectedItem(); 
-        String strNgayDi=jFormattedTextFieldNgayDi.getText();
-        String strNgayVe=jFormattedTextFieldNgayVe.getText();
+        String strNgayDi=datePickerNgayDi.toString();
+        String strNgayVe=datePickerNgayVe.toString();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
             formatter.parse(strNgayDi);
@@ -427,12 +430,12 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Không có tàu nào chạy "+jLabelChieuDi.getText().toLowerCase()+" trong ngày đã chọn!");
                 if (jLabelChieuDi.getText().equals("")) 
                 {
-                    jFormattedTextFieldNgayDi.setEnabled(true);
+                    datePickerNgayDi.setEnabled(true);
                 }
                 else
                 {
-                    jFormattedTextFieldNgayDi.setEnabled(true);
-                    jFormattedTextFieldNgayVe.setEnabled(true);
+                    datePickerNgayDi.setEnabled(true);
+                    datePickerNgayVe.setEnabled(true);
                 }
                 jButtonTimVe.setEnabled(true);
                 jButtonDatVe1.setEnabled(false);
@@ -441,8 +444,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             {
                 jRadioButton1Chieu.setEnabled(false);
                 jRadioButtonKhuHoi.setEnabled(false);
-                jFormattedTextFieldNgayDi.setEnabled(false);
-                jFormattedTextFieldNgayVe.setEnabled(false);
+                datePickerNgayDi.setEnabled(false);
+                datePickerNgayVe.setEnabled(false);
                 jButtonTimVe.setEnabled(false);
                 jButtonDatVe1.setEnabled(true);
                 model=(DefaultTableModel) jTable1.getModel();
@@ -453,8 +456,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                 {
                     jRadioButton1Chieu.setEnabled(true);
                     jRadioButtonKhuHoi.setEnabled(true);
-                    jFormattedTextFieldNgayDi.setEnabled(true);
-                    jFormattedTextFieldNgayVe.setEnabled(true);
+                    datePickerNgayDi.setEnabled(true);
+                    datePickerNgayVe.setEnabled(true);
                     jButtonTimVe.setEnabled(true);
                     jButtonDatVe1.setEnabled(false);
                 }
@@ -534,8 +537,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             if (DSTuyen_ChieuVe.size()==0)
             {
                 JOptionPane.showMessageDialog(this, "Không có tàu nào chạy "+jLabelChieuDi.getText().toLowerCase()+" trong ngày đã chọn!");
-                jFormattedTextFieldNgayDi.setEnabled(true);
-                jFormattedTextFieldNgayVe.setEnabled(true);
+                datePickerNgayDi.setEnabled(true);
+                datePickerNgayVe.setEnabled(true);
                 jButtonTimVe.setEnabled(true);
                 jButtonDatVe1.setEnabled(false);
             }
@@ -544,8 +547,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                 strNgayDi=strNgayVe;
                 jRadioButton1Chieu.setEnabled(false);
                 jRadioButtonKhuHoi.setEnabled(false);
-                jFormattedTextFieldNgayDi.setEnabled(false);
-                jFormattedTextFieldNgayVe.setEnabled(false);
+                datePickerNgayDi.setEnabled(false);
+                datePickerNgayVe.setEnabled(false);
                 jButtonTimVe.setEnabled(false);
                 jButtonDatVe1.setEnabled(true);
                 model=(DefaultTableModel) jTable1.getModel();
@@ -556,8 +559,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
                 {
                     jRadioButton1Chieu.setEnabled(true);
                     jRadioButtonKhuHoi.setEnabled(true);
-                    jFormattedTextFieldNgayDi.setEnabled(true);
-                    jFormattedTextFieldNgayVe.setEnabled(true);
+                    datePickerNgayDi.setEnabled(true);
+                    datePickerNgayVe.setEnabled(true);
                     jButtonTimVe.setEnabled(true);
                     jButtonDatVe1.setEnabled(false);
                 }
@@ -685,8 +688,8 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
 
     private void jRadioButton1ChieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ChieuActionPerformed
         // TODO add your handling code here:
-        jFormattedTextFieldNgayDi.setEnabled(true);
-        jFormattedTextFieldNgayVe.setEnabled(false);
+        datePickerNgayDi.setEnabled(true);
+        datePickerNgayVe.setEnabled(false);
         jLabelChieuDi.setText("");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -760,15 +763,15 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         // TODO add your handling code here:
         jComboBoxGaDi.setSelectedIndex(0);
         jComboBoxGaDen.setSelectedIndex(0);
-        if (!jFormattedTextFieldNgayDi.getText().equals("")) 
+        if (!datePickerNgayDi.getText().equals("")) 
         {
-            jFormattedTextFieldNgayDi.setText("");
-            jFormattedTextFieldNgayDi.setEnabled(true);
+            datePickerNgayDi.setText("");
+            datePickerNgayDi.setEnabled(true);
         }
-        if (!jFormattedTextFieldNgayVe.getText().equals("")) 
+        if (!datePickerNgayVe.getText().equals("")) 
         {
-            jFormattedTextFieldNgayVe.setText("");
-            jFormattedTextFieldNgayVe.setEnabled(true);
+            datePickerNgayVe.setText("");
+            datePickerNgayVe.setEnabled(true);
         }
         jTabbedPane1.removeAll();
         if (jRadioButtonKhuHoi.isSelected()) jTabbedPane2.removeAll();
@@ -791,14 +794,14 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupChonChieuDi;
+    private com.github.lgooddatepicker.components.DatePicker datePickerNgayDi;
+    private com.github.lgooddatepicker.components.DatePicker datePickerNgayVe;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonDatVe1;
     private javax.swing.JButton jButtonReset;
     private javax.swing.JButton jButtonTimVe;
     private javax.swing.JComboBox<String> jComboBoxGaDen;
     private javax.swing.JComboBox<String> jComboBoxGaDi;
-    private javax.swing.JFormattedTextField jFormattedTextFieldNgayDi;
-    private javax.swing.JFormattedTextField jFormattedTextFieldNgayVe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

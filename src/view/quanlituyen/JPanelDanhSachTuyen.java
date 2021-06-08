@@ -24,6 +24,11 @@ import javax.swing.TransferHandler;
 import moduledao.TuyenDao;
 import view.JPanelQuanLiTuyen;
 import java.sql.Time;
+import java.text.Collator;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Locale;
+import module.CheckInPut;
 import module.KhoangCachTram;
 import module.MyDefaultTableModel;
 import module.TuyenDiQuaTram;
@@ -449,7 +454,8 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
         cbbTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã tuyến", "Tên tuyến" }));
 
         cbbSapXep.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên tuyến a-z", "Tên tuyến z-a" }));
+        cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên tuyến a-z", "Tên tuyến z-a", "Thời gian tăng dần", "Thơi gian giảm dần" }));
+        cbbSapXep.setSelectedItem(null);
         cbbSapXep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSapXepActionPerformed(evt);
@@ -603,9 +609,13 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
             case "THÔNG TIN TUYẾN":
                 tatCacTruong();
                 setLabelThongBaoRong();
+                tuyenDao.getTuyenTuBang(jtbTuyen.getSelectedRow(), jtbTuyen, jtfMaTuyen, jtfTenTuyen);
+                jListCacTramDiQuaModel=ketNoiCSDL.getJListTramTrongTuyen(jtfMaTuyen.getText(),jtbTuyen.getValueAt(hangDangChon, 2).toString());
+                jListCacTramDiQua.setModel(jListCacTramDiQuaModel);
+                lmTram.clear();
                 jListCacTramDiQua.setEnabled(false);
                 jlTram.setEnabled(false);
-//                tuyenDao.getTuyenTuBang(hangDangChon, jtbTuyen, jtfMaTuyen, jtfTenTuyen, jtaCacTramDiQua, jtaKhoangCach);
+
                 break;
         }
         jlbTenDialog.setText(tenDialog);
@@ -645,9 +655,8 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
 
     private void kiemTraJTFTenTuyen() {
         String tenTuyen = jtfTenTuyen.getText().trim();
-        if (tenTuyen.equals("")) {
-            jlbTenTuyen.setText("Không được để trống");
-        } else {
+        if (CheckInPut.checkTenTuyen(tenTuyen))
+        {
             try {
                 ResultSet rs = LopKetNoi.select("select * from tuyen where tenTuyen = ?", tenTuyen);
                 if (rs.next()) {
@@ -658,6 +667,11 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
             } catch (Exception e) {
             }
         }
+        else
+        {
+            jlbTenTuyen.setText("Chỉ nhập tiếng Việt và -, không được để trống");
+        }
+        
     }
 
 //    private boolean kiemTraTramDiQuaDB() {
@@ -865,7 +879,7 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
             String maTuyen = jtfTimKiem.getText().trim();
             tuyenDao.loadDSTuyenVaoBang(LopKetNoi.select("select * from tuyen where maTuyen like ?",
                     "%" + maTuyen + "%"), tbmBangTuyen);
-        } else {// tim kiem theo ten tuyen
+        } else if (cbbTimKiem.getSelectedIndex()==1){// tim kiem theo ten tuyen
             String tenTuyen = jtfTimKiem.getText().trim();
             tuyenDao.loadDSTuyenVaoBang(LopKetNoi.select("select * from tuyen where tenTuyen like ?",
                     "%" + tenTuyen + "%"), tbmBangTuyen);
@@ -874,10 +888,61 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
 
     private void cbbSapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXepActionPerformed
         // TODO add your handling code here:
-        if (cbbSapXep.getSelectedIndex() == 0) {// sap xep ten tuyen tu a - z
-            tuyenDao.loadDSTuyenVaoBang(LopKetNoi.select("select * from tuyen order by tentuyen ASC"), tbmBangTuyen);
-        } else {
-            tuyenDao.loadDSTuyenVaoBang(LopKetNoi.select("select * from tuyen order by tentuyen DESC"), tbmBangTuyen);
+        String loaiSapXep=cbbSapXep.getSelectedItem().toString();
+        ArrayList <Tuyen> DSTuyenChuaSapXep=new ArrayList<Tuyen>();
+        for (int i=0;i<tbmBangTuyen.getRowCount();i++)
+        {
+            Tuyen tuyen=new Tuyen();
+            tuyen.setMaTuyen(jtbTuyen.getValueAt(i, 0).toString());
+            tuyen.setTenTuyen(jtbTuyen.getValueAt(i, 1).toString());
+            tuyen.setStrThoiGianHieuChinh(jtbTuyen.getValueAt(i, 2).toString());
+            DSTuyenChuaSapXep.add(tuyen);
+        }
+        if (cbbSapXep.getSelectedIndex()==0)
+        {
+            Collections.sort(DSTuyenChuaSapXep, new Comparator<Tuyen>() {
+            @Override
+            public int compare(Tuyen lhs, Tuyen rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return collator.compare(lhs.getMaTuyen(),rhs.getMaTuyen());
+            }
+        });
+        }
+        else if (cbbSapXep.getSelectedIndex()==1)
+        {
+            Collections.sort(DSTuyenChuaSapXep, new Comparator<Tuyen>() {
+            @Override
+            public int compare(Tuyen lhs, Tuyen rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                 Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return -1*collator.compare(lhs.getMaTuyen(),rhs.getMaTuyen());
+            }
+        });
+        }
+        else if (cbbSapXep.getSelectedIndex()==2)
+        {
+            Collections.sort(DSTuyenChuaSapXep, new Comparator<Tuyen>() {
+            @Override
+            public int compare(Tuyen lhs, Tuyen rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getStrThoiGianHieuChinh().compareTo(rhs.getStrThoiGianHieuChinh());
+            }
+        });
+        }
+        else if (cbbSapXep.getSelectedIndex()==3)
+        {
+            Collections.sort(DSTuyenChuaSapXep, new Comparator<Tuyen>() {
+            @Override
+            public int compare(Tuyen lhs, Tuyen rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return -1 * lhs.getStrThoiGianHieuChinh().compareTo(rhs.getStrThoiGianHieuChinh());
+            }
+        });
+        }
+        tbmBangTuyen.setRowCount(0);
+        for (Tuyen i : DSTuyenChuaSapXep) {
+            tbmBangTuyen.addRow(new Object[]{i.getMaTuyen(),i.getTenTuyen(),i.getStrThoiGianHieuChinh()});
         }
     }//GEN-LAST:event_cbbSapXepActionPerformed
 
@@ -941,7 +1006,7 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                 break;
                 case "sửa tuyến":
                 jTableKhoangCach.editCellAt(0, 0);//để bỏ chọn ô đang chọn, table mới save được ô mới nhập
-                formater=new SimpleDateFormat("hh:mm");
+                formater=new SimpleDateFormat("HH:mm");
                 for (int i:DSKhoangCachConThieu)
                 {
                     khoangCachTram=new KhoangCachTram();
@@ -952,10 +1017,17 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                         khoangCachTram.setTenTramNay(jTableKhoangCachModel.getValueAt(i, 0).toString());
                         khoangCachTram.setTenTramKia(jTableKhoangCachModel.getValueAt(i, 1).toString());
                         tuyenDao.themKhoangCachVaoDB(khoangCachTram);
+                        
                     } catch (Exception e) {
                         e.printStackTrace();
                         isOk=false;
-                        JOptionPane.showMessageDialog(this, "Nhập khoảng thời gian đúng định dạng hh:mm và không được để trống!");
+                        JOptionPane.showMessageDialog(this, "Nhập khoảng thời gian đúng định dạng HH:mm và không được để trống!");
+                        //cập nhật lại thời gian đến cho Tàu chạy Tuyến này
+                        String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
+                        String strThoiGianHieuChinhTuyen=jtbTuyen.getValueAt(hangDangChon, 2).toString();
+                        LopKetNoi.update("update TauChayTuyen\n" +
+                        "set ThoiGianDen=dbo.tinhThoiGianDenCuaTau(MaTuyen, ThoiGianHieuChinh,ThoiGianKhoiHanh)\n" +
+                        "where MaTuyen=? and ThoiGianHieuChinh=?",maTuyen,strThoiGianHieuChinhTuyen);
                     }
                 }
                 if (isOk)
@@ -1051,6 +1123,12 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                         {
                             ketNoiCSDL.update("insert into TuyenDiQuaTram(MaTuyen, TenTram, ThoiGianHieuChinh,STT) values(?,?,?,?)",tuyen.getMaTuyen(),jListCacTramDiQuaModel.getElementAt(i),strThoiGianHieuChinh,i+1);
                         }
+                        //cập nhật lại thời gian đến cho Tàu chạy Tuyến này
+                        String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
+                        String strThoiGianHieuChinhTuyen=jtbTuyen.getValueAt(hangDangChon, 2).toString();
+                        LopKetNoi.update("update TauChayTuyen\n" +
+                        "set ThoiGianDen=dbo.tinhThoiGianDenCuaTau(MaTuyen, ThoiGianHieuChinh,ThoiGianKhoiHanh)\n" +
+                        "where MaTuyen=? and ThoiGianHieuChinh=?",maTuyen,strThoiGianHieuChinhTuyen);
                     }
                 }
                 

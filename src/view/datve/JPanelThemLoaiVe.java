@@ -10,8 +10,15 @@ import controller.ChuyenManHinhView;
 import javax.swing.table.DefaultTableModel;
 import view.JPanelDatVe;
 import java.sql.ResultSet;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Locale;
 import javax.swing.JOptionPane;
+import module.LoaiVe;
 import module.TaiKhoan;
+import module.Ve;
 
 /**
  *
@@ -32,18 +39,20 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
         this.taiKhoan=taiKhoan;
         ketNoiCSDL=new LopKetNoi();
         jtbLoaiVeModel=(DefaultTableModel) jtbLoaiVe.getModel();
+        loadLoaiVeVaoBang(LopKetNoi.select("select * from LoaiVe"));
+    }
+    public void loadLoaiVeVaoBang(ResultSet rs)
+    {
+        jtbLoaiVeModel.setRowCount(0);
         try {
-            ResultSet rs=ketNoiCSDL.select("select * from LoaiVe");
             while (rs.next())
             {
                 jtbLoaiVeModel.addRow(new Object[] {rs.getString(1), rs.getFloat(2)});
             }
-                        
         } catch (Exception e) {
-            System.out.println("Load Loại vé bị lỗi");
+            System.out.println("Load DS Loại vé vào bảng bị lỗi");
         }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,7 +82,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
         btnXoa = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jtfTimKiem = new javax.swing.JTextField();
-        cbbTiemKiem = new javax.swing.JComboBox<>();
+        cbbTimKiem = new javax.swing.JComboBox<>();
         cbbSapXep = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -250,9 +259,12 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
             }
         });
 
-        cbbTiemKiem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        cbbTimKiem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        cbbTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên loại vé", "Hệ số" }));
 
         cbbSapXep.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên loại vé a-z", "Tên loại vé z-a" }));
+        cbbSapXep.setSelectedItem(null);
         cbbSapXep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSapXepActionPerformed(evt);
@@ -302,7 +314,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jtfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbbTiemKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cbbTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel9)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -336,7 +348,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
                     .addComponent(jLabel9)
                     .addComponent(jtfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(cbbTiemKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbbTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -446,25 +458,50 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
 
     private void jtfTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTimKiemKeyReleased
         // TODO add your handling code here:
-
-        //        if (cbbTiemKiem.getSelectedIndex() == 0) {// tim kiem theo ma tuyen
-            //            String maTuyen = jtfTimKiem.getText().trim();
-            //            tuyenDao.loadDSTuyenVaoBang(LopKetNoi.select("select * from tuyen where maTuyen like ?",
-                //                "%" + maTuyen + "%"), tbmBangTuyen);
-        //        } else {// tim kiem theo ten tuyen
-        //            String tenTuyen = jtfTimKiem.getText().trim();
-        //            tuyenDao.loadDSTuyenVaoBang(LopKetNoi.select("select * from tuyen where tenTuyen like ?",
-            //                "%" + tenTuyen + "%"), tbmBangTuyen);
-    //        }
+                if (cbbTimKiem.getSelectedIndex() == 0) {// tim kiem theo ma tuyen
+                        String tenLoaiVe = jtfTimKiem.getText().trim();
+                        loadLoaiVeVaoBang(LopKetNoi.select("select * from LoaiVe where TenLoaiVe like ?",
+                                "%" + tenLoaiVe + "%"));
+                }
     }//GEN-LAST:event_jtfTimKiemKeyReleased
 
     private void cbbSapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXepActionPerformed
         // TODO add your handling code here:
-        //        if (cbbSapXep.getSelectedIndex() == 0) {// sap xep ten tuyen tu a - z
-            //            tuyenDao.loadDSTuyenVaoBang(LopKetNoi.select("select * from tuyen order by tentuyen ASC"), tbmBangTuyen);
-            //        } else {
-            //            tuyenDao.loadDSTuyenVaoBang(LopKetNoi.select("select * from tuyen order by tentuyen DESC"), tbmBangTuyen);
-            //        }
+        String loaiSapXep=cbbSapXep.getSelectedItem().toString();
+        ArrayList <LoaiVe> DSLoaiVeChuaSapXep=new ArrayList<LoaiVe>();
+        for (int i=0;i<jtbLoaiVe.getRowCount();i++)
+        {
+            LoaiVe loaiVe=new LoaiVe();
+            loaiVe.setTenLoaiVe(jtbLoaiVe.getValueAt(i, 0).toString());
+            loaiVe.setHeSo(Float.valueOf(jtbLoaiVe.getValueAt(i, 1).toString()));
+            DSLoaiVeChuaSapXep.add(loaiVe);
+        }
+        if (cbbSapXep.getSelectedItem().toString().equals("Tên loại vé a-z"))
+        {
+            Collections.sort(DSLoaiVeChuaSapXep, new Comparator<LoaiVe>() {
+            @Override
+            public int compare(LoaiVe lhs, LoaiVe rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return collator.compare(lhs.getTenLoaiVe(), rhs.getTenLoaiVe());
+            }
+        });
+        }
+        else if (cbbSapXep.getSelectedItem().toString().equals("Tên loại vé z-a"))
+        {
+            Collections.sort(DSLoaiVeChuaSapXep, new Comparator<LoaiVe>() {
+            @Override
+            public int compare(LoaiVe lhs, LoaiVe rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return -1 * collator.compare(lhs.getTenLoaiVe(), rhs.getTenLoaiVe());
+            }
+        });
+        }
+        jtbLoaiVeModel.setRowCount(0);
+        for (LoaiVe i : DSLoaiVeChuaSapXep) {
+            jtbLoaiVeModel.addRow(new Object[]{i.getTenLoaiVe(),i.getHeSo()});
+        }
     }//GEN-LAST:event_cbbSapXepActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -473,7 +510,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
     private boolean themLoaiVe()
     {
-        String tenLoaiVe=jtfTenLoaiVe.getText();
+        String tenLoaiVe=jtfTenLoaiVe.getText().toUpperCase();
         if (tenLoaiVe.length()==0)
         {
             jlbTenLoaiVe.setText("Không được để trống!");
@@ -529,7 +566,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
     private javax.swing.JButton btnXacNhanLoaiVe;
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cbbSapXep;
-    private javax.swing.JComboBox<String> cbbTiemKiem;
+    private javax.swing.JComboBox<String> cbbTimKiem;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

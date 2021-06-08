@@ -11,25 +11,17 @@ package module;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class LoaiVe {
-    private String maLoaiVe, tenLoaiVe;
+    private String tenLoaiVe;
     private float heSo;
 
     public LoaiVe() {
     }
 
-    public LoaiVe(String maLoaiVe, String tenLoaiVe, float heSo) {
-        this.maLoaiVe = maLoaiVe;
+    public LoaiVe(String tenLoaiVe, float heSo) {
         this.tenLoaiVe = tenLoaiVe;
         this.heSo = heSo;
     }
 
-    public String getMaLoaiVe() {
-        return maLoaiVe;
-    }
-
-    public void setMaLoaiVe(String maLoaiVe) {
-        this.maLoaiVe = maLoaiVe;
-    }
 
     public String getTenLoaiVe() {
         return tenLoaiVe;

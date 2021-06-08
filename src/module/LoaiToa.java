@@ -12,14 +12,16 @@ package module;
  */
 public class LoaiToa {
     private String maLoaiToa, tenLoaiToa;
-    private float heSo;
+    private int soChoNgoi,giaChoNgoi;    
     public LoaiToa() {
     }
 
-    public LoaiToa(String maLoaiToa, String tenLoaiToa, float heSo) {
+    public LoaiToa(String maLoaiToa, String tenLoaiToa, int soChoNgoi, int giaChoNgoi ) {
         this.maLoaiToa = maLoaiToa;
         this.tenLoaiToa = tenLoaiToa;
-        this.heSo = heSo;
+        this.soChoNgoi=soChoNgoi;
+        this.giaChoNgoi=giaChoNgoi;
+        
     }
 
     public String getMaLoaiToa() {
@@ -38,12 +40,22 @@ public class LoaiToa {
         this.tenLoaiToa = tenLoaiToa;
     }
 
-    public float getHeSo() {
-        return heSo;
+    public int getSoChoNgoi() {
+        return soChoNgoi;
     }
 
-    public void setHeSo(float heSo) {
-        this.heSo = heSo;
+    public int getGiaChoNgoi() {
+        return giaChoNgoi;
     }
+
+    public void setSoChoNgoi(int soChoNgoi) {
+        this.soChoNgoi = soChoNgoi;
+    }
+
+    public void setGiaChoNgoi(int giaChoNgoi) {
+        this.giaChoNgoi = giaChoNgoi;
+    }
+
+    
     
 }

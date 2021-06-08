@@ -11,7 +11,23 @@ package module;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class Tau {
-    private String maTau, tenTau;
-    private int soLuongToa;
-    private String maLoaiTau;
+    private String maTau;
+    private String thoiGianHieuChinhTau;
+
+    public String getMaTau() {
+        return maTau;
+    }
+
+    public String getThoiGianHieuChinhTau() {
+        return thoiGianHieuChinhTau;
+    }
+
+    public void setMaTau(String maTau) {
+        this.maTau = maTau;
+    }
+
+    public void setThoiGianHieuChinhTau(String thoiGianHieuChinhTau) {
+        this.thoiGianHieuChinhTau = thoiGianHieuChinhTau;
+    }
+    
 }

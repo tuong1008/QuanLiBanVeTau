@@ -10,10 +10,16 @@ import controller.ChuyenManHinhView;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import module.CheckInPut;
+import module.LoaiToa;
+import module.Toa;
 import view.JPanelQuanLiToaTau;
 import view.JPanelQuanLiTuyen;
 
@@ -114,11 +120,10 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         cbbSapXepLoaiToa = new javax.swing.JComboBox<>();
         jLabel52 = new javax.swing.JLabel();
         btnTroVeLoaiToa = new javax.swing.JButton();
-        btnThongTinLoaiToa = new javax.swing.JButton();
         jSeparator25 = new javax.swing.JSeparator();
         jSeparator26 = new javax.swing.JSeparator();
 
-        jdlLoaiToa.setMinimumSize(new java.awt.Dimension(408, 290));
+        jdlLoaiToa.setMinimumSize(new java.awt.Dimension(430, 403));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -252,6 +257,11 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         jLabel6.setText("MÃ TOA:");
 
         jtfMaToa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtfMaToa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtfMaToaFocusLost(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setText("LOẠI TOA:");
@@ -436,10 +446,11 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         });
 
         cbbTimKiemToa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbTimKiemToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã toa", "Số chỗ ngồi", "Loại toa" }));
+        cbbTimKiemToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã toa" }));
 
         cbbSapXepToa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbSapXepToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã toa a-z", "Số chỗ ngồi tăng", "Loại toa a-z" }));
+        cbbSapXepToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã toa a-z", "Mã toa z-a" }));
+        cbbSapXepToa.setSelectedItem(null);
         cbbSapXepToa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSapXepToaActionPerformed(evt);
@@ -618,10 +629,11 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         });
 
         cbbTimKiemLoaiToa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbTimKiemLoaiToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã loại toa", "hệ số" }));
+        cbbTimKiemLoaiToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã loại toa" }));
 
         cbbSapXepLoaiToa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbSapXepLoaiToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã a-z", "Hệ số tăng", "Hệ số giảm" }));
+        cbbSapXepLoaiToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã loại toa a-z", "Mã loại toa z-a", "Giá tăng dần", "Giá giảm dần" }));
+        cbbSapXepLoaiToa.setSelectedItem(null);
         cbbSapXepLoaiToa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSapXepLoaiToaActionPerformed(evt);
@@ -636,15 +648,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         btnTroVeLoaiToa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTroVeLoaiToaActionPerformed(evt);
-            }
-        });
-
-        btnThongTinLoaiToa.setBackground(new java.awt.Color(255, 255, 255));
-        btnThongTinLoaiToa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnThongTinLoaiToa.setText("THÔNG TIN");
-        btnThongTinLoaiToa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThongTinLoaiToaActionPerformed(evt);
             }
         });
 
@@ -684,9 +687,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel52)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jpnLoaiToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbbSapXepLoaiToa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnThongTinLoaiToa, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                .addComponent(cbbSapXepLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 37, Short.MAX_VALUE))))
         );
         jpnLoaiToaLayout.setVerticalGroup(
@@ -706,8 +707,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                     .addComponent(jLabel50)
                     .addComponent(btnThemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSuaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXoaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThongTinLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnXoaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator26, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
@@ -800,36 +800,47 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
 
     private void jtfTimKiemToaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTimKiemToaKeyReleased
         // TODO add your handling code here:
-
-        if (cbbTimKiemToa.getSelectedIndex() == 0) {// tim kiem theo ma toa
-            String maToa = jtfTimKiemToa.getText().trim();
-            loadDSToaVaoBang(LopKetNoi.select("select * from Toa where maToa like ?", "%" + maToa + "%"));
-        } else if (cbbTimKiemToa.getSelectedIndex() == 1) {// tim kiem theo so cho ngoi
-            if (jtfTimKiemToa.getText().trim().equals("")) {
-                loadDSToaVaoBang(LopKetNoi.select("select * from Toa"));
-            } else {
-                try {
-                    int soChoNgoi = Integer.parseInt(jtfTimKiemToa.getText().trim());
-                    loadDSToaVaoBang(LopKetNoi.select("select * from Toa where soChoNgoi = ?", soChoNgoi));
-                } catch (Exception e) {
-                    // khong lam gi het
+        if (cbbTimKiemToa.getSelectedIndex() == 0) {// tim kiem theo ma tuyen
+                        String maToa = jtfTimKiemToa.getText().trim();
+                        loadDSToaVaoBang(LopKetNoi.select("select * from Toa where MaToa like ?",
+                                "%" + maToa + "%"));
                 }
-            }
-
-        } else if (cbbTimKiemToa.getSelectedIndex() == 2) {// tim kiem theo loai toa
-            String maLoaiToa = jtfTimKiemToa.getText().trim();
-            loadDSToaVaoBang(LopKetNoi.select("select * from Toa where maLoaiToa like ?", "%" + maLoaiToa + "%"));
-        }
     }//GEN-LAST:event_jtfTimKiemToaKeyReleased
 
     private void cbbSapXepToaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXepToaActionPerformed
         // TODO add your handling code here:
-        if (cbbSapXepToa.getSelectedIndex() == 0) {// sap xep ma toa tu a - z
-            loadDSToaVaoBang(LopKetNoi.select("select * from Toa order by maToa ASC ?"));
-        } else if (cbbSapXepToa.getSelectedIndex() == 1) {// sap xep theo so cho ngoi tang
-            loadDSToaVaoBang(LopKetNoi.select("select * from Toa order by soChoNgoi ASC ?"));
-        } else if (cbbSapXepToa.getSelectedIndex() == 2) {// sap xep theo loai toa a-z
-            loadDSToaVaoBang(LopKetNoi.select("select * from Toa order by maLoaiToa ASC ?"));
+        String loaiSapXep=cbbSapXepToa.getSelectedItem().toString();
+        ArrayList <Toa> DSToaChuaSapXep=new ArrayList<Toa>();
+        for (int i=0;i<tbmToa.getRowCount();i++)
+        {
+            Toa toa=new Toa();
+            toa.setMaToa(jtbToa.getValueAt(i, 0).toString());
+            toa.setMaLoaiToa(jtbToa.getValueAt(i, 1).toString());
+            DSToaChuaSapXep.add(toa);
+        }
+        if (cbbSapXepToa.getSelectedIndex()==0)
+        {
+            Collections.sort(DSToaChuaSapXep, new Comparator<Toa>() {
+            @Override
+            public int compare(Toa lhs, Toa rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getMaToa().compareTo(rhs.getMaToa());
+            }
+        });
+        }
+        else if (cbbSapXepToa.getSelectedIndex()==1)
+        {
+            Collections.sort(DSToaChuaSapXep, new Comparator<Toa>() {
+            @Override
+            public int compare(Toa lhs, Toa rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return -1 * lhs.getMaToa().compareTo(rhs.getMaToa());
+            }
+        });
+        }
+        tbmToa.setRowCount(0);
+        for (Toa i : DSToaChuaSapXep) {
+            tbmToa.addRow(new Object[]{i.getMaToa(),i.getMaLoaiToa()});
         }
     }//GEN-LAST:event_cbbSapXepToaActionPerformed
 
@@ -912,51 +923,76 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private void jtfTimKiemLoaiToaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTimKiemLoaiToaKeyReleased
         // TODO add your handling code here:
 
-        if (cbbTimKiemLoaiToa.getSelectedIndex() == 0) {// tim kiem theo ma loai toa
-            String maLoaiToa = jtfTimKiemLoaiToa.getText().trim();
-            loadDSLoaiToaVaoBang(LopKetNoi.select("select * from LoaiToa where maLoaiToa like ?",
-                    "%" + maLoaiToa + "%"));
-        } else {// tim kiem theo ten tuyen
-            try {
-                if (jtfTimKiemLoaiToa.getText().trim().equals("")) {
-                    loadDSLoaiToaVaoBang(LopKetNoi.select("select * from LoaiToa"));
-                } else {
-                    Float heSo = Float.parseFloat(jtfTimKiemLoaiToa.getText().trim());
-
-                    loadDSLoaiToaVaoBang(LopKetNoi.select("select * from LoaiToa where heSo = ?",
-                            heSo));
+        if (cbbTimKiemLoaiToa.getSelectedIndex() == 0) {// tim kiem theo ma tuyen
+                        String maLoaiToa = jtfTimKiemLoaiToa.getText().trim();
+                        loadDSLoaiToaVaoBang(LopKetNoi.select("select * from LoaiToa where MaLoaiToa like ?",
+                                "%" + maLoaiToa + "%"));
                 }
-            } catch (Exception e) {
-            }
-
-        }
-        hangDangChonLoaiToa = -1;
     }//GEN-LAST:event_jtfTimKiemLoaiToaKeyReleased
 
     private void cbbSapXepLoaiToaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXepLoaiToaActionPerformed
         // TODO add your handling code here:
-        if (cbbSapXepLoaiToa.getSelectedIndex() == 0) {// sap xep ma loai toa tu a - z
-            loadDSLoaiToaVaoBang(LopKetNoi.select("select * from LoaiToa order by maLoaiToa ASC"));
-        } else if (cbbSapXepLoaiToa.getSelectedIndex() == 1) {
-            loadDSLoaiToaVaoBang(LopKetNoi.select("select * from LoaiToa order by heSo ASC"));
-        } else {
-            loadDSLoaiToaVaoBang(LopKetNoi.select("select * from LoaiToa order by heSo DESC"));
+        String loaiSapXep=cbbSapXepLoaiToa.getSelectedItem().toString();
+        ArrayList <LoaiToa> DSLoaiToaChuaSapXep=new ArrayList<LoaiToa>();
+        for (int i=0;i<jtbLoaiToa.getRowCount();i++)
+        {
+            LoaiToa loaiToa=new LoaiToa();
+            loaiToa.setMaLoaiToa(jtbLoaiToa.getValueAt(i, 0).toString());
+            loaiToa.setTenLoaiToa(jtbLoaiToa.getValueAt(i, 1).toString());
+            loaiToa.setSoChoNgoi(Integer.valueOf(jtbLoaiToa.getValueAt(i, 2).toString()));
+            loaiToa.setGiaChoNgoi(Integer.valueOf(jtbLoaiToa.getValueAt(i, 3).toString()));
+            DSLoaiToaChuaSapXep.add(loaiToa);
         }
-        hangDangChonLoaiToa = -1;
+        if (cbbSapXepLoaiToa.getSelectedIndex()==0)
+        {
+            Collections.sort(DSLoaiToaChuaSapXep, new Comparator<LoaiToa>() {
+            @Override
+            public int compare(LoaiToa lhs, LoaiToa rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getMaLoaiToa().compareTo(rhs.getMaLoaiToa());
+            }
+        });
+        }
+        else if (cbbSapXepLoaiToa.getSelectedIndex()==1)
+        {
+            Collections.sort(DSLoaiToaChuaSapXep, new Comparator<LoaiToa>() {
+            @Override
+            public int compare(LoaiToa lhs, LoaiToa rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return -1 * lhs.getMaLoaiToa().compareTo(rhs.getMaLoaiToa());
+            }
+        });
+        }
+        else if (cbbSapXepLoaiToa.getSelectedIndex()==2)
+        {
+            Collections.sort(DSLoaiToaChuaSapXep, new Comparator<LoaiToa>() {
+            @Override
+            public int compare(LoaiToa lhs, LoaiToa rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getGiaChoNgoi()>(rhs.getGiaChoNgoi()) ? 1:-1;
+            }
+        });
+        }
+        else if (cbbSapXepLoaiToa.getSelectedIndex()==3)
+        {
+            Collections.sort(DSLoaiToaChuaSapXep, new Comparator<LoaiToa>() {
+            @Override
+            public int compare(LoaiToa lhs, LoaiToa rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getGiaChoNgoi()>(rhs.getGiaChoNgoi()) ? -1:1;
+            }
+        });
+        }
+        tbmLoaiToa.setRowCount(0);
+        for (LoaiToa i : DSLoaiToaChuaSapXep) {
+            tbmLoaiToa.addRow(new Object[]{i.getMaLoaiToa(),i.getTenLoaiToa(),i.getSoChoNgoi(),i.getGiaChoNgoi()});
+        }
     }//GEN-LAST:event_cbbSapXepLoaiToaActionPerformed
 
     private void btnTroVeLoaiToaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTroVeLoaiToaActionPerformed
         // TODO add your handling code here:
         new ChuyenManHinhView(this, new JPanelQuanLiToaTau()).change();
     }//GEN-LAST:event_btnTroVeLoaiToaActionPerformed
-
-    private void btnThongTinLoaiToaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongTinLoaiToaActionPerformed
-        // TODO add your handling code here:
-        if (hangDangChonLoaiToa == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 hàng trong bảng");
-        } else
-            hienThiDialogLoaiToa(thongTin);
-    }//GEN-LAST:event_btnThongTinLoaiToaActionPerformed
 
     private void btnXacNhanLoaiToaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanLoaiToaActionPerformed
         // TODO add your handling code here:
@@ -1033,6 +1069,18 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         // TODO add your handling code here:
        
     }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void jtfMaToaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfMaToaFocusLost
+        // TODO add your handling code here:
+        if(jtfMaToa.getText().length()==0)
+        {
+            jlbMaToa.setText("Không được để trống");
+        }
+        else
+        {
+            jlbMaToa.setText("");
+        }
+    }//GEN-LAST:event_jtfMaToaFocusLost
     //========================================================code cho loai toa===========================================================
     private void loadDSLoaiToaVaoBang(ResultSet rs) {// maloaitoa, he so
         tbmLoaiToa.setRowCount(0);
@@ -1049,8 +1097,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
 
     private boolean kiemTraThemLoaiToa() {
         String maLoaiToa = jtfMaLoaiToa.getText().trim();
-        if (maLoaiToa.equals("")) {
-            jlbMaLoaiToa.setText("Không được để trống");
+        if (CheckInPut.checkCacLoaiMa(maLoaiToa)) {
+            jlbMaLoaiToa.setText("Chỉ nhập Tiếng Việt không dấu, -, khoảng trắng và không được để trống");
         } else {
             try {
                 ResultSet rs = LopKetNoi.select("select maLoaiToa from LoaiToa where maLoaiToa = ?", maLoaiToa);
@@ -1157,6 +1205,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
             cbbSoChoNgoi.setSelectedItem(jtbLoaiToa.getValueAt(hangDangChonLoaiToa,2));
             jtfGiaChoNgoi2.setText(jtbLoaiToa.getValueAt(hangDangChonLoaiToa, 3)+ "");
         } else if (loai.equals(thongTin)) {
+            anCacTruongLoaiToa();
             thongTinLoaiToa();
         }
         jlbTenDialogLoaiToa.setText(loai);
@@ -1275,7 +1324,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private void thongTinToa() {
         String maToa = jtbToa.getValueAt(hangDangChonToa, 0).toString();
         String maLoaiToa = jtbToa.getValueAt(hangDangChonToa, 1).toString();
-        cbbLoaiToa.setSelectedItem(maLoaiToa);
+        loadDSLoaiToaVaoCBB(ketNoiCSDL);
+        cbbLoaiToa.setSelectedItem(jtbToa.getValueAt(hangDangChonToa,1));
         cbbLoaiToa.setEnabled(false);
         jtfMaToa.setText(maToa);
     }
@@ -1297,13 +1347,11 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private void hienCacTruongToa() {
         jtfMaToa.setEditable(true);
         jtfGiaChoNgoi.setEditable(true);
-        cbbLoaiToa.setEditable(true);
     }
 
     private void anCacTruongToa() {
         jtfMaToa.setEditable(false);
         jtfGiaChoNgoi.setEditable(false);
-        cbbLoaiToa.setEditable(false);
     }
 
     private void hienThiDialogToa(String loai) {
@@ -1311,11 +1359,12 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         hienCacTruongToa();
         tatThongBaoToa();
         if (loai.equals(them)) {
+            jtfMaToa.setEditable(true);
+            hienCacTruongToa();
             loadDSLoaiToaVaoCBB(ketNoiCSDL);
         } else if (loai.equals(sua)) {
             jtfMaToa.setText(jtbToa.getValueAt(hangDangChonToa, 0) + "");
             jtfMaToa.setEditable(false);
-            cbbLoaiToa.setEditable(false);
             loadDSLoaiToaVaoCBB(ketNoiCSDL);
             cbbLoaiToa.setSelectedItem(jtbToa.getValueAt(hangDangChonToa,1));
         } else if (loai.equals(thongTin)) {
@@ -1333,7 +1382,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private javax.swing.JButton btnSuaToa;
     private javax.swing.JButton btnThemLoaiToa;
     private javax.swing.JButton btnThemToa;
-    private javax.swing.JButton btnThongTinLoaiToa;
     private javax.swing.JButton btnThongTinToa;
     private javax.swing.JButton btnTroVeLoaiToa;
     private javax.swing.JButton btnTroVeToa;

@@ -8,15 +8,23 @@ package view.quanlituyen;
 import connectSQL.LopKetNoi;
 import controller.ChuyenManHinhView;
 import java.awt.event.KeyEvent;
+import java.io.UnsupportedEncodingException;
 
 import java.sql.ResultSet;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import view.JPanelQuanLiTuyen;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import module.CheckInPut;
 import module.Tram;
+import module.Tuyen;
 import moduledao.TramDao;
 
 /**
@@ -232,13 +240,14 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         });
 
         cbbTimKiem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên trạm", "Địa chỉ" }));
+        cbbTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên trạm" }));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Sắp xếp:");
 
         cbbSapXep.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên trạm a-z", "Tên trạm z-a" }));
+        cbbSapXep.setSelectedItem(null);
         cbbSapXep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSapXepActionPerformed(evt);
@@ -380,8 +389,8 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
     }
 
     private void themTram() {
-        if (!jlbTenTramDialog.getText().equals(" ")) { // là bị đỏ
-            JOptionPane.showMessageDialog(jdlThemSuaTram, "Thêm thất bại");
+        if (!CheckInPut.checkTenVietNam(jtfTenTramDialog.getText().trim())) {
+            JOptionPane.showMessageDialog(this, "Thêm thất bại");
             jtfTenTramDialog.requestFocus();
         } else {
             String tenTram = jtfTenTramDialog.getText().trim().toUpperCase();
@@ -478,43 +487,50 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
 
     private void cbbSapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXepActionPerformed
         // TODO add your handling code here:
-        tbmBangTram.setRowCount(0);
-        if (cbbSapXep.getSelectedIndex() == 0)// ten tram a-z
+        String loaiSapXep=cbbSapXep.getSelectedItem().toString();
+        ArrayList <Tram> DSTramChuaSapXep=new ArrayList<Tram>();
+        for (int i=0;i<tbmBangTram.getRowCount();i++)
         {
-            try {
-                tramDao.loadDSTramVaoBang(ketNoiCSDL.select("select * from tram order by tenTram ASC"), tbmBangTram);
-            } catch (Exception e) {
-            }
-        } else {// ten tram z-a
-            try {
-                tramDao.loadDSTramVaoBang(ketNoiCSDL.select("select * from tram order by tenTram DESC"), tbmBangTram);
-            } catch (Exception e) {
-            }
+            Tram tram=new Tram();
+            tram.setTenTram(jtbDanhSachTram.getValueAt(i, 0).toString());
+            tram.setDiaChi(jtbDanhSachTram.getValueAt(i, 1).toString());
+            DSTramChuaSapXep.add(tram);
         }
-        hangDangChon = -1;
+        if (cbbSapXep.getSelectedIndex()==0)
+        {
+            Collections.sort(DSTramChuaSapXep, new Comparator<Tram>() {
+            @Override
+            public int compare(Tram lhs, Tram rhs) {
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return collator.compare(lhs.getTenTram(), rhs.getTenTram());
+            }
+        });
+        }
+        else if (cbbSapXep.getSelectedIndex()==1)
+        {
+            Collections.sort(DSTramChuaSapXep, new Comparator<Tram>() {
+            @Override
+            public int compare(Tram lhs, Tram rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return -1*collator.compare(lhs.getTenTram(), rhs.getTenTram());
+            }
+        });
+        }
+        tbmBangTram.setRowCount(0);
+        for (Tram i : DSTramChuaSapXep) {
+            tbmBangTram.addRow(new Object[]{i.getTenTram(),i.getDiaChi()});
+//                tbmBangTram.addRow(new Object[]{i.getTenTram()});
+        }
     }//GEN-LAST:event_cbbSapXepActionPerformed
 
     private void jtfTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTimKiemKeyReleased
         // TODO add your handling code here:
-        if (cbbTimKiem.getSelectedIndex() == 0) {// tim kiem theo ten trạm
-            try {
-                // tim kiem theo ma ca tram bd va kt
-                String tenTram = jtfTimKiem.getText().trim().toUpperCase();
-                tramDao.loadDSTramVaoBang(ketNoiCSDL.select("select * from tram where tenTram like ?", "%" + tenTram + "%"), tbmBangTram);
-            } catch (Exception ex) {
-                Logger.getLogger(JPanelDanhSachTram.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-            try {
-                // tim kiem theo ma ca tram bd va kt
-                String diaChi = jtfTimKiem.getText().trim();
-                tramDao.loadDSTramVaoBang(ketNoiCSDL.select("select * from tram where diaChi like ?", "%" + diaChi + "%"), tbmBangTram);
-            } catch (Exception ex) {
-                Logger.getLogger(JPanelDanhSachTram.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        hangDangChon = -1;
+        if (cbbTimKiem.getSelectedIndex() == 0) {// tim kiem theo ma tuyen
+                        String tenTram = jtfTimKiem.getText().trim();
+                        tramDao.loadDSTramVaoBang(LopKetNoi.select("select * from Tram where TenTram like ?",
+                                "%" + tenTram + "%"),tbmBangTram);
+                }
     }//GEN-LAST:event_jtfTimKiemKeyReleased
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed

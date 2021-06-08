@@ -7,6 +7,7 @@ package view;
 
 import connectSQL.LopKetNoi;
 import javax.swing.JOptionPane;
+import module.CheckInPut;
 import module.NguoiDung;
 import module.TaiKhoan;
 
@@ -25,6 +26,14 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
     public JPanelCaiDatTaiKhoan(TaiKhoan taiKhoan) {
         initComponents();
         this.taiKhoan=taiKhoan;
+        if (taiKhoan.getMaLoaiTaiKhoan().equals("KH"))
+        {
+            jButtonDangKyTKQT.setEnabled(false);
+        }
+        else
+        {
+            jButtonDangKyTKQT.setEnabled(true);
+        }
         ketNoiCSDL = new LopKetNoi();
         nguoiDung=ketNoiCSDL.getThongTinNguoiDung(taiKhoan.getCMND());
         
@@ -71,7 +80,7 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
         jbnLuu = new javax.swing.JButton();
         jbtDoiMatKhau = new javax.swing.JButton();
         jpwMatKhau = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        jButtonDangKyTKQT = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -129,10 +138,10 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
 
         jpwMatKhau.setEnabled(false);
 
-        jButton1.setText("Đăng ký tài khoản Quản trị");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonDangKyTKQT.setText("Đăng ký tài khoản Quản trị");
+        jButtonDangKyTKQT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonDangKyTKQTActionPerformed(evt);
             }
         });
 
@@ -147,10 +156,10 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
                         .addComponent(jbtSua)
                         .addGap(122, 122, 122)
                         .addComponent(jbnLuu)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                         .addComponent(jbtDoiMatKhau)
                         .addGap(128, 128, 128)
-                        .addComponent(jButton1))
+                        .addComponent(jButtonDangKyTKQT))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,7 +211,7 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
                     .addComponent(jbtSua)
                     .addComponent(jbnLuu)
                     .addComponent(jbtDoiMatKhau)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonDangKyTKQT))
                 .addGap(20, 20, 20))
         );
 
@@ -242,23 +251,42 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
 
     private void jbnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbnLuuActionPerformed
         // TODO add your handling code here:
-        nguoiDung.setEmail(txtEmail.getText());
-        nguoiDung.setSDT(txtSDT.getText());
-        nguoiDung.setTen(txtTen.getText());
-        if (ketNoiCSDL.updateNguoiDung(nguoiDung))
+        if (    txtSDT.getText().equals("")
+                ||txtTen.getText().equals("")
+                ||txtEmail.getText().equals(""))
         {
-            JOptionPane.showMessageDialog(jlbTenTaiKhoan, "Cập nhật thành công!");
-            txtTen.setEnabled(false);
-            txtEmail.setEnabled(false);
-            txtSDT.setEnabled(false);
-            jbtSua.setEnabled(true);
-            jbnLuu.setEnabled(false);
-            jbtDoiMatKhau.setEnabled(true);
+            JOptionPane.showMessageDialog(this, "Không được để trống bất kì thông tin nào");
+        }
+        else if (!CheckInPut.checkSDT(txtSDT.getText()))
+        {
+            JOptionPane.showMessageDialog(this, "Số điện thoại là dãy số gồm 10 hoặc 11 số và bắt đầu bằng 0");
+        }
+        else if (!CheckInPut.checkTenVietNam(txtTen.getText()))
+        {
+            JOptionPane.showMessageDialog(this, "Tên không được bao gồm số, ký tự đặc biệt và không vượt quá 50 ký tự");
+        }
+        else if (!CheckInPut.checkEmail(txtEmail.getText()))
+        {
+            JOptionPane.showMessageDialog(this, "Email không đúng định dạng và không vượt quá 50 ký tự");
         }
         else
         {
-            JOptionPane.showMessageDialog(jlbTenTaiKhoan, "Cập nhật thất bại!");
+            nguoiDung.setEmail(txtEmail.getText());
+            nguoiDung.setSDT(txtSDT.getText());
+            nguoiDung.setTen(CheckInPut.chuanHoaTen(txtTen.getText()));
+            if (ketNoiCSDL.updateNguoiDung(nguoiDung)) {
+                JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+                txtTen.setEnabled(false);
+                txtEmail.setEnabled(false);
+                txtSDT.setEnabled(false);
+                jbtSua.setEnabled(true);
+                jbnLuu.setEnabled(false);
+                jbtDoiMatKhau.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại!");
+            }
         }
+        
     }//GEN-LAST:event_jbnLuuActionPerformed
 
     private void jbtDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtDoiMatKhauActionPerformed
@@ -268,14 +296,14 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
         jpwMatKhau.setText(taiKhoan.getMatKhau());
     }//GEN-LAST:event_jbtDoiMatKhauActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonDangKyTKQTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDangKyTKQTActionPerformed
         // TODO add your handling code here:
         new JDialogSignUp(taiKhoan).setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonDangKyTKQTActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonDangKyTKQT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;

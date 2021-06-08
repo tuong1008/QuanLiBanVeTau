@@ -12,9 +12,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-import javax.swing.JTable;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.util.Collections;
+import java.util.Comparator;
+import module.TauChayTuyen;
 import view.JPanelQuanLiLoTrinh;
-
+import module.SampleDateVetoPolicy;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.components.TimePickerSettings;
+import com.github.lgooddatepicker.optionalusertools.PickerUtilities;
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -32,11 +39,19 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     private LopKetNoi ketNoiCSDL;
     private DefaultTableModel tbmTau;
     private int hangDangChon = -1;
+    TimePickerSettings timeSettings;
     public JPanelTauChayTuyen() {
+        timeSettings = new TimePickerSettings();
+        timeSettings.setDisplaySpinnerButtons(true);
+        timeSettings.setFormatForDisplayTime(PickerUtilities.createFormatterFromPatternString(
+            "HH:mm:ss", timeSettings.getLocale()));
+        timeSettings.setFormatForMenuTimes(PickerUtilities.createFormatterFromPatternString(
+            "HH:mm", timeSettings.getLocale()));
+        timeSettings.setInitialTimeToNow();
         initComponents();
         tbmTau = (DefaultTableModel) jtbTau.getModel();
         ketNoiCSDL=new LopKetNoi();
-        loadBangTau(ketNoiCSDL.select("select * from TauChayTuyen"), jtbTau,ketNoiCSDL);
+        loadBangTau(ketNoiCSDL.select("select * from TauChayTuyen"));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,9 +71,14 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         jlbMaTau = new javax.swing.JLabel();
         cbbTuyen = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jtfThoiGianKhoiHanh = new javax.swing.JTextField();
         jlbThoiGianKhoiHanh = new javax.swing.JLabel();
         cbbMaTau = new javax.swing.JComboBox<>();
+        DatePickerSettings dateSettings;
+        dateSettings = new DatePickerSettings();
+        datePickerThoiGianKhoiHanh = new com.github.lgooddatepicker.components.DatePicker(dateSettings);
+        timePickerThoiGianKhoiHanh = new com.github.lgooddatepicker.components.TimePicker(timeSettings);
+        jLabel1 = new javax.swing.JLabel();
+        jSpinnerStep = new javax.swing.JSpinner();
         jPanel1 = new javax.swing.JPanel();
         jLabel49 = new javax.swing.JLabel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -81,41 +101,41 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setMinimumSize(new java.awt.Dimension(574, 467));
 
-        jlbTenDialog.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jlbTenDialog.setText("THÊM TÀU");
+        jlbTenDialog.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Mã tàu:");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        btnXacNhan.setText("XÁC NHẬN");
         btnXacNhan.setBackground(new java.awt.Color(255, 255, 255));
         btnXacNhan.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        btnXacNhan.setText("XÁC NHẬN");
         btnXacNhan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXacNhanActionPerformed(evt);
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Chọn Tuyến");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        jlbMaTau.setText(" a");
         jlbMaTau.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
         jlbMaTau.setForeground(new java.awt.Color(255, 51, 0));
-        jlbMaTau.setText(" a");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("Thời gian khởi hành:");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        jtfThoiGianKhoiHanh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jtfThoiGianKhoiHanh.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jtfThoiGianKhoiHanhFocusLost(evt);
-            }
-        });
-
+        jlbThoiGianKhoiHanh.setText("a");
         jlbThoiGianKhoiHanh.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
         jlbThoiGianKhoiHanh.setForeground(new java.awt.Color(255, 51, 0));
-        jlbThoiGianKhoiHanh.setText("a");
+
+        dateSettings.setVetoPolicy(new SampleDateVetoPolicy());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Bước nhảy:");
+
+        jSpinnerStep.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -126,26 +146,34 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel1))
                 .addGap(42, 42, 42)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbMaTau, javax.swing.GroupLayout.Alignment.TRAILING, 0, 209, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlbMaTau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtfThoiGianKhoiHanh, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jlbThoiGianKhoiHanh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbbTuyen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbbMaTau, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jlbTenDialog))
-                    .addComponent(cbbTuyen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(149, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(datePickerThoiGianKhoiHanh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(timePickerThoiGianKhoiHanh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jlbTenDialog))
+                            .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSpinnerStep, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(133, 133, 133))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jlbTenDialog)
-                .addGap(47, 47, 47)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(cbbMaTau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -158,10 +186,15 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jtfThoiGianKhoiHanh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(datePickerThoiGianKhoiHanh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timePickerThoiGianKhoiHanh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
                 .addComponent(jlbThoiGianKhoiHanh)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jSpinnerStep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(62, 62, 62)
                 .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -174,14 +207,17 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         );
         jdlTauChayTuyenLayout.setVerticalGroup(
             jdlTauChayTuyenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdlTauChayTuyenLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel49.setText("PHÂN CÔNG TÀU");
         jLabel49.setBackground(new java.awt.Color(255, 255, 255));
         jLabel49.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel49.setText("PHÂN CÔNG TÀU");
 
         jtbTau.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtbTau.setModel(new javax.swing.table.DefaultTableModel(
@@ -210,38 +246,38 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         });
         jScrollPane13.setViewportView(jtbTau);
 
-        jLabel50.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel50.setText("Chức năng");
+        jLabel50.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
+        btnThem1.setText("THÊM");
         btnThem1.setBackground(new java.awt.Color(255, 255, 255));
         btnThem1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnThem1.setText("THÊM");
         btnThem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThem1ActionPerformed(evt);
             }
         });
 
+        btnSua1.setText("SỬA");
         btnSua1.setBackground(new java.awt.Color(255, 255, 255));
         btnSua1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnSua1.setText("SỬA");
         btnSua1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSua1ActionPerformed(evt);
             }
         });
 
+        btnXoa1.setText("XÓA");
         btnXoa1.setBackground(new java.awt.Color(255, 255, 255));
         btnXoa1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnXoa1.setText("XÓA");
         btnXoa1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoa1ActionPerformed(evt);
             }
         });
 
-        jLabel51.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel51.setText("Tìm kiếm:");
+        jLabel51.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jtfTimKiem1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -249,22 +285,23 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
             }
         });
 
+        cbbTimKiem1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã tàu", "Mã tuyến" }));
         cbbTimKiem1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbTimKiem1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã tàu", "Mã toa" }));
 
+        cbbSapXep1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Thời  gian hiệu chỉnh tàu tăng", "Thời  gian hiệu chỉnh tàu giảm", "Thời  gian hiệu chỉnh tuyến tăng", "Thời  gian hiệu chỉnh tuyến giảm" }));
+        cbbSapXep1.setSelectedItem(null);
         cbbSapXep1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbSapXep1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã tàu a-z", "Mã tàu z-a" }));
         cbbSapXep1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSapXep1ActionPerformed(evt);
             }
         });
 
-        jLabel52.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel52.setText("Sắp xếp:");
+        jLabel52.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        btnTroVe1.setBackground(new java.awt.Color(255, 255, 255));
         btnTroVe1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/outline_arrow_back_black_24dp_1.png"))); // NOI18N
+        btnTroVe1.setBackground(new java.awt.Color(255, 255, 255));
         btnTroVe1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTroVe1ActionPerformed(evt);
@@ -364,7 +401,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         // TODO add your handling code here:
         hangDangChon = jtbTau.getSelectedRow();
     }//GEN-LAST:event_jtbTauMouseClicked
-    private void loadBangTau(ResultSet rs, JTable jtbTau, LopKetNoi ketNoiCSDL) {
+    private void loadBangTau(ResultSet rs) {
 
         DefaultTableModel model = (DefaultTableModel) jtbTau.getModel();
         model.setRowCount(0);
@@ -505,38 +542,94 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     private void jtfTimKiem1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTimKiem1KeyReleased
         // TODO add your handling code here:
 
-        if (cbbTimKiem1.getSelectedIndex() == 0) {// tim kiem theo ma tau
-            String maTau = jtfTimKiem1.getText();
-            loadBangTau(ketNoiCSDL.select("select maTau, soLuongToa from tau where maTau like ?",
-                "%" + maTau + "%"), jtbTau,ketNoiCSDL);
-        } else {// tim kiem theo ten tuyen
-            String maToa = jtfTimKiem1.getText().trim();
-            loadBangTau(LopKetNoi.select("select maTau, soLuongToa from tau, toaThuocTau where maToa like ?",
-                "%" + maToa + "%"), jtbTau,ketNoiCSDL);
+        if (cbbTimKiem1.getSelectedIndex() == 0) {// tim kiem theo ma tuyen
+                        String maTau = jtfTimKiem1.getText().trim();
+                        loadBangTau(LopKetNoi.select("select * from TauChayTuyen where MaTau like ?",
+                                "%" + maTau + "%"));
+                }
+        else{
+            String maTuyen = jtfTimKiem1.getText().trim();
+                        loadBangTau(LopKetNoi.select("select * from TauChayTuyen where MaTuyen like ?",
+                                "%" + maTuyen + "%"));
         }
-        hangDangChon = -1;
-        jtbTau.clearSelection();
     }//GEN-LAST:event_jtfTimKiem1KeyReleased
 
     private void cbbSapXep1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXep1ActionPerformed
         // TODO add your handling code here:
-        if (cbbSapXep1.getSelectedIndex() == 0) {// sap xep ma tau tu a - z
-            loadBangTau(ketNoiCSDL.select("select * from tau order by maTau ASC"), jtbTau,ketNoiCSDL);
-        } else {// ma tau z-a
-            loadBangTau(ketNoiCSDL.select("select * from tau order by maTau DESC"), jtbTau,ketNoiCSDL);
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String loaiSapXep=cbbSapXep1.getSelectedItem().toString();
+        ArrayList <TauChayTuyen> DSToaChuaSapXep=new ArrayList<TauChayTuyen>();
+        for (int i=0;i<tbmTau.getRowCount();i++)
+        {
+            TauChayTuyen tauChayTuyen=new TauChayTuyen();
+            tauChayTuyen.setMaTau(jtbTau.getValueAt(i, 0).toString());
+            try {
+                tauChayTuyen.setThoiGianHieuChinhTau(new Timestamp(formatter.parse(jtbTau.getValueAt(i, 1).toString()).getTime()));
+                tauChayTuyen.setThoiGianHieuChinhTuyen(new Timestamp(formatter.parse(jtbTau.getValueAt(i, 3).toString()).getTime()));
+            tauChayTuyen.setThoiGianKhoiHanh(new Timestamp(formatter.parse(jtbTau.getValueAt(i, 4).toString()).getTime()));
+            tauChayTuyen.setThoiGianDen(new Timestamp(formatter.parse(jtbTau.getValueAt(i, 5).toString()).getTime()));
+            } catch (ParseException ex) {
+                System.out.println("Lỗi parse thời gian khi sắp xếp TauChayTuyen");
+            }
+            tauChayTuyen.setMaTuyen(jtbTau.getValueAt(i, 2).toString());
+            
+            DSToaChuaSapXep.add(tauChayTuyen);
         }
-        hangDangChon = -1;
-        jtbTau.clearSelection();
+        if (cbbSapXep1.getSelectedIndex()==0)
+        {
+            Collections.sort(DSToaChuaSapXep, new Comparator<TauChayTuyen>() {
+            @Override
+            public int compare(TauChayTuyen lhs, TauChayTuyen rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getThoiGianHieuChinhTau().compareTo(rhs.getThoiGianHieuChinhTau());
+            }
+        });
+        }
+        else if (cbbSapXep1.getSelectedIndex()==1)
+        {
+            Collections.sort(DSToaChuaSapXep, new Comparator<TauChayTuyen>() {
+            @Override
+            public int compare(TauChayTuyen lhs, TauChayTuyen rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return -1 * lhs.getThoiGianHieuChinhTau().compareTo(rhs.getThoiGianHieuChinhTau());
+            }
+        });
+        }
+        else if (cbbSapXep1.getSelectedIndex()==2)
+        {
+            Collections.sort(DSToaChuaSapXep, new Comparator<TauChayTuyen>() {
+            @Override
+            public int compare(TauChayTuyen lhs, TauChayTuyen rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getThoiGianHieuChinhTuyen().compareTo(rhs.getThoiGianHieuChinhTuyen());
+            }
+        });
+        }
+        else if (cbbSapXep1.getSelectedIndex()==3)
+        {
+            Collections.sort(DSToaChuaSapXep, new Comparator<TauChayTuyen>() {
+            @Override
+            public int compare(TauChayTuyen lhs, TauChayTuyen rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return -1 * lhs.getThoiGianHieuChinhTuyen().compareTo(rhs.getThoiGianHieuChinhTuyen());
+            }
+        });
+        }
+        tbmTau.setRowCount(0);
+        for (TauChayTuyen i : DSToaChuaSapXep) {
+            tbmTau.addRow(new Object[]{i.getMaTau(),
+                i.getThoiGianHieuChinhTau(),
+                i.getMaTuyen(),
+                i.getThoiGianHieuChinhTuyen(),
+                i.getThoiGianKhoiHanh(),
+                i.getThoiGianDen()});
+        }
     }//GEN-LAST:event_cbbSapXep1ActionPerformed
 
     private void btnTroVe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTroVe1ActionPerformed
         // TODO add your handling code here:
         new ChuyenManHinhView(this, new JPanelQuanLiLoTrinh()).change();
     }//GEN-LAST:event_btnTroVe1ActionPerformed
-
-    private void jtfThoiGianKhoiHanhFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfThoiGianKhoiHanhFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfThoiGianKhoiHanhFocusLost
     private boolean themTau(LopKetNoi ketNoiCSDL) {
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String maTau=null;
@@ -546,7 +639,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         java.sql.Timestamp tsThoiGianKhoiHanh=null;
         java.sql.Timestamp tsThoiGianDen=null;
         try {
-            String strThoiGianKhoiHanh=jtfThoiGianKhoiHanh.getText();
+            String strThoiGianKhoiHanh=datePickerThoiGianKhoiHanh.toString()+" "+timePickerThoiGianKhoiHanh.toString();
             maTau = cbbMaTau.getSelectedItem().toString();
             maTuyen=cbbTuyen.getSelectedItem().toString();
             ResultSet rs=LopKetNoi.select("select MAX(ThoiGianHieuChinhTau) as ThoiGianHieuChinhMax from Tau\n" +
@@ -614,7 +707,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         java.sql.Timestamp thoiGianKhoiHanhMoi=null;
         java.sql.Timestamp tsThoiGianDenMoi=null;
         try {
-            String strThoiGianKhoiHanhMoi=jtfThoiGianKhoiHanh.getText();
+            String strThoiGianKhoiHanhMoi=datePickerThoiGianKhoiHanh.toString()+" "+timePickerThoiGianKhoiHanh.toString();
             maTuyenMoi=cbbTuyen.getSelectedItem().toString();
             thoiGianKhoiHanhMoi=new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanhMoi).getTime());
             ResultSet rs=LopKetNoi.select("select MAX(ThoiGianHieuChinh) as ThoiGianHieuChinhMax from Tuyen\n" +
@@ -661,9 +754,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         if (loai.equals(them)) {
             if (themTau(ketNoiCSDL)) {
                 JOptionPane.showMessageDialog(jdlTauChayTuyen, "Thêm thành công");
-                setTruongRong();
-                setThongBaoRong();
-                jdlTauChayTuyen.dispose();
+                datePickerThoiGianKhoiHanh.setDate(datePickerThoiGianKhoiHanh.getDate().plusDays(Long.valueOf(jSpinnerStep.getValue().toString())));
             } else {
                 JOptionPane.showMessageDialog(jdlTauChayTuyen, "Thêm thất bại");
             }
@@ -685,7 +776,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         cbbMaTau.setSelectedItem(maTau);
         cbbTuyen.setSelectedItem(maTuyen);
         String strThoiGianKhoiHanh=jtbTau.getValueAt(hangDangChon, 4).toString();
-        jtfThoiGianKhoiHanh.setText(strThoiGianKhoiHanh);
+        //jtfThoiGianKhoiHanh.setText(strThoiGianKhoiHanh);
     }
     private void hienThiDialog(String loai) {
         setThongBaoRong();
@@ -737,17 +828,21 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     }
 
     private void hienTruong() {
-        jtfThoiGianKhoiHanh.setEnabled(true);
+        datePickerThoiGianKhoiHanh.setEnabled(true);
+        timePickerThoiGianKhoiHanh.setEnabled(true);
+        jSpinnerStep.setEnabled(true);
     }
 
     private void tatTruong() {
         cbbMaTau.setEditable(false);
-        jtfThoiGianKhoiHanh.setEnabled(false);
+        datePickerThoiGianKhoiHanh.setEnabled(false);
+        timePickerThoiGianKhoiHanh.setEnabled(false);
+        jSpinnerStep.setEnabled(false);
     }
 
     private void setTruongRong() {
         cbbMaTau.removeAllItems();
-        jtfThoiGianKhoiHanh.setText("");
+        //dateTimePickerThoiGianKhoiHanh.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -760,6 +855,8 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cbbSapXep1;
     private javax.swing.JComboBox<String> cbbTimKiem1;
     private javax.swing.JComboBox<String> cbbTuyen;
+    private com.github.lgooddatepicker.components.DatePicker datePickerThoiGianKhoiHanh;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel50;
@@ -772,12 +869,13 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JSeparator jSeparator25;
     private javax.swing.JSeparator jSeparator26;
+    private javax.swing.JSpinner jSpinnerStep;
     private javax.swing.JDialog jdlTauChayTuyen;
     private javax.swing.JLabel jlbMaTau;
     private javax.swing.JLabel jlbTenDialog;
     private javax.swing.JLabel jlbThoiGianKhoiHanh;
     private javax.swing.JTable jtbTau;
-    private javax.swing.JTextField jtfThoiGianKhoiHanh;
     private javax.swing.JTextField jtfTimKiem1;
+    private com.github.lgooddatepicker.components.TimePicker timePickerThoiGianKhoiHanh;
     // End of variables declaration//GEN-END:variables
 }

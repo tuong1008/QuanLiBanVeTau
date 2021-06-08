@@ -11,9 +11,14 @@ import controller.ChuyenManHinhView;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.JOptionPane;
 import view.JPanelDatVe;
 import module.TaiKhoan;
+import module.Ve;
 
 /**
  *
@@ -177,10 +182,11 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
         });
 
         cbbTimKiem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã Vé", "CMND" }));
+        cbbTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã Vé", "Tên Tài Khoản" }));
 
         cbbSapXep.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã vé a-z", "Mã vé z-a" }));
+        cbbSapXep.setSelectedItem(null);
         cbbSapXep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbSapXepActionPerformed(evt);
@@ -271,10 +277,14 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                         .addComponent(jButton1)
                         .addGap(392, 392, 392)
                         .addComponent(jLabel1))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1011, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -283,8 +293,8 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                                         .addComponent(jLabel4))
                                     .addGap(18, 18, 18)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jtfTen, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                        .addComponent(jtfSoDinhDanh))
+                                        .addComponent(jtfTen, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jtfSoDinhDanh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(101, 101, 101)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -296,10 +306,9 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                                             .addGap(18, 18, 18)
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(jtfMaToa, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(jtfMaTau)
-                                                    .addComponent(jtfTenTramDen)
-                                                    .addComponent(jtfTenTramDi, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(jtfMaTau, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jtfTenTramDen, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jtfTenTramDi, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addComponent(jLabel3)))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jtfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,7 +318,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                                     .addComponent(jLabel5)
                                     .addGap(18, 18, 18)
                                     .addComponent(btnXoa)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(45, 45, 45)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel9)
@@ -326,7 +335,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                                     .addGap(18, 18, 18)
-                                                    .addComponent(jtfThoiGianDen))
+                                                    .addComponent(jtfThoiGianDen, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                                     .addGap(18, 18, 18)
                                                     .addComponent(jtfChoNgoi, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -344,10 +353,9 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                                             .addGap(18, 18, 18)
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(jtfMaToa_ChieuVe, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(jtfMaTau_ChieuVe)
-                                                    .addComponent(jtfTenTramDen_ChieuVe)
-                                                    .addComponent(jtfTenTramDi_ChieuVe, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(jtfMaTau_ChieuVe, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jtfTenTramDen_ChieuVe, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jtfTenTramDi_ChieuVe, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addComponent(jLabel18)))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -568,11 +576,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                     String maVe = jtfTimKiem.getText().trim();
                     loadDSVeVaoBang(ketNoiCSDL.select("select * from Ve where TenTaiKhoan=? and maVe like ?",
                             taiKhoan.getTenTaiKhoan(),"%" + maVe + "%"), jtbVeModel);
-                } else {// tim kiem theo ten tuyen
-                    String soDinhDanh = jtfTimKiem.getText().trim();
-                    loadDSVeVaoBang(ketNoiCSDL.select("select * from Ve where TenTaiKhoan=? and SoDinhDanh like ?",
-                            taiKhoan.getTenTaiKhoan(),"%" + soDinhDanh + "%"), jtbVeModel);
-                }
+                } 
             }
         else
         {
@@ -582,7 +586,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
                     "%" + maTuyen + "%"), jtbVeModel);
             } else {// tim kiem theo ten tuyen
                 String tenTuyen = jtfTimKiem.getText().trim();
-                loadDSVeVaoBang(ketNoiCSDL.select("select * from Ve where SoDinhDanh like ?",
+                loadDSVeVaoBang(ketNoiCSDL.select("select * from Ve where TenTaiKhoan like ?",
                         "%" + tenTuyen + "%"), jtbVeModel);
             }
         }
@@ -590,21 +594,53 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
 
     private void cbbSapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXepActionPerformed
         // TODO add your handling code here:
-        if (taiKhoan.getMaLoaiTaiKhoan().equals("KH"))
-            {
-                if (cbbSapXep.getSelectedIndex() == 0) {// sap xep ten tuyen tu a - z
-                    loadDSVeVaoBang(ketNoiCSDL.select("select * from Ve where TenTaiKhoan=? order by MaVe ASC", taiKhoan.getTenTaiKhoan()), jtbVeModel);
-                } else {
-                    loadDSVeVaoBang(ketNoiCSDL.select("select * from Ve where TenTaiKhoan=? order by MaVe DESC",taiKhoan.getTenTaiKhoan()), jtbVeModel);
-                }
-            }
-        else
+        String loaiSapXep=cbbSapXep.getSelectedItem().toString();
+        ArrayList <Ve> DSVeChuaSapXep=new ArrayList<Ve>();
+        for (int i=0;i<jtbVe.getRowCount();i++)
         {
-             if (cbbSapXep.getSelectedIndex() == 0) {// sap xep ten tuyen tu a - z
-            loadDSVeVaoBang(ketNoiCSDL.select("select * from Ve order by MaVe ASC"), jtbVeModel);
-            } else {
-                loadDSVeVaoBang(ketNoiCSDL.select("select * from Ve order by MaVe DESC"), jtbVeModel);
+            Ve ve=new Ve();
+            ve.setMaVe(jtbVe.getValueAt(i, 0).toString());
+            ve.setThoiGianLenTau(jtbVe.getValueAt(i, 1).toString());
+            ve.setTenTaiKhoan(jtbVe.getValueAt(i, 2).toString());
+            ve.setChoNgoi(Integer.valueOf(jtbVe.getValueAt(i, 3).toString()));
+            ve.setThoiGianDen(jtbVe.getValueAt(i, 4).toString());
+            ve.setGia(Float.valueOf(jtbVe.getValueAt(i, 5).toString()));
+            ve.setKhuHoi(jtbVe.getValueAt(i, 6).toString());
+            ve.setTenLoaiVe(jtbVe.getValueAt(i, 7).toString());
+            ve.setMaChuyen(jtbVe.getValueAt(i, 8).toString());
+            DSVeChuaSapXep.add(ve);
+        }
+        if (cbbSapXep.getSelectedItem().toString().equals("Mã vé a-z"))
+        {
+            Collections.sort(DSVeChuaSapXep, new Comparator<Ve>() {
+            @Override
+            public int compare(Ve lhs, Ve rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getMaVe().compareTo(rhs.getMaVe());
             }
+        });
+        }
+        else if (cbbSapXep.getSelectedItem().toString().equals("Mã vé z-a"))
+        {
+            Collections.sort(DSVeChuaSapXep, new Comparator<Ve>() {
+            @Override
+            public int compare(Ve lhs, Ve rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return -1 * lhs.getMaVe().compareTo(rhs.getMaVe());
+            }
+        });
+        }
+        jtbVeModel.setRowCount(0);
+        for (Ve i : DSVeChuaSapXep) {
+            jtbVeModel.addRow(new Object[]{i.getMaVe(),
+                i.getThoiGianLenTau(),
+                i.getTenTaiKhoan(),
+                i.getChoNgoi(),
+                i.getThoiGianDen(),
+                i.getGia(),
+                i.getKhuHoi(),
+                i.getTenLoaiVe(),
+                i.getMaChuyen()});
         }
     }//GEN-LAST:event_cbbSapXepActionPerformed
 

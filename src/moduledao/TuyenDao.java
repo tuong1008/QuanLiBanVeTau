@@ -147,7 +147,7 @@ public class TuyenDao {
         try {
             if (ketNoiCSDL.update("delete from TuyenDiQuaTram\n"
                     + "where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, thoiGianHieuChinhTuyen)
-                    && ketNoiCSDL.update("delete from Tuyen\n"
+                    &&ketNoiCSDL.update("delete from Tuyen\n"
                             + "where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, thoiGianHieuChinhTuyen)) {//nếu xoá tàu k được vì đã phân tuyến cho tàu
                 return true;
             } else {

@@ -45,17 +45,17 @@ public class JPanelDatVe extends javax.swing.JPanel {
         jpnThemLoaiVe = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(255, 255, 204));
+        setBackground(new java.awt.Color(0, 0, 0));
 
-        jpnTimVeTau.setBackground(new java.awt.Color(255, 102, 102));
+        jpnTimVeTau.setBackground(new java.awt.Color(153, 153, 153));
         jpnTimVeTau.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jpnTimVeTauMousePressed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/baseline_location_searching_white_18dp.png"))); // NOI18N
         jLabel1.setText("Tìm chuyến tàu");
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -69,23 +69,23 @@ public class JPanelDatVe extends javax.swing.JPanel {
         jpnTimVeTauLayout.setHorizontalGroup(
             jpnTimVeTauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnTimVeTauLayout.createSequentialGroup()
-                .addGap(0, 11, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jpnTimVeTauLayout.setVerticalGroup(
             jpnTimVeTauLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
         );
 
-        jpnTraCuuThongTin.setBackground(new java.awt.Color(153, 153, 255));
+        jpnTraCuuThongTin.setBackground(new java.awt.Color(153, 153, 153));
         jpnTraCuuThongTin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jpnTraCuuThongTinMousePressed(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/baseline_image_search_white_18dp.png"))); // NOI18N
         jLabel2.setText("Tra cứu thông tin vé");
 
@@ -94,8 +94,8 @@ public class JPanelDatVe extends javax.swing.JPanel {
         jpnTraCuuThongTinLayout.setHorizontalGroup(
             jpnTraCuuThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpnTraCuuThongTinLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel2)
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpnTraCuuThongTinLayout.setVerticalGroup(
@@ -103,15 +103,14 @@ public class JPanelDatVe extends javax.swing.JPanel {
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
         );
 
-        jpnThemLoaiVe.setBackground(new java.awt.Color(255, 102, 102));
+        jpnThemLoaiVe.setBackground(new java.awt.Color(153, 153, 153));
         jpnThemLoaiVe.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jpnThemLoaiVeMousePressed(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/baseline_note_add_white_18dp.png"))); // NOI18N
         jLabel3.setText("Thêm loại vé");
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -125,8 +124,8 @@ public class JPanelDatVe extends javax.swing.JPanel {
         jpnThemLoaiVeLayout.setHorizontalGroup(
             jpnThemLoaiVeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnThemLoaiVeLayout.createSequentialGroup()
-                .addGap(0, 15, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 25, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jpnThemLoaiVeLayout.setVerticalGroup(
             jpnThemLoaiVeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,12 +138,12 @@ public class JPanelDatVe extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addComponent(jpnTimVeTau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jpnTraCuuThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpnTimVeTau, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jpnTraCuuThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpnThemLoaiVe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

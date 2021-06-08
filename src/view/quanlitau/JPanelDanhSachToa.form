@@ -5,7 +5,7 @@
     <Container class="javax.swing.JDialog" name="jdlLoaiToa">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[408, 290]"/>
+          <Dimension value="[430, 403]"/>
         </Property>
       </Properties>
 
@@ -346,6 +346,9 @@
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtfMaToaFocusLost"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel10">
               <Properties>
@@ -705,10 +708,8 @@
                   <Font name="Tahoma" size="12" style="1"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
+                  <StringArray count="1">
                     <StringItem index="0" value="M&#xe3; toa"/>
-                    <StringItem index="1" value="S&#x1ed1; ch&#x1ed7; ng&#x1ed3;i"/>
-                    <StringItem index="2" value="Lo&#x1ea1;i toa"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -722,11 +723,13 @@
                   <Font name="Tahoma" size="12" style="1"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
+                  <StringArray count="2">
                     <StringItem index="0" value="M&#xe3; toa a-z"/>
-                    <StringItem index="1" value="S&#x1ed1; ch&#x1ed7; ng&#x1ed3;i t&#x103;ng"/>
-                    <StringItem index="2" value="Lo&#x1ea1;i toa a-z"/>
+                    <StringItem index="1" value="M&#xe3; toa z-a"/>
                   </StringArray>
+                </Property>
+                <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="null" type="code"/>
                 </Property>
               </Properties>
               <Events>
@@ -830,10 +833,7 @@
                                           </Group>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="cbbSapXepLoaiToa" alignment="1" min="-2" pref="147" max="-2" attributes="0"/>
-                                          <Component id="btnThongTinLoaiToa" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="cbbSapXepLoaiToa" min="-2" pref="147" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
@@ -863,7 +863,6 @@
                           <Component id="btnThemLoaiToa" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="btnSuaLoaiToa" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="btnXoaLoaiToa" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                          <Component id="btnThongTinLoaiToa" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jSeparator26" min="-2" pref="14" max="-2" attributes="0"/>
@@ -1025,9 +1024,8 @@
                   <Font name="Tahoma" size="12" style="1"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
+                  <StringArray count="1">
                     <StringItem index="0" value="M&#xe3; lo&#x1ea1;i toa"/>
-                    <StringItem index="1" value="h&#x1ec7; s&#x1ed1;"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -1041,11 +1039,15 @@
                   <Font name="Tahoma" size="12" style="1"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
-                    <StringItem index="0" value="M&#xe3; a-z"/>
-                    <StringItem index="1" value="H&#x1ec7; s&#x1ed1; t&#x103;ng"/>
-                    <StringItem index="2" value="H&#x1ec7; s&#x1ed1; gi&#x1ea3;m"/>
+                  <StringArray count="4">
+                    <StringItem index="0" value="M&#xe3; lo&#x1ea1;i toa a-z"/>
+                    <StringItem index="1" value="M&#xe3; lo&#x1ea1;i toa z-a"/>
+                    <StringItem index="2" value="Gi&#xe1; t&#x103;ng d&#x1ea7;n"/>
+                    <StringItem index="3" value="Gi&#xe1; gi&#x1ea3;m d&#x1ea7;n"/>
                   </StringArray>
+                </Property>
+                <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="null" type="code"/>
                 </Property>
               </Properties>
               <Events>
@@ -1074,20 +1076,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTroVeLoaiToaActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnThongTinLoaiToa">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="12" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="TH&#xd4;NG TIN"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThongTinLoaiToaActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator25">

@@ -76,10 +76,10 @@
                           <Component id="jbtSua" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
                           <Component id="jbnLuu" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="68" max="32767" attributes="0"/>
+                          <EmptySpace pref="76" max="32767" attributes="0"/>
                           <Component id="jbtDoiMatKhau" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonDangKyTKQT" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
@@ -144,7 +144,7 @@
                       <Component id="jbtSua" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbnLuu" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbtDoiMatKhau" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonDangKyTKQT" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               </Group>
@@ -237,12 +237,12 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="jButtonDangKyTKQT">
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng k&#xfd; t&#xe0;i kho&#x1ea3;n Qu&#x1ea3;n tr&#x1ecb;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDangKyTKQTActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -8,6 +8,7 @@ import connectSQL.LopKetNoi;
 import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import module.CheckInPut;
 import module.LoaiTaiKhoan;
 import module.TaiKhoan;
 import module.NguoiDung;
@@ -193,11 +194,43 @@ public class JDialogSignUp extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        NguoiDung newUser= new NguoiDung();
+        if (jtfCMND.getText().equals("")
+                ||jtfSDT.getText().equals("")
+                ||jtfHoTen.getText().equals("")
+                ||jtfEmail.getText().equals("")
+                ||jtfTenTaiKhoan.getText().equals("")
+                ||jtfMatKhau.getText().equals("")
+                ||jtfTenTaiKhoan.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Không được để trống bất kì thông tin nào");
+        }
+        else if (!CheckInPut.checkCMND(jtfCMND.getText()))
+        {
+            JOptionPane.showMessageDialog(rootPane, "CMND phải là dãy số gồm 9 số hoặc 12 số");
+        }
+        else if (!CheckInPut.checkSDT(jtfSDT.getText()))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Số điện thoại là dãy số gồm 10 hoặc 11 số và bắt đầu bằng 0");
+        }
+        else if (!CheckInPut.checkTenVietNam(jtfHoTen.getText()))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Tên không được bao gồm số, ký tự đặc biệt và không vượt quá 50 ký tự");
+        }
+        else if (!CheckInPut.checkEmail(jtfEmail.getText()))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Email không đúng định dạng và không vượt quá 50 ký tự");
+        }
+        else if (!CheckInPut.checkTenTaiKhoan(jtfTenTaiKhoan.getText()))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Tên tài khoản phải dài hơn 5 và nhỏ hơn 50 ký tự");
+        }
+        else
+        {
+            NguoiDung newUser= new NguoiDung();
         TaiKhoan newAccount= new TaiKhoan();
         newUser.setCMND(jtfCMND.getText());
         newUser.setSDT(jtfSDT.getText());
-        newUser.setTen(jtfHoTen.getText());
+        newUser.setTen(CheckInPut.chuanHoaTen(jtfHoTen.getText()));
         newUser.setEmail(jtfEmail.getText());
         newUser.setTenTaiKhoan(jtfTenTaiKhoan.getText());
         
@@ -217,20 +250,21 @@ public class JDialogSignUp extends javax.swing.JDialog {
         if (ketNoiCSDL.addNguoiDungForTaiKhoan(ketNoiCSDL,newUser))
         {
             ketQua=ketQua+"Thêm Người dùng ";
+            if (ketNoiCSDL.addTaiKhoan(newAccount))
+            {
+                ketQua=ketQua+"và thêm Tài khoản thành công!";
+                JOptionPane.showMessageDialog(rootPane, ketQua);
+                this.dispose();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane, "Thêm Tài khoản thất bại! Vì tên tài khoản bị trùng");
+            }
         }
         else
         {
-            JOptionPane.showMessageDialog(rootPane, "Thêm Người dùng thất bại!");
+            JOptionPane.showMessageDialog(rootPane, "Thêm Người dùng thất bại! Vì bị trùng CMND");
         }
-        if (ketNoiCSDL.addTaiKhoan(newAccount))
-        {
-            ketQua=ketQua+"và thêm Tài khoản thành công!";
-            JOptionPane.showMessageDialog(rootPane, ketQua);
-            this.dispose();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(rootPane, "Thêm Tài khoản thất bại!");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

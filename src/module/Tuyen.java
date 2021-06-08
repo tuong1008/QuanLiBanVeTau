@@ -7,8 +7,7 @@
 package module;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.ArrayList;
+
 
 /**
  * 
@@ -16,8 +15,8 @@ import java.util.ArrayList;
  */
 public class Tuyen {
     private String maTuyen, tenTuyen;
-    private java.sql.Timestamp thoiGianHieuChinh;
-
+    private Timestamp thoiGianHieuChinh;
+    private String strThoiGianHieuChinh;
 
 
     public Tuyen() {
@@ -55,6 +54,17 @@ public class Tuyen {
     public void setTenTuyen(String tenTuyen) {
         this.tenTuyen = tenTuyen;
     }
+
+    public String getStrThoiGianHieuChinh() {
+        return strThoiGianHieuChinh;
+    }
+
+    public void setStrThoiGianHieuChinh(String strThoiGianHieuChinh) {
+        this.strThoiGianHieuChinh = strThoiGianHieuChinh;
+    }
+
+    
+    
 
 
 
