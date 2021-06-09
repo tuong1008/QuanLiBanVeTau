@@ -120,6 +120,8 @@ public class MainFrame extends javax.swing.JFrame{
         jpnView = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1366, 650));
+        setResizable(false);
 
         jpnRoot.setBackground(new java.awt.Color(102, 102, 102));
 
@@ -355,7 +357,7 @@ public class MainFrame extends javax.swing.JFrame{
         jpnView.setLayout(jpnViewLayout);
         jpnViewLayout.setHorizontalGroup(
             jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1010, Short.MAX_VALUE)
+            .addGap(0, 1075, Short.MAX_VALUE)
         );
         jpnViewLayout.setVerticalGroup(
             jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

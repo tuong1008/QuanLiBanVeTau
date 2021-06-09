@@ -118,6 +118,8 @@ public class JPanelGiuongNamKhoang428 extends NewJPanel {
         jTextField2 = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
 
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jToggleButton23.setText("23");
         jToggleButton23.setMargin(new java.awt.Insets(0, 0, 0, 0));
         jToggleButton23.addActionListener(new java.awt.event.ActionListener() {
@@ -125,30 +127,39 @@ public class JPanelGiuongNamKhoang428 extends NewJPanel {
                 jToggleButton23ActionPerformed(evt);
             }
         });
+        jPanel3.add(jToggleButton23, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 64, 30, 30));
 
         jToggleButton21.setText("21");
         jToggleButton21.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton21, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 114, 30, 30));
 
         jToggleButton22.setText("22");
         jToggleButton22.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton22, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 114, 30, 30));
 
         jToggleButton24.setText("24");
         jToggleButton24.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton24, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 64, 30, 30));
 
         jToggleButton25.setText("25");
         jToggleButton25.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton25, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 114, 30, 30));
 
         jToggleButton26.setText("26");
         jToggleButton26.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton26, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 114, 30, 30));
 
         jToggleButton27.setText("27");
         jToggleButton27.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton27, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 64, 30, 30));
 
         jToggleButton28.setText("28");
         jToggleButton28.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton28, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 64, 30, 30));
 
         jToggleButton4.setText("4");
         jToggleButton4.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 64, 30, 30));
 
         jToggleButton3.setText("3");
         jToggleButton3.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -157,70 +168,94 @@ public class JPanelGiuongNamKhoang428 extends NewJPanel {
                 jToggleButton3ActionPerformed(evt);
             }
         });
+        jPanel3.add(jToggleButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 64, 30, 30));
 
         jToggleButton7.setText("7");
         jToggleButton7.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 64, 30, 30));
 
         jToggleButton8.setText("8");
         jToggleButton8.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 64, 30, 30));
 
         jToggleButton11.setText("11");
         jToggleButton11.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 64, 30, 30));
 
         jToggleButton12.setText("12");
         jToggleButton12.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 64, 30, 30));
 
         jToggleButton15.setText("15");
         jToggleButton15.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 64, 30, 30));
 
         jToggleButton16.setText("16");
         jToggleButton16.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 64, 30, 30));
 
         jToggleButton19.setText("19");
         jToggleButton19.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton19, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 64, 30, 30));
 
         jToggleButton20.setText("20");
         jToggleButton20.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton20, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 64, 30, 30));
 
         jToggleButton2.setText("2");
         jToggleButton2.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 114, 30, 30));
 
         jToggleButton1.setText("1");
         jToggleButton1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 114, 30, 30));
 
         jToggleButton5.setText("5");
         jToggleButton5.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 114, 30, 30));
 
         jToggleButton6.setText("6");
         jToggleButton6.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 114, 30, 30));
 
         jToggleButton9.setText("9");
         jToggleButton9.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 114, 30, 30));
 
         jToggleButton10.setText("10");
         jToggleButton10.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 114, 30, 30));
 
         jToggleButton13.setText("13");
         jToggleButton13.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 114, 30, 30));
 
         jToggleButton14.setText("14");
         jToggleButton14.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 114, 30, 30));
 
         jToggleButton17.setText("17");
         jToggleButton17.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton17, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 114, 30, 30));
 
         jToggleButton18.setText("18");
         jToggleButton18.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel3.add(jToggleButton18, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 114, 30, 30));
 
         jLabel45.setText("Tầng 1");
+        jPanel3.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 124, -1, -1));
 
         jLabel46.setText("Tầng 2");
+        jPanel3.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 74, -1, -1));
 
         jLabel1.setText("Đi lúc:");
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 40, -1));
 
         jLabel2.setText("Đến lúc:");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
         jTextField2.setEnabled(false);
+        jPanel3.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(68, 237, 180, -1));
 
         jTextField1.setEnabled(false);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -228,141 +263,15 @@ public class JPanelGiuongNamKhoang428 extends NewJPanel {
                 jTextField1ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel46)
-                .addGap(17, 17, 17)
-                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel45)
-                .addGap(17, 17, 17)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jToggleButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jToggleButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel46))
-                    .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel45))
-                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton25, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(67, 67, 67)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
-        );
+        jPanel3.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(68, 207, 180, -1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -373,9 +282,7 @@ public class JPanelGiuongNamKhoang428 extends NewJPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

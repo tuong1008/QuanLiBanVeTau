@@ -46,6 +46,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 204));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("THỐNG KÊ");
 
         jtfNgay.setText("dd");
@@ -77,10 +78,6 @@ public class JPanelThongKe extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(250, 250, 250))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -107,7 +104,11 @@ public class JPanelThongKe extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addComponent(btnLoc)))
-                .addContainerGap(234, Short.MAX_VALUE))
+                .addContainerGap(566, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(432, 432, 432))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,7 +130,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jtfSoTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -149,12 +150,12 @@ public class JPanelThongKe extends javax.swing.JPanel {
 
     private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed
         ResultSet rs;
-        String ngay=jtfNgay.getText().toString();
-        String thang=jtfThang.getText().toString();
-        String nam=jtfNam.getText().toString();
+        String ngay=jtfNgay.getText().toString().trim();
+        String thang=jtfThang.getText().toString().trim();
+        String nam=jtfNam.getText().toString().trim();
         int tongTienChieuDi=0;
         int tongTienChieuVe=0;
-        if (!ngay.equals("")&&!thang.equals("")&&!nam.equals(""))
+        if (!ngay.equals("")&&!ngay.equals("dd")&&!thang.equals("")&&!thang.equals("MM")&&!nam.equals("")&&!nam.equals("yyyy"))
         {
                     try {
                         rs=ketNoiCSDL.select("select SUM(Gia) from Ve where DAY(ThoiGianDen)=? and MONTH(ThoiGianDen)=? and YEAR(ThoiGianDen)=?",ngay, thang, nam);
@@ -174,7 +175,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
         }
         else
         {
-            if (ngay.equals("")&&!thang.equals("")&&!nam.equals(""))
+            if ((ngay.equals("")||ngay.equals("dd"))&&!thang.equals("")&&!thang.equals("MM")&&!nam.equals("")&&!nam.equals("yyyy"))
             {
                 try {
                         rs=ketNoiCSDL.select("select SUM(Gia) from Ve where MONTH(ThoiGianDen)=? and YEAR(ThoiGianDen)=?", thang, nam);
@@ -194,7 +195,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
             }
             else
             {
-                if (ngay.equals("")&&thang.equals("")&&!nam.equals(""))
+                if ((ngay.equals("")||ngay.equals("dd"))&&(thang.equals("")||thang.equals("MM"))&&!nam.equals("")&&!nam.equals("yyyy"))
                 {
                     try {
                         rs=ketNoiCSDL.select("select SUM(Gia) from Ve where YEAR(ThoiGianDen)=?", nam);

@@ -46,8 +46,11 @@ public class JPanelDatVe extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 0, 0));
+        setMinimumSize(new java.awt.Dimension(1010, 144));
+        setPreferredSize(new java.awt.Dimension(1010, 457));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jpnTimVeTau.setBackground(new java.awt.Color(153, 153, 153));
+        jpnTimVeTau.setBackground(new java.awt.Color(255, 255, 255));
         jpnTimVeTau.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jpnTimVeTauMousePressed(evt);
@@ -78,7 +81,9 @@ public class JPanelDatVe extends javax.swing.JPanel {
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
         );
 
-        jpnTraCuuThongTin.setBackground(new java.awt.Color(153, 153, 153));
+        add(jpnTimVeTau, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 29, 219, -1));
+
+        jpnTraCuuThongTin.setBackground(new java.awt.Color(255, 255, 255));
         jpnTraCuuThongTin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jpnTraCuuThongTinMousePressed(evt);
@@ -103,7 +108,9 @@ public class JPanelDatVe extends javax.swing.JPanel {
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
         );
 
-        jpnThemLoaiVe.setBackground(new java.awt.Color(153, 153, 153));
+        add(jpnTraCuuThongTin, new org.netbeans.lib.awtextra.AbsoluteConstraints(266, 29, 207, -1));
+
+        jpnThemLoaiVe.setBackground(new java.awt.Color(255, 255, 255));
         jpnThemLoaiVe.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jpnThemLoaiVeMousePressed(evt);
@@ -132,29 +139,7 @@ public class JPanelDatVe extends javax.swing.JPanel {
             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jpnTimVeTau, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jpnTraCuuThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jpnThemLoaiVe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jpnTraCuuThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpnTimVeTau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpnThemLoaiVe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(313, Short.MAX_VALUE))
-        );
+        add(jpnThemLoaiVe, new org.netbeans.lib.awtextra.AbsoluteConstraints(491, 29, -1, 115));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
