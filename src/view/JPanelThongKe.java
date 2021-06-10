@@ -6,7 +6,18 @@
 package view;
 
 import connectSQL.LopKetNoi;
+import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import javax.swing.JPanel;
+import org.jfree.data.category.DefaultCategoryDataset;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -17,9 +28,11 @@ public class JPanelThongKe extends javax.swing.JPanel {
      * Creates new form JPanelThongKe
      */
     private LopKetNoi ketNoiCSDL;
+
     public JPanelThongKe() {
         initComponents();
-        ketNoiCSDL=new LopKetNoi();
+        ketNoiCSDL = new LopKetNoi();
+        napNgayThangNam();
     }
 
     /**
@@ -33,33 +46,27 @@ public class JPanelThongKe extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jtfNgay = new javax.swing.JTextField();
-        jtfNam = new javax.swing.JTextField();
-        jtfThang = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jtfSoTien = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        btnLoc = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        cbbLoaiThoiGian = new javax.swing.JComboBox<>();
+        cbbThang = new javax.swing.JComboBox<>();
+        cbbNam = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        btnLocThongKe = new javax.swing.JButton();
+        dpNgay = new com.github.lgooddatepicker.components.DatePicker();
+        jpnThongKe1 = new javax.swing.JPanel();
+        jpnThongKe2 = new javax.swing.JPanel();
+        jpnThongKe = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 204));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("THỐNG KÊ");
-
-        jtfNgay.setText("dd");
-
-        jtfNam.setText("yyyy");
-
-        jtfThang.setText("MM");
-
-        jLabel2.setText("/");
-
-        jLabel3.setText("/");
-
-        jLabel4.setText("Nhập ngày tháng năm:");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         jLabel6.setText("Số tiền thu được:");
 
@@ -67,70 +74,140 @@ public class JPanelThongKe extends javax.swing.JPanel {
 
         jLabel7.setText("đ");
 
-        btnLoc.setText("Lọc");
-        btnLoc.addActionListener(new java.awt.event.ActionListener() {
+        jLabel5.setText("Lọc thống kê:");
+
+        cbbLoaiThoiGian.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày", "Tháng", "Năm" }));
+        cbbLoaiThoiGian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLocActionPerformed(evt);
+                cbbLoaiThoiGianActionPerformed(evt);
             }
         });
+
+        cbbThang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        cbbThang.setEnabled(false);
+
+        cbbNam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026" }));
+        cbbNam.setEnabled(false);
+
+        jLabel8.setText("Tháng");
+
+        jLabel9.setText("Năm");
+
+        jLabel10.setText("Ngày");
+
+        btnLocThongKe.setText("LỌC");
+        btnLocThongKe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLocThongKeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpnThongKe1Layout = new javax.swing.GroupLayout(jpnThongKe1);
+        jpnThongKe1.setLayout(jpnThongKe1Layout);
+        jpnThongKe1Layout.setHorizontalGroup(
+            jpnThongKe1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jpnThongKe1Layout.setVerticalGroup(
+            jpnThongKe1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 225, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jpnThongKe2Layout = new javax.swing.GroupLayout(jpnThongKe2);
+        jpnThongKe2.setLayout(jpnThongKe2Layout);
+        jpnThongKe2Layout.setHorizontalGroup(
+            jpnThongKe2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 402, Short.MAX_VALUE)
+        );
+        jpnThongKe2Layout.setVerticalGroup(
+            jpnThongKe2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 211, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jpnThongKeLayout = new javax.swing.GroupLayout(jpnThongKe);
+        jpnThongKe.setLayout(jpnThongKeLayout);
+        jpnThongKeLayout.setHorizontalGroup(
+            jpnThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 382, Short.MAX_VALUE)
+        );
+        jpnThongKeLayout.setVerticalGroup(
+            jpnThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(jtfNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfThang, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtfNam, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(81, 81, 81)
-                        .addComponent(jtfSoTien, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jpnThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jpnThongKe1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(17, 17, 17)
+                        .addComponent(jpnThongKe2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(btnLoc)))
-                .addContainerGap(566, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(432, 432, 432))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnLocThongKe, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
+                                .addComponent(jLabel6))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(31, 31, 31)
+                                .addComponent(cbbLoaiThoiGian, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel10)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(dpNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23)
+                                .addComponent(jLabel8)
+                                .addGap(10, 10, 10)
+                                .addComponent(cbbThang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(36, 36, 36)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbbNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jtfSoTien, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfThang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(btnLoc))
-                .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(cbbLoaiThoiGian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbThang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(dpNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLocThongKe)
                     .addComponent(jLabel6)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jtfSoTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(jtfSoTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpnThongKe2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpnThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jpnThongKe1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -138,9 +215,9 @@ public class JPanelThongKe extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,89 +225,371 @@ public class JPanelThongKe extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed
-        ResultSet rs;
-        String ngay=jtfNgay.getText().toString().trim();
-        String thang=jtfThang.getText().toString().trim();
-        String nam=jtfNam.getText().toString().trim();
-        int tongTienChieuDi=0;
-        int tongTienChieuVe=0;
-        if (!ngay.equals("")&&!ngay.equals("dd")&&!thang.equals("")&&!thang.equals("MM")&&!nam.equals("")&&!nam.equals("yyyy"))
-        {
-                    try {
-                        rs=ketNoiCSDL.select("select SUM(Gia) from Ve where DAY(ThoiGianDen)=? and MONTH(ThoiGianDen)=? and YEAR(ThoiGianDen)=?",ngay, thang, nam);
-                    if (rs.next())
-                    {
-                        tongTienChieuDi=rs.getInt(1);
-                    }
-                    rs=ketNoiCSDL.select("select SUM(Gia) from Ve_KhuHoi where DAY(ThoiGianDen_ChieuVe)=? and MONTH(ThoiGianDen_ChieuVe)=? and YEAR(ThoiGianDen_ChieuVe)=?",ngay, thang, nam);
-                    if (rs.next())
-                    {
-                        tongTienChieuVe=rs.getInt(1);
-                    }
-                    jtfSoTien.setText(String.valueOf(tongTienChieuDi+tongTienChieuVe));
-                    } catch (Exception e) {
-                        System.out.println("lỗi lấy tiền theo ngay tháng năm");
-                    }
-        }
-        else
-        {
-            if ((ngay.equals("")||ngay.equals("dd"))&&!thang.equals("")&&!thang.equals("MM")&&!nam.equals("")&&!nam.equals("yyyy"))
-            {
-                try {
-                        rs=ketNoiCSDL.select("select SUM(Gia) from Ve where MONTH(ThoiGianDen)=? and YEAR(ThoiGianDen)=?", thang, nam);
-                    if (rs.next())
-                    {
-                        tongTienChieuDi=rs.getInt(1);
-                    }
-                    rs=ketNoiCSDL.select("select SUM(Gia) from Ve_KhuHoi where MONTH(ThoiGianDen_ChieuVe)=? and YEAR(ThoiGianDen_ChieuVe)=?", thang, nam);
-                    if (rs.next())
-                    {
-                        tongTienChieuVe=rs.getInt(1);
-                    }
-                    jtfSoTien.setText(String.valueOf(tongTienChieuDi+tongTienChieuVe));
-                    } catch (Exception e) {
-                        System.out.println("lỗi lấy tiền theo tháng năm");
-                    }
-            }
-            else
-            {
-                if ((ngay.equals("")||ngay.equals("dd"))&&(thang.equals("")||thang.equals("MM"))&&!nam.equals("")&&!nam.equals("yyyy"))
-                {
-                    try {
-                        rs=ketNoiCSDL.select("select SUM(Gia) from Ve where YEAR(ThoiGianDen)=?", nam);
-                    if (rs.next())
-                    {
-                        tongTienChieuDi=rs.getInt(1);
-                    }
-                    rs=ketNoiCSDL.select("select SUM(Gia) from Ve_KhuHoi where YEAR(ThoiGianDen_ChieuVe)=?", nam);
-                    if (rs.next())
-                    {
-                        tongTienChieuVe=rs.getInt(1);
-                    }
-                    jtfSoTien.setText(String.valueOf(tongTienChieuDi+tongTienChieuVe));
-                    } catch (Exception e) {
-                        System.out.println("lỗi lấy tiền theo tháng năm");
-                    }
-                }
-            }
-        }
-        
-    }//GEN-LAST:event_btnLocActionPerformed
+    private void btnLocThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocThongKeActionPerformed
+        // TODO add your handling code here:
+        if (cbbLoaiThoiGian.getSelectedIndex() == 0) {
+            thongKeTheoNgay();
+        }else if(cbbLoaiThoiGian.getSelectedIndex() == 1){
+            thongKeTheoThang();
+        }else thongKeTheoNam();
+    }//GEN-LAST:event_btnLocThongKeActionPerformed
 
+    private void cbbLoaiThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbLoaiThoiGianActionPerformed
+        // TODO add your handling code here:
+        if (cbbLoaiThoiGian.getSelectedIndex() == 0) {// loc theo ngay
+            dpNgay.setEnabled(true);
+            cbbThang.setEnabled(false);
+            cbbNam.setEnabled(false);
+        } else if (cbbLoaiThoiGian.getSelectedIndex() == 1) {// loc theo thang
+            dpNgay.setEnabled(false);
+            cbbThang.setEnabled(true);
+            cbbNam.setEnabled(true);
+        } else {// loc theo nam
+            dpNgay.setEnabled(false);
+            cbbThang.setEnabled(false);
+            cbbNam.setEnabled(true);
+        }
+    }//GEN-LAST:event_cbbLoaiThoiGianActionPerformed
+
+    private void napNgayThangNam() {
+        cbbThang.removeAllItems();
+        cbbNam.removeAllItems();
+        for (int i = 1; i <= 12; i++) {
+            cbbThang.addItem(i + "");
+        }
+        for (int i = 2015; i <= 2030; i++) {
+            cbbNam.addItem(i + "");
+        }
+        int thang = LocalDate.now().getMonthValue();
+        int nam = LocalDate.now().getYear();
+        cbbThang.setSelectedItem(thang + "");
+        cbbNam.setSelectedItem(nam + "");
+        dpNgay.setDate(LocalDate.now());
+
+    }
+
+    private void thongKeVeNgay(JPanel jpn) {
+        LocalDate ngay = dpNgay.getDate();
+        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where cast(thoiGianLenTau as Date)=?", ngay);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("select SUM(Gia) from Ve_KhuHoi where cast(ThoiGianLenTau_ChieuVe as Date)=?", ngay);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        int tongDoanhThu = 0;
+        try {
+            while (rsVe.next() && rsVeKhuHoi.next()) {
+                dateSet.addValue(rsVe.getInt(1), "Vé", ngay);
+                dateSet.addValue(rsVeKhuHoi.getInt(1), "Vé khứ hồi", ngay);
+                tongDoanhThu = rsVe.getInt(1) + rsVeKhuHoi.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Thống kê vé, vé khứ hồi theo ngày", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpn.getWidth(), 300));
+        jpn.removeAll();
+        jpn.setLayout(new CardLayout());
+        jpn.add(chartPanel);
+        jpn.validate();
+        jpn.repaint();
+        jtfSoTien.setText(tongDoanhThu+"");
+    }
+
+    private void thongKeLoaiDoiTuongNgay(JPanel jpn) {
+        LocalDate ngay = dpNgay.getDate();
+        ResultSet rsVe = LopKetNoi.select("select loaive.tenloaive, sum(gia) from loaive full outer join ve"
+                + " on loaive.tenLoaiVe = Ve.tenLoaiVe "
+                + "and cast(thoiGianLenTau as date) = ? where loaive.tenloaive != N'KHỨ HỒI' group by loaive.tenloaive", ngay);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(loaidoituong, gia) as ("
+                + "select ve.tenLoaiVe, Ve_khuHoi.gia "
+                + "from ve, ve_khuHoi "
+                + "where ve.mave = ve_khuHoi.mave_chieuDi and cast(thoiGianLenTau_chieuVe as date) = ?) "
+                + "select loaive.tenLoaiVe, sum(gia) from loaiVe full outer join temp"
+                + " on loaive.tenLoaive = temp.loaidoiTuong where loaive.tenloaive != N'KHỨ HỒI' group by loaive.tenLoaiVe", ngay);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        try {
+            while (rsVe.next() && rsVeKhuHoi.next()) {
+                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), ngay);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Thống kê loại đối tượng theo ngày", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpn.getWidth(), 300));
+        jpn.removeAll();
+        jpn.setLayout(new CardLayout());
+        jpn.add(chartPanel);
+        jpn.validate();
+        jpn.repaint();
+    }
+
+    private void thongKeTuyenTheoNgay(JPanel jpn) {
+        LocalDate ngay = dpNgay.getDate();
+        ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve "
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
+                + "and chuyenDi.maChuyen = ve.maChuyen "
+                + "and cast(thoigianlentau as date) = ?)"
+                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
+                + "group by tuyen.matuyen", ngay);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi "
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
+                + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe "
+                + "and cast(thoigianlentau_chieuVe as date) = ?) "
+                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
+                + "group by tuyen.matuyen", ngay);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        try {
+            while (rsVe.next() && rsVeKhuHoi.next()) {
+                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), ngay);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Thống kê tuyến theo ngày", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpn.getWidth(), 300));
+        jpn.removeAll();
+        jpn.setLayout(new CardLayout());
+        jpn.add(chartPanel);
+        jpn.validate();
+        jpn.repaint();
+
+    }
+
+    private void thongKeTheoNgay() {
+        
+        thongKeVeNgay(jpnThongKe);
+        thongKeLoaiDoiTuongNgay(jpnThongKe1);
+        thongKeTuyenTheoNgay(jpnThongKe2);
+    }
+
+    private void thongKeVeThang(JPanel jpn) {
+        int thang = Integer.parseInt(cbbThang.getSelectedItem().toString());
+        int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
+        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where month(thoiGianLenTau)=? and year(thoiGianlentau)=?", thang, nam);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("select SUM(Gia) from Ve_KhuHoi where month(thoiGianLenTau_chieuve)=?"
+                + " and year(thoiGianlentau_chieuve)=?", thang, nam);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        String thoiGian = thang + "/" + nam;
+        int tongDoanhThu = 0;
+        try {
+            while (rsVe.next() && rsVeKhuHoi.next()) {
+                dateSet.addValue(rsVe.getInt(1), "Vé", thoiGian);
+                dateSet.addValue(rsVeKhuHoi.getInt(1), "Vé khứ hồi", thoiGian);
+                   tongDoanhThu = rsVe.getInt(1) + rsVeKhuHoi.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Thống kê vé, vé khứ hồi theo tháng", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpn.getWidth(), 300));
+        jpn.removeAll();
+        jpn.setLayout(new CardLayout());
+        jpn.add(chartPanel);
+        jpn.validate();
+        jpn.repaint();
+        jtfSoTien.setText(tongDoanhThu + "");
+    }
+
+    private void thongKeLoaiDoiTuongThang(JPanel jpn) {
+        int thang = Integer.parseInt(cbbThang.getSelectedItem().toString());
+        int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
+        String thoiGian = thang + "/" + nam;
+        ResultSet rsVe = LopKetNoi.select("select loaive.tenloaive, sum(gia) from loaive full outer join ve"
+                + " on loaive.tenLoaiVe = Ve.tenLoaiVe "
+                + "and month(thoiGianLenTau)=? and year(thoiGianlentau)=? where loaive.tenloaive != N'KHỨ HỒI' "
+                + "group by loaive.tenloaive", thang, nam);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(loaidoituong, gia) as ("
+                + "select ve.tenLoaiVe, Ve_khuHoi.gia "
+                + "from ve, ve_khuHoi "
+                + "where ve.mave = ve_khuHoi.mave_chieuDi and month(thoiGianLenTau_chieuVe)=? and year(thoiGianlentau_chieuVe)=?) "
+                + "select loaive.tenLoaiVe, sum(gia) from loaiVe full outer join temp"
+                + " on loaive.tenLoaive = temp.loaidoiTuong where loaive.tenloaive != N'KHỨ HỒI' group by loaive.tenLoaiVe", thang, nam);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        try {
+            while (rsVe.next() && rsVeKhuHoi.next()) {
+                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), thoiGian);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Thống kê loại đối tượng theo tháng", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpn.getWidth(), 300));
+        jpn.removeAll();
+        jpn.setLayout(new CardLayout());
+        jpn.add(chartPanel);
+        jpn.validate();
+        jpn.repaint();
+    }
+
+    private void thongKeTuyenTheoThang(JPanel jpn) {
+        int thang = Integer.parseInt(cbbThang.getSelectedItem().toString());
+        int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
+        String thoiGian = thang + "/" + nam;
+        ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve "
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
+                + "and chuyenDi.maChuyen = ve.maChuyen "
+                + "and month(thoiGianLenTau)=? and year(thoiGianlentau)=?)"
+                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
+                + "group by tuyen.matuyen", thang, nam);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi "
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
+                + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe "
+                + "and month(thoiGianLenTau_chieuVe)=? and year(thoiGianlentau_chieuVe)=?) "
+                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
+                + "group by tuyen.matuyen", thang, nam);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        try {
+            while (rsVe.next() && rsVeKhuHoi.next()) {
+                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), thoiGian);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Thống kê tuyến theo tháng", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpn.getWidth(), 300));
+        jpn.removeAll();
+        jpn.setLayout(new CardLayout());
+        jpn.add(chartPanel);
+        jpn.validate();
+        jpn.repaint();
+
+    }
+
+    private void thongKeTheoThang() {
+        thongKeVeThang(jpnThongKe);
+        thongKeLoaiDoiTuongThang(jpnThongKe1);
+        thongKeTuyenTheoThang(jpnThongKe2);
+    }
+    
+     private void thongKeVeNam(JPanel jpn) {
+        int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
+        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where  year(thoiGianlentau)=?",  nam);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("select SUM(Gia) from Ve_KhuHoi where "
+                + "  year(thoiGianlentau_chieuve)=?", nam);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        String thoiGian = "Năm" + nam;
+        int tongDoanhThu = 0;
+        try {
+            while (rsVe.next() && rsVeKhuHoi.next()) {
+                dateSet.addValue(rsVe.getInt(1), "Vé", thoiGian);
+                dateSet.addValue(rsVeKhuHoi.getInt(1), "Vé khứ hồi", thoiGian);
+                   tongDoanhThu = rsVe.getInt(1) + rsVeKhuHoi.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Thống kê vé, vé khứ hồi theo năm", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpn.getWidth(), 300));
+        jpn.removeAll();
+        jpn.setLayout(new CardLayout());
+        jpn.add(chartPanel);
+        jpn.validate();
+        jpn.repaint();
+        jtfSoTien.setText(tongDoanhThu+"");
+    }
+
+    private void thongKeLoaiDoiTuongNam(JPanel jpn) {
+        int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
+        String thoiGian =   "Năm" + nam;
+        ResultSet rsVe = LopKetNoi.select("select loaive.tenloaive, sum(gia) from loaive full outer join ve"
+                + " on loaive.tenLoaiVe = Ve.tenLoaiVe "
+                + "and  year(thoiGianlentau)=? where loaive.tenloaive != N'KHỨ HỒI' "
+                + "group by loaive.tenloaive",  nam);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(loaidoituong, gia) as ("
+                + "select ve.tenLoaiVe, Ve_khuHoi.gia "
+                + "from ve, ve_khuHoi "
+                + "where ve.mave = ve_khuHoi.mave_chieuDi and  year(thoiGianlentau_chieuVe)=?) "
+                + "select loaive.tenLoaiVe, sum(gia) from loaiVe full outer join temp"
+                + " on loaive.tenLoaive = temp.loaidoiTuong where loaive.tenloaive != N'KHỨ HỒI' group by loaive.tenLoaiVe", nam);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        try {
+            while (rsVe.next() && rsVeKhuHoi.next()) {
+                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), thoiGian);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Thống kê loại đối tượng theo năm", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpn.getWidth(), 300));
+        jpn.removeAll();
+        jpn.setLayout(new CardLayout());
+        jpn.add(chartPanel);
+        jpn.validate();
+        jpn.repaint();
+    }
+
+    private void thongKeTuyenTheoNam(JPanel jpn) {
+        int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
+        String thoiGian = "Năm" + nam;
+        ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve "
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
+                + "and chuyenDi.maChuyen = ve.maChuyen "
+                + " and year(thoiGianlentau)=?)"
+                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
+                + "group by tuyen.matuyen",nam);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi "
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
+                + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe "
+                + " and year(thoiGianlentau_chieuVe)=?) "
+                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
+                + "group by tuyen.matuyen", nam);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        try {
+            while (rsVe.next() && rsVeKhuHoi.next()) {
+                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), thoiGian);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Thống kê tuyến theo năm", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(jpn.getWidth(), 300));
+        jpn.removeAll();
+        jpn.setLayout(new CardLayout());
+        jpn.add(chartPanel);
+        jpn.validate();
+        jpn.repaint();
+
+    }
+
+    private void thongKeTheoNam() {
+        thongKeVeNam(jpnThongKe);
+        thongKeLoaiDoiTuongNam(jpnThongKe1);
+        thongKeTuyenTheoNam(jpnThongKe2);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLoc;
+    private javax.swing.JButton btnLocThongKe;
+    private javax.swing.JComboBox<String> cbbLoaiThoiGian;
+    private javax.swing.JComboBox<String> cbbNam;
+    private javax.swing.JComboBox<String> cbbThang;
+    private com.github.lgooddatepicker.components.DatePicker dpNgay;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jtfNam;
-    private javax.swing.JTextField jtfNgay;
+    private javax.swing.JPanel jpnThongKe;
+    private javax.swing.JPanel jpnThongKe1;
+    private javax.swing.JPanel jpnThongKe2;
     private javax.swing.JTextField jtfSoTien;
-    private javax.swing.JTextField jtfThang;
     // End of variables declaration//GEN-END:variables
 }
