@@ -10,13 +10,17 @@ import controller.ChuyenManHinhView;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import module.CheckInPut;
 import module.LoaiToa;
 import module.Toa;
@@ -41,6 +45,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private String them = "THÊM";
     private String sua = "SỬA";
     private String thongTin = "THÔNG TIN";
+    TableRowSorter<DefaultTableModel> trsToa;
+    TableRowSorter<DefaultTableModel> trsLoaiToa;
 
     public JPanelDanhSachToa() {
         initComponents();
@@ -49,6 +55,43 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         tbmToa = (DefaultTableModel) jtbToa.getModel();
         loadDSLoaiToaVaoBang(ketNoiCSDL.select("select * from LoaiToa"));
         loadDSToaVaoBang(ketNoiCSDL.select("select * from Toa"));
+        trsToa =new TableRowSorter<>(tbmToa);
+        trsToa.setComparator(0, new Comparator<String>
+        () {
+            @Override
+            public int compare(String o1, String o2) {
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return collator.compare(o1,o2);
+            }
+        });
+        trsToa.setComparator(1, new Comparator<String>
+        () {
+            @Override
+            public int compare(String o1, String o2) {
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return collator.compare(o1,o2);
+            }
+        });
+        jtbToa.setRowSorter(trsToa);
+        
+        trsLoaiToa =new TableRowSorter<>(tbmLoaiToa);
+        trsLoaiToa.setComparator(0, new Comparator<String>
+        () {
+            @Override
+            public int compare(String o1, String o2) {
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return collator.compare(o1,o2);
+            }
+        });
+        trsLoaiToa.setComparator(1, new Comparator<String>
+        () {
+            @Override
+            public int compare(String o1, String o2) {
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return collator.compare(o1,o2);
+            }
+        });
+        jtbLoaiToa.setRowSorter(trsLoaiToa);
     }
 
     /**
@@ -99,9 +142,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         btnXoaToa = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jtfTimKiemToa = new javax.swing.JTextField();
-        cbbTimKiemToa = new javax.swing.JComboBox<>();
-        cbbSapXepToa = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
         btnTroVeToa = new javax.swing.JButton();
         btnThongTinToa = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -445,21 +485,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
             }
         });
 
-        cbbTimKiemToa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbTimKiemToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã toa" }));
-
-        cbbSapXepToa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbSapXepToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã toa a-z", "Mã toa z-a" }));
-        cbbSapXepToa.setSelectedItem(null);
-        cbbSapXepToa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbSapXepToaActionPerformed(evt);
-            }
-        });
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel9.setText("Sắp xếp:");
-
         btnTroVeToa.setBackground(new java.awt.Color(255, 255, 255));
         btnTroVeToa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/outline_arrow_back_black_24dp_1.png"))); // NOI18N
         btnTroVeToa.addActionListener(new java.awt.event.ActionListener() {
@@ -510,12 +535,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtfTimKiemToa, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbbTimKiemToa, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbbSapXepToa, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jpnToaLayout.setVerticalGroup(
             jpnToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -540,11 +560,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpnToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbbSapXepToa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
                     .addComponent(jtfTimKiemToa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(cbbTimKiemToa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -804,49 +821,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
 
     private void jtfTimKiemToaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTimKiemToaKeyReleased
         // TODO add your handling code here:
-        if (cbbTimKiemToa.getSelectedIndex() == 0) {// tim kiem theo ma tuyen
-                        String maToa = jtfTimKiemToa.getText().trim();
-                        loadDSToaVaoBang(LopKetNoi.select("select * from Toa where MaToa like ?",
-                                "%" + maToa + "%"));
-                }
+        trsToa.setRowFilter(RowFilter.regexFilter(jtfTimKiemToa.getText().toUpperCase().trim()));
     }//GEN-LAST:event_jtfTimKiemToaKeyReleased
-
-    private void cbbSapXepToaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXepToaActionPerformed
-        // TODO add your handling code here:
-        String loaiSapXep=cbbSapXepToa.getSelectedItem().toString();
-        ArrayList <Toa> DSToaChuaSapXep=new ArrayList<Toa>();
-        for (int i=0;i<tbmToa.getRowCount();i++)
-        {
-            Toa toa=new Toa();
-            toa.setMaToa(jtbToa.getValueAt(i, 0).toString());
-            toa.setMaLoaiToa(jtbToa.getValueAt(i, 1).toString());
-            DSToaChuaSapXep.add(toa);
-        }
-        if (cbbSapXepToa.getSelectedIndex()==0)
-        {
-            Collections.sort(DSToaChuaSapXep, new Comparator<Toa>() {
-            @Override
-            public int compare(Toa lhs, Toa rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                return lhs.getMaToa().compareTo(rhs.getMaToa());
-            }
-        });
-        }
-        else if (cbbSapXepToa.getSelectedIndex()==1)
-        {
-            Collections.sort(DSToaChuaSapXep, new Comparator<Toa>() {
-            @Override
-            public int compare(Toa lhs, Toa rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                return -1 * lhs.getMaToa().compareTo(rhs.getMaToa());
-            }
-        });
-        }
-        tbmToa.setRowCount(0);
-        for (Toa i : DSToaChuaSapXep) {
-            tbmToa.addRow(new Object[]{i.getMaToa(),i.getMaLoaiToa()});
-        }
-    }//GEN-LAST:event_cbbSapXepToaActionPerformed
 
     private void btnTroVeToaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTroVeToaActionPerformed
         // TODO add your handling code here:
@@ -1395,10 +1371,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private javax.swing.JButton btnXoaToa;
     private javax.swing.JComboBox<String> cbbLoaiToa;
     private javax.swing.JComboBox<String> cbbSapXepLoaiToa;
-    private javax.swing.JComboBox<String> cbbSapXepToa;
     private javax.swing.JComboBox<String> cbbSoChoNgoi;
     private javax.swing.JComboBox<String> cbbTimKiemLoaiToa;
-    private javax.swing.JComboBox<String> cbbTimKiemToa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1413,7 +1387,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;

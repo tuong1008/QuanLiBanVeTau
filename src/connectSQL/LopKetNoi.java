@@ -44,18 +44,18 @@ public class LopKetNoi {
         return this.connection;
     }
 
-    public ResultSet selectQuery(String sql) {
-        ResultSet rs = null;
+    public ResultSet selectLike(String sql, String... args) {
+        ResultSet rs=null;
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
+            for (int i = 0; i < args.length; i++) {
+                ps.setNString(i + 1, args[i]);
+            }
             rs = ps.executeQuery();
-            return rs;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
-        return null;
+        return rs;
     }
-
     public ArrayList<LoaiTaiKhoan> getDSLoaiTK() {
         ArrayList<LoaiTaiKhoan> listLoaiTK = new ArrayList<LoaiTaiKhoan>();
         String sql = "select * from LoaiTaiKhoan";

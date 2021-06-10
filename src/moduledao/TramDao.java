@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import module.Tram;
 
@@ -48,11 +47,11 @@ public class TramDao {
 
     public boolean xoaTramTrongDB(String tenTram, LopKetNoi ketNoiCSDL) {
         try {
-            ResultSet rs = ketNoiCSDL.select("select * from tuyendiquatram where  tenTram = ?", tenTram);
+            ResultSet rs = LopKetNoi.select("select * from tuyendiquatram where  tenTram = ?", tenTram);
             if (rs.next()) {
                 return false;
             } else {
-                ResultSet rs2 = ketNoiCSDL.select("select * from KhoangCachTram where  tenTramNay = ? or tenTramKia=?", tenTram, tenTram);
+                ResultSet rs2 = LopKetNoi.select("select * from KhoangCachTram where  tenTramNay = ? or tenTramKia=?", tenTram, tenTram);
                 if (rs2.next()) {
                     return false;
                 } else {

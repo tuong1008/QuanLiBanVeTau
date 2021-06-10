@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package module;
-import java.sql.Time;
 /**
  * 
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
+import java.sql.Time;
 public class KhoangCachTram {
     private String tenTramNay;
     private String tenTramKia;
