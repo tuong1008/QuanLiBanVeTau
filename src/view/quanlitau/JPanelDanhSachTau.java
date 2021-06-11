@@ -10,27 +10,21 @@ import controller.ChuyenManHinhView;
 import controller.ListTransferHandler;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.security.interfaces.DSAKeyPairGenerator;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.text.Collator;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.ListModel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import module.CheckInPut;
-import module.Tau;
 import view.JPanelQuanLiToaTau;
+import javax.swing.JFrame;
 
 /**
  *
@@ -90,7 +84,7 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jdlThongTinTau = new javax.swing.JDialog();
+        jdlThongTinTau = new javax.swing.JDialog((JFrame) null, true);
         jPanel2 = new javax.swing.JPanel();
         jlbTenDialog = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -324,25 +318,6 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jLabel51)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfTimKiem1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(btnTroVe1)
-                        .addGap(326, 326, 326)
-                        .addComponent(jLabel49)
-                        .addGap(0, 571, Short.MAX_VALUE))
-                    .addComponent(jScrollPane13))
-                .addContainerGap())
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSeparator25)
-                .addGap(22, 22, 22))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel13Layout.createSequentialGroup()
@@ -355,11 +330,32 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
                         .addComponent(btnThem1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(170, 170, 170)
                         .addComponent(btnSua1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                         .addComponent(btnXoa1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(165, 165, 165)
                         .addComponent(btnThongTin1)))
                 .addGap(22, 22, 22))
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane13)
+                            .addGroup(jPanel13Layout.createSequentialGroup()
+                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel13Layout.createSequentialGroup()
+                                        .addComponent(jLabel51)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jtfTimKiem1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel13Layout.createSequentialGroup()
+                                        .addComponent(btnTroVe1)
+                                        .addGap(326, 326, 326)
+                                        .addComponent(jLabel49)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jSeparator25)
+                        .addGap(22, 22, 22))))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -703,7 +699,7 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
     private boolean kiemTraThemTau(LopKetNoi ketNoiCSDL) {
         // kiem tra ma trung va so luong toa
         
-        if (!CheckInPut.checkCacLoaiMa(jlbMaTau.getText().trim())) {
+        if (!CheckInPut.checkCacLoaiMa(jtfMaTau.getText().trim())) {
             jlbMaTau.setText("Chỉ nhập chữ cái, -, khoảng trắng và không được để trống");
         } else {
             try {

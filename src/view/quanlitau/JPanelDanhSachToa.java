@@ -23,9 +23,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import module.CheckInPut;
 import module.LoaiToa;
-import module.Toa;
+import javax.swing.JFrame;
 import view.JPanelQuanLiToaTau;
-import view.JPanelQuanLiTuyen;
+
 
 /**
  *
@@ -103,7 +103,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jdlLoaiToa = new javax.swing.JDialog();
+        jdlLoaiToa = new javax.swing.JDialog((JFrame) null, true);
         jPanel2 = new javax.swing.JPanel();
         jlbTenDialogLoaiToa = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -118,7 +118,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jtfGiaChoNgoi2 = new javax.swing.JTextField();
         jlbGiaChoNgoi2 = new javax.swing.JLabel();
-        jdlToa = new javax.swing.JDialog();
+        jdlToa = new javax.swing.JDialog((JFrame) null, true);
         jPanel3 = new javax.swing.JPanel();
         jlbTenDialogToa = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();

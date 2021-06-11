@@ -12,11 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.util.Collections;
 import java.util.Comparator;
-import module.TauChayTuyen;
 import view.JPanelQuanLiLoTrinh;
 import module.SampleDateVetoPolicy;
 import com.github.lgooddatepicker.components.DatePickerSettings;
@@ -26,6 +22,7 @@ import java.text.Collator;
 import java.util.Locale;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+import javax.swing.JFrame;
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -86,7 +83,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jdlTauChayTuyen = new javax.swing.JDialog();
+        jdlTauChayTuyen = new javax.swing.JDialog((JFrame) null, true);
         jPanel2 = new javax.swing.JPanel();
         jlbTenDialog = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -261,11 +258,6 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         jtbTau.setGridColor(new java.awt.Color(255, 255, 255));
         jtbTau.setRowHeight(25);
         jtbTau.setSelectionBackground(new java.awt.Color(51, 204, 255));
-        jtbTau.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtbTauMouseClicked(evt);
-            }
-        });
         jScrollPane13.setViewportView(jtbTau);
         if (jtbTau.getColumnModel().getColumnCount() > 0) {
             jtbTau.getColumnModel().getColumn(0).setResizable(false);
@@ -410,11 +402,6 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jtbTauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbTauMouseClicked
-        // TODO add your handling code here:
-        hangDangChon = jtbTau.getSelectedRow();
-    }//GEN-LAST:event_jtbTauMouseClicked
     private void loadBangTau(ResultSet rs) {
 
         DefaultTableModel model = (DefaultTableModel) jtbTau.getModel();
@@ -520,6 +507,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
 
     private void btnXoa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa1ActionPerformed
         // TODO add your handling code here:
+        hangDangChon = jtbTau.getSelectedRow();
         if (hangDangChon < 0) {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn đối tượng! Vui lòng chọn 1 hàng trong bảng");
 

@@ -54,7 +54,7 @@ public class CheckInPut {
     }
     public static boolean checkCacLoaiMa(String ma)
     {
-        return ma.matches("^[\\w-]{1,}$");
+        return ma.matches("^[\\w-]{1,}");
     }
     public static String chuanHoaTen(String ten)
     {

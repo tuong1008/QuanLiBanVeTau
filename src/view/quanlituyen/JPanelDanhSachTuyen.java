@@ -5,6 +5,8 @@
  */
 package view.quanlituyen;
 
+import com.github.lgooddatepicker.optionalusertools.PickerUtilities;
+import com.github.lgooddatepicker.tableeditors.TimeTableEditor;
 import connectSQL.LopKetNoi;
 import controller.ChuyenManHinhView;
 import controller.ListTransferHandler;
@@ -28,13 +30,15 @@ import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
+import javax.swing.DefaultCellEditor;
 import javax.swing.RowFilter;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 import module.CheckInPut;
 import module.KhoangCachTram;
 import module.MyDefaultTableModel;
 import module.TuyenDiQuaTram;
-
+import module.SpinnerEditor;
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -902,9 +906,10 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                 {
                     khoangCachTram=new KhoangCachTram();
                     try {
-                        String tempKhoangThoiGian=jTableKhoangCachModel.getValueAt(i, 2).toString();
+                        String tempKhoangThoiGian=jTableKhoangCachModel.getValueAt(i, 3).toString();
                         Time timeKhoangThoiGian= new Time(formater.parse(tempKhoangThoiGian).getTime());
                         khoangCachTram.setKhoangThoiGian(timeKhoangThoiGian);
+                        khoangCachTram.setSoNgay(Integer.valueOf(jTableKhoangCachModel.getValueAt(i, 2).toString()));
                         khoangCachTram.setTenTramNay(jTableKhoangCachModel.getValueAt(i, 0).toString());
                         khoangCachTram.setTenTramKia(jTableKhoangCachModel.getValueAt(i, 1).toString());
                         tuyenDao.themKhoangCachVaoDB(khoangCachTram);
@@ -932,7 +937,7 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                 {
                     khoangCachTram=new KhoangCachTram();
                     try {
-                        String tempKhoangThoiGian=jTableKhoangCachModel.getValueAt(i, 2).toString();
+                        String tempKhoangThoiGian=jTableKhoangCachModel.getValueAt(i, 3).toString();
                         Time timeKhoangThoiGian= new Time(formater.parse(tempKhoangThoiGian).getTime());
                         khoangCachTram.setKhoangThoiGian(timeKhoangThoiGian);
                         khoangCachTram.setTenTramNay(jTableKhoangCachModel.getValueAt(i, 0).toString());
@@ -988,25 +993,35 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                     //                    setRong();
                     //                    setLabelThongBao();
                     //                    jtfMaTuyen.requestFocus();
-                    jTableKhoangCachModel=new MyDefaultTableModel(jListCacTramDiQuaModel.getSize()-1,3);//vì có 4 Trạm đi qua thì có 4-1 row khoảng cách trong bảng Khoảng Cách
-                    jTableKhoangCachModel.setDataVector(new Object[][]{}, new String[] {"Tên Trạm Này","Tên Trạm Kia","Khoảng Thời Gian"});
+                    jTableKhoangCachModel=new MyDefaultTableModel(jListCacTramDiQuaModel.getSize()-1,4);//vì có 4 Trạm đi qua thì có 4-1 row khoảng cách trong bảng Khoảng Cách
+                    jTableKhoangCachModel.setDataVector(new Object[][]{}, new String[] {"Tên Trạm Này","Tên Trạm Kia","Số Ngày","Khoảng Thời Gian"});
                     jTableKhoangCach.setModel(jTableKhoangCachModel);
+                    TableColumn cotSoNgay = jTableKhoangCach.getColumnModel().getColumn(2);
+                    cotSoNgay.setCellEditor(new SpinnerEditor());
+                    TableColumn cotKhoangThoiGian = jTableKhoangCach.getColumnModel().getColumn(3);
+                    TimeTableEditor timeEdit = new TimeTableEditor();
+                    timeEdit.getTimePickerSettings().setFormatForDisplayTime(PickerUtilities.createFormatterFromPatternString(
+                    "HH:mm:ss", timeEdit.getTimePickerSettings().getLocale()));
+                    timeEdit.getTimePickerSettings().setFormatForMenuTimes(PickerUtilities.createFormatterFromPatternString(
+                        "HH:mm", timeEdit.getTimePickerSettings().getLocale()));
+                    cotKhoangThoiGian.setCellEditor(timeEdit);
                     DSKhoangCachConThieu=new ArrayList<Integer>();
                     for (int i=0;i<=jListCacTramDiQuaModel.getSize()-2;i++)
                     {
                         String tenTramNay=jListCacTramDiQuaModel.getElementAt(i).toString();
                         String tenTramKia=jListCacTramDiQuaModel.getElementAt(i+1).toString();
-                        Time khoangThoiGian=tuyenDao.getKhoangCach(tenTramNay, tenTramKia);
-                        if (khoangThoiGian!=null)
+                        KhoangCachTram khoangCachTram=tuyenDao.getKhoangCachTram(tenTramNay,tenTramKia);
+                        if (khoangCachTram!=null)
                         {
-                            String strKhoangThoiGian=khoangThoiGian.toString();
+                            String strKhoangThoiGian=khoangCachTram.getKhoangThoiGian().toString();
                             strKhoangThoiGian=strKhoangThoiGian.substring(0, strKhoangThoiGian.length()-3);  //bỏ mili giây
-                            jTableKhoangCachModel.addRow(new Object[] {tenTramNay,tenTramKia,strKhoangThoiGian});
+                            jTableKhoangCachModel.addRow(new Object[] {khoangCachTram.getTenTramNay(),khoangCachTram.getTenTramKia(),khoangCachTram.getSoNgay(),strKhoangThoiGian});
                         }
                         else
                         {
-                            jTableKhoangCachModel.addRow(new Object[] {tenTramNay,tenTramKia,""});
+                            jTableKhoangCachModel.addRow(new Object[] {tenTramNay,tenTramKia,"",""});
                             jTableKhoangCachModel.setCellEditable(i, 2, true);
+                            jTableKhoangCachModel.setCellEditable(i, 3, true);
                             DSKhoangCachConThieu.add(i);
                         }
                     }
@@ -1053,25 +1068,26 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                     }
                 }
                 
-                jTableKhoangCachModel=new MyDefaultTableModel(jListCacTramDiQuaModel.getSize()-1,3);//vì có 4 Trạm đi qua thì có 4-1 row khoảng cách trong bảng Khoảng Cách
-                    jTableKhoangCachModel.setDataVector(new Object[][]{}, new String[] {"Tên Trạm Này","Tên Trạm Kia","Khoảng Thời Gian"});
+                jTableKhoangCachModel=new MyDefaultTableModel(jListCacTramDiQuaModel.getSize()-1,4);//vì có 4 Trạm đi qua thì có 4-1 row khoảng cách trong bảng Khoảng Cách
+                    jTableKhoangCachModel.setDataVector(new Object[][]{}, new String[] {"Tên Trạm Này","Tên Trạm Kia","Số Ngày" ,"Khoảng Thời Gian"});
                     jTableKhoangCach.setModel(jTableKhoangCachModel);
                     DSKhoangCachConThieu=new ArrayList<Integer>();
                     for (int i=0;i<=jListCacTramDiQuaModel.getSize()-2;i++)
                     {
                         String tenTramNay=jListCacTramDiQuaModel.getElementAt(i).toString();
                         String tenTramKia=jListCacTramDiQuaModel.getElementAt(i+1).toString();
-                        Time khoangThoiGian=tuyenDao.getKhoangCach(tenTramNay, tenTramKia);
-                        if (khoangThoiGian!=null)
+                        KhoangCachTram khoangCachTram=tuyenDao.getKhoangCachTram(tenTramNay, tenTramKia);
+                        if (khoangCachTram!=null)
                         {
-                            String strKhoangThoiGian=khoangThoiGian.toString();
+                            String strKhoangThoiGian=khoangCachTram.getKhoangThoiGian().toString();
                             strKhoangThoiGian=strKhoangThoiGian.substring(0, strKhoangThoiGian.length()-3);  //bỏ mili giây
-                            jTableKhoangCachModel.addRow(new Object[] {tenTramNay,tenTramKia,strKhoangThoiGian});
+                            jTableKhoangCachModel.addRow(new Object[] {tenTramNay,tenTramKia,khoangCachTram.getSoNgay(),strKhoangThoiGian});
                         }
                         else
                         {
-                            jTableKhoangCachModel.addRow(new Object[] {tenTramNay,tenTramKia,""});
+                            jTableKhoangCachModel.addRow(new Object[] {tenTramNay,tenTramKia,"",""});
                             jTableKhoangCachModel.setCellEditable(i, 2, true);
+                            jTableKhoangCachModel.setCellEditable(i, 3, true);
                             DSKhoangCachConThieu.add(i);
                         }
                     }

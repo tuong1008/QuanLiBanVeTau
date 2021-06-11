@@ -5,12 +5,6 @@
  */
 
 package main;
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Locale;
-import module.Tram;
 import view.LoginFrame;
 /**
  * 
@@ -18,6 +12,16 @@ import view.LoginFrame;
  */
 public class Main {
     public static void main(String[] args) {
+//        Timestamp old=new Timestamp(System.currentTimeMillis());
+//        System.out.println(old);
+//        Timestamp later = new Timestamp(old.getTime()+ (1000 * 60 * 60 * 25));
+//        System.out.println(later);
+
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());
+//        calendar.add(Calendar.HOUR, 25);
+//        timestamp = new Timestamp(calendar.getTimeInMillis());
+//        System.out.println(timestamp);
         new LoginFrame().setVisible(true);
     }
 }

@@ -15,6 +15,7 @@ import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import view.JPanelQuanLiTuyen;
 import javax.swing.JOptionPane;
@@ -24,6 +25,7 @@ import javax.swing.table.TableRowSorter;
 import module.CheckInPut;
 import module.Tram;
 import moduledao.TramDao;
+
 
 /**
  *
@@ -40,7 +42,6 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
     private TimePickerSettings timeSettings;
     TableRowSorter<DefaultTableModel> trsKCTram;
     TableRowSorter<DefaultTableModel> trsTram;
-
     /**
      * Creates new form JPanelDanhSachTram
      */
@@ -101,7 +102,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jdlThemSuaTram = new javax.swing.JDialog();
+        jdlThemSuaTram = new javax.swing.JDialog((JFrame)null, true);
         jPanel5 = new javax.swing.JPanel();
         jlbTenDialog = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -110,7 +111,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jtfDiaChiDialog = new javax.swing.JTextField();
         btnXacNhanDialog = new javax.swing.JButton();
-        jdlThemSuaKCTram = new javax.swing.JDialog();
+        jdlThemSuaKCTram = new javax.swing.JDialog((JFrame)null, true);
         jPanel6 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -120,6 +121,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         timePickerKCTRam = new com.github.lgooddatepicker.components.TimePicker(timeSettings);
         jlbTenDialogKCTram = new javax.swing.JLabel();
+        jSpinnerSoNgay = new javax.swing.JSpinner();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -288,6 +290,8 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         jlbTenDialogKCTram.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlbTenDialogKCTram.setForeground(new java.awt.Color(51, 51, 255));
 
+        jSpinnerSoNgay.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -302,7 +306,9 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                                .addComponent(jSpinnerSoNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(timePickerKCTRam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,7 +321,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(170, 170, 170)
                         .addComponent(jlbTenDialogKCTram)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -333,7 +339,9 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
-                    .addComponent(timePickerKCTRam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(timePickerKCTRam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSpinnerSoNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(btnXacNhanDialog1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39))
@@ -543,11 +551,11 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Tên trạm này", "Tên trạm kia", "Khoảng thời gian"
+                "Tên trạm này", "Tên trạm kia", "Số ngày", "Khoảng thời gian"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -669,8 +677,6 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void hienThiDialog(String title) {
-        jdlThemSuaTram.setLocationRelativeTo(this);
-        jdlThemSuaTram.setVisible(true);
         jdlThemSuaTram.setTitle(title);
         jlbTenDialog.setText(title);
         if (title.equals("THÊM TRẠM")) {
@@ -683,10 +689,10 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             jtfTenTramDialog.setEnabled(false);
             jtfDiaChiDialog.setText(jtbDanhSachTram.getValueAt(hangDangChon, 1) + "");
         }
+        jdlThemSuaTram.setLocationRelativeTo(this);
+        jdlThemSuaTram.setVisible(true);
     }
     private void hienThiDialogKCTram(String title) {
-        jdlThemSuaKCTram.setLocationRelativeTo(this);
-        jdlThemSuaKCTram.setVisible(true);
         jdlThemSuaKCTram.setTitle(title);
         jlbTenDialogKCTram.setText(title);
         loadDSTramVaoCBB(LopKetNoi.select("select * from Tram"), jComboBoxTenTramNay);
@@ -694,11 +700,18 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             jComboBoxTenTramNay.setEnabled(true);
             jComboBoxTenTramKia.setEnabled(true);
         } else {
-            jComboBoxTenTramNay.setEnabled(true);
-            jComboBoxTenTramKia.setEnabled(true);
-            jComboBoxTenTramNay.setSelectedItem(jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 0) + "");
+            jComboBoxTenTramNay.setEnabled(false);
+            jComboBoxTenTramKia.setEnabled(false);
+            loadDSTramVaoCBB(LopKetNoi.select("select * from Tram"), jComboBoxTenTramKia);
+            jComboBoxTenTramNay.setSelectedItem(jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 0) + "");            
             jComboBoxTenTramKia.setSelectedItem(jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 1) + "");
+            jSpinnerSoNgay.setValue(Integer.valueOf(jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 2).toString()));
+            String strKhoangThoiGian=jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 3).toString();
+            strKhoangThoiGian=strKhoangThoiGian.substring(0, strKhoangThoiGian.length()-11);
+            timePickerKCTRam.setText(strKhoangThoiGian);
         }
+        jdlThemSuaKCTram.setLocationRelativeTo(this);
+        jdlThemSuaKCTram.setVisible(true);
     }
 
     private void capNhatSauKhiThem() {
@@ -737,12 +750,13 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         else
         {
             
-            LopKetNoi.update("insert into KhoangCachTram values(?,?,?)"
+            LopKetNoi.update("insert into KhoangCachTram values(?,?,?,?)"
                 ,jComboBoxTenTramNay.getSelectedItem().toString()
                 ,jComboBoxTenTramKia.getSelectedItem().toString()
-                ,timePickerKCTRam.toString());
+                ,timePickerKCTRam.toString()
+                ,jSpinnerSoNgay.getValue().toString());
             tbmBangKCTram.addRow(new Object[]{jComboBoxTenTramNay.getSelectedItem()
-                    ,jComboBoxTenTramKia.getSelectedItem(),timePickerKCTRam.toString()});
+                    ,jComboBoxTenTramKia.getSelectedItem(),jSpinnerSoNgay.getValue().toString(),timePickerKCTRam.toString()});
             JOptionPane.showMessageDialog(this, "Thêm thành công");
         }
     }
@@ -830,7 +844,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         model.setRowCount(0);
         try {
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getString(1), rs.getString(2),rs.getString(3)});
+                model.addRow(new Object[]{rs.getString(1), rs.getString(2),rs.getString(4),rs.getString(3)});
             }
         } catch (SQLException ex) {
             System.out.println("Load KC Trạm bị lỗi");
@@ -918,36 +932,13 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
     private void btnSua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSua1ActionPerformed
         // TODO add your handling code here:
         // kiem tra rang buoc
-//        hangDangChonKCTram=jtbKhoangCachTram.getSelectedRow();
-//        if (hangDangChonKCTram == -1) {
-//            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 dòng muốn sửa");
-//        } else
-//        {
-//            String tempTenTramNay=jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 0).toString();
-//            String tempTenTramKia=jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 1).toString();
-//            try {
-//                ResultSet rs=LopKetNoi.select("select * from TuyenDiQuaTram where TenTram=?",tempTenTram);
-//                if (rs.next())
-//                {
-//                    JOptionPane.showMessageDialog(this, "Đang có Tuyến đi qua Trạm này, không thể sửa!");
-//                }
-//                else
-//                {
-//                    ResultSet rs2=ketNoiCSDL.select("select * from KhoangCachTram where TenTramNay=? or TenTramKia=?",tempTenTram,tempTenTram);
-//                    if (rs2.next())
-//                    {
-//                        JOptionPane.showMessageDialog(this, "Trạm này đang có khoảng cách với 1 Trạm khác, không thể sửa!");
-//                    }
-//                    else
-//                    {
-//                        hienThiDialog("SỬA");
-//                    }
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Lỗi lúc bấm nút sửa");
-//                e.printStackTrace();
-//            }
-//        }
+        hangDangChonKCTram=jtbKhoangCachTram.getSelectedRow();
+        if (hangDangChonKCTram == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 dòng muốn sửa");
+        } else
+        {
+            hienThiDialogKCTram("SỬA");
+        }
     }//GEN-LAST:event_btnSua1ActionPerformed
 
     private void btnXoa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa1ActionPerformed
@@ -978,10 +969,21 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             themKCTram();
             jdlThemSuaKCTram.dispose();
         } else {
-            //suaKCTram();
-            jdlThemSuaKCTram.dispose();
+            String tenTramNay=jComboBoxTenTramNay.getSelectedItem().toString();
+            String tenTramKia=jComboBoxTenTramKia.getSelectedItem().toString();
+            String khoangCach=timePickerKCTRam.toString();
+            String soNgay=jSpinnerSoNgay.getValue().toString();
+            if (LopKetNoi.update("update KhoangCachTram set khoangCach=?, soNgay=?\n" +
+            "where TenTramNay=? and TenTramKia=?",khoangCach,soNgay,tenTramNay,tenTramKia))
+            {
+                JOptionPane.showMessageDialog(this, "Sửa thành công!");
+                jdlThemSuaKCTram.dispose();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Đã có vé đi qua 2 trạm này, không thể sửa!");
+            }
         }
-        
     }//GEN-LAST:event_btnXacNhanDialog1ActionPerformed
 
     private void btnXacNhanDialog1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnXacNhanDialog1KeyPressed
@@ -990,9 +992,12 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
 
     private void jComboBoxTenTramNayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTenTramNayActionPerformed
         // TODO add your handling code here:
-        loadDSTramVaoCBB(LopKetNoi.select("select TenTram from Tram\n" +
+        if (jdlThemSuaKCTram.getTitle().equals("THÊM"))
+        {
+            loadDSTramVaoCBB(LopKetNoi.select("select TenTram from Tram\n" +
 "where TenTram not in (select TenTramKia from KhoangCachTram\n" +
 "where TenTramNay=?) and TenTram!=?", jComboBoxTenTramNay.getSelectedItem().toString(), jComboBoxTenTramNay.getSelectedItem().toString()), jComboBoxTenTramKia);
+        }
         
     }//GEN-LAST:event_jComboBoxTenTramNayActionPerformed
 
@@ -1032,6 +1037,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSpinner jSpinnerSoNgay;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JDialog jdlThemSuaKCTram;
     private javax.swing.JDialog jdlThemSuaTram;

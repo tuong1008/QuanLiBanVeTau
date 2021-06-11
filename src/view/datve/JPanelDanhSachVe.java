@@ -515,6 +515,7 @@ public class JPanelDanhSachVe extends javax.swing.JPanel {
     }
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
+        hangDangChon = jtbVe.getSelectedRow();
         if (hangDangChon < 0) {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn đối tượng! Vui lòng chọn 1 hàng trong bảng");
 

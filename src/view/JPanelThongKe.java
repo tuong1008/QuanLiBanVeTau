@@ -433,18 +433,18 @@ public class JPanelThongKe extends javax.swing.JPanel {
         int thang = Integer.parseInt(cbbThang.getSelectedItem().toString());
         int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
         String thoiGian = thang + "/" + nam;
-        ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve "
-                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
-                + "and chuyenDi.maChuyen = ve.maChuyen "
-                + "and month(thoiGianLenTau)=? and year(thoiGianlentau)=?)"
-                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
-                + "group by tuyen.matuyen", thang, nam);
+        ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve\n"
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT\n"
+                + "and chuyenDi.maChuyen = ve.maChuyen\n"
+                + "and month(thoiGianLenTau)=? and year(thoiGianlentau)=?)\n"
+                + "select table1.matuyen, sum(temp.gia) from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen\n"
+                + "group by table1.matuyen", thang, nam);
         ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi "
                 + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
                 + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe "
                 + "and month(thoiGianLenTau_chieuVe)=? and year(thoiGianlentau_chieuVe)=?) "
-                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
-                + "group by tuyen.matuyen", thang, nam);
+                + "select table1.matuyen, sum(temp.gia) from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen "
+                + "group by table1.matuyen", thang, nam);
         DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
         try {
             while (rsVe.next() && rsVeKhuHoi.next()) {
@@ -539,14 +539,14 @@ public class JPanelThongKe extends javax.swing.JPanel {
                 + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
                 + "and chuyenDi.maChuyen = ve.maChuyen "
                 + " and year(thoiGianlentau)=?)"
-                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
-                + "group by tuyen.matuyen",nam);
+                + "select table1.matuyen, sum(temp.gia) from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen "
+                + "group by table1.matuyen",nam);
         ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi "
                 + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
                 + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe "
                 + " and year(thoiGianlentau_chieuVe)=?) "
-                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
-                + "group by tuyen.matuyen", nam);
+                + "select table1.matuyen, sum(temp.gia) from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen "
+                + "group by table1.matuyen", nam);
         DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
         try {
             while (rsVe.next() && rsVeKhuHoi.next()) {

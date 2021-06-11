@@ -8,6 +8,9 @@
           <Dimension value="[574, 467]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JDialog((JFrame) null, true)"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -433,9 +436,6 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtbTauMouseClicked"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>

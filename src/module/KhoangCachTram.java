@@ -13,6 +13,7 @@ public class KhoangCachTram {
     private String tenTramNay;
     private String tenTramKia;
     private Time khoangThoiGian;
+    private int soNgay;
 
     public String getTenTramNay() {
         return tenTramNay;
@@ -36,6 +37,14 @@ public class KhoangCachTram {
 
     public void setKhoangThoiGian(Time khoangThoiGian) {
         this.khoangThoiGian = khoangThoiGian;
+    }
+
+    public int getSoNgay() {
+        return soNgay;
+    }
+
+    public void setSoNgay(int soNgay) {
+        this.soNgay = soNgay;
     }
 
     

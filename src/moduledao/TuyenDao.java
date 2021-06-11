@@ -71,17 +71,21 @@ public class TuyenDao {
         return DS;
     }
     
-    public Time getKhoangCach(String tenTramNay,String tenTramKia) {
-        Time tempKhoangThoiGian=null;
+    public KhoangCachTram getKhoangCachTram(String tenTramNay,String tenTramKia) {
+        KhoangCachTram khoangCachTram=null;
         try {
-            ResultSet rs = LopKetNoi.select("select khoangCach from KhoangCachTram where TenTramNay=? and TenTramKia=?", tenTramNay,tenTramKia);
+            ResultSet rs = LopKetNoi.select("select * from KhoangCachTram where TenTramNay=? and TenTramKia=?", tenTramNay,tenTramKia);
             while (rs.next()) {
-                tempKhoangThoiGian=rs.getTime("khoangCach");
+                khoangCachTram=new KhoangCachTram();
+                khoangCachTram.setTenTramNay(tenTramNay);
+                khoangCachTram.setTenTramKia(tenTramKia);
+                khoangCachTram.setSoNgay(rs.getInt("SoNgay"));
+                khoangCachTram.setKhoangThoiGian(rs.getTime("khoangCach"));
             }
         } catch (Exception e) {
             System.out.println("get ds thoi gian that bai");
         }
-        return tempKhoangThoiGian;
+        return khoangCachTram;
     }
     
     /**
@@ -118,7 +122,7 @@ public class TuyenDao {
      */
     public void themKhoangCachVaoDB(KhoangCachTram khoangCach) {
         try {
-            LopKetNoi.update("insert into KhoangCachTram values(?,?,?)", khoangCach.getTenTramNay(), khoangCach.getTenTramKia(),khoangCach.getKhoangThoiGian());
+            LopKetNoi.update("insert into KhoangCachTram values(?,?,?,?)", khoangCach.getTenTramNay(), khoangCach.getTenTramKia(),khoangCach.getKhoangThoiGian(),khoangCach.getSoNgay());
             //themTuyenDiQuaTram(tuyen);
         } catch (Exception e) {
         }
