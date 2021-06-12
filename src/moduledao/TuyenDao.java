@@ -149,13 +149,16 @@ public class TuyenDao {
      */
     public boolean xoaTuyenTrongDB(String maTuyen,LopKetNoi ketNoiCSDL, String thoiGianHieuChinhTuyen) {
         try {
-            if (ketNoiCSDL.update("delete from TuyenDiQuaTram\n"
-                    + "where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, thoiGianHieuChinhTuyen)
-                    &&ketNoiCSDL.update("delete from Tuyen\n"
-                            + "where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, thoiGianHieuChinhTuyen)) {//nếu xoá tàu k được vì đã phân tuyến cho tàu
-                return true;
-            } else {
+            ResultSet rs = LopKetNoi.select("select ID_TCT from TauChayTuyen\n"
+                    + "	where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, thoiGianHieuChinhTuyen);
+            if (rs.next()) {//nếu xoá tàu k được vì đã phân tuyến cho tàu
                 return false;
+            } else {
+                ketNoiCSDL.update("delete from TuyenDiQuaTram\n"
+                        + "where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, thoiGianHieuChinhTuyen);
+                ketNoiCSDL.update("delete from Tuyen\n"
+                        + "where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, thoiGianHieuChinhTuyen);
+                return true;
             }
         } catch (Exception e) {
             System.out.println("Tuyến đã đi qua Trạm hoặc có Tàu đang chạy, không thể xoá!");

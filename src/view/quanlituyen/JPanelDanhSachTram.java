@@ -885,22 +885,16 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         {
             String tempTenTram=jtbDanhSachTram.getValueAt(hangDangChon, 0).toString();
             try {
-                ResultSet rs=ketNoiCSDL.select("select * from TuyenDiQuaTram where TenTram=?",tempTenTram);
+                ResultSet rs=ketNoiCSDL.select("select * from ChuyenDi where TenTramDi=? or TenTramDen=?",tempTenTram,tempTenTram);
                 if (rs.next())
                 {
                     JOptionPane.showMessageDialog(this, "Đang có Tuyến đi qua Trạm này, không thể sửa!");
                 }
                 else
                 {
-                    ResultSet rs2=ketNoiCSDL.select("select * from KhoangCachTram where TenTramNay=? or TenTramKia=?",tempTenTram,tempTenTram);
-                    if (rs2.next())
-                    {
-                        JOptionPane.showMessageDialog(this, "Trạm này đang có khoảng cách với 1 Trạm khác, không thể sửa!");
-                    }
-                    else
-                    {
+                    
                         hienThiDialog("SỬA TRẠM");
-                    }
+                    
                 }
             } catch (Exception e) {
                 System.out.println("Lỗi lúc bấm nút sửa");
@@ -948,12 +942,28 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 dòng muốn sửa");
         } else
         {
-            if (LopKetNoi.update("delete from KhoangCachTram where tenTramNay = ? and tenTramKia=?"
-                    , jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 0)
-                    , jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 1)))
+            ResultSet rs=LopKetNoi.select("select table1.MaTuyen,table1.ThoiGianHieuChinh\n" +
+            "from TuyenDiQuaTram as table1\n" +
+            "join TuyenDiQuaTram as table2\n" +
+            "on table1.MaTuyen=table2.MaTuyen and table1.ThoiGianHieuChinh=table2.ThoiGianHieuChinh\n" +
+            "and table1.TenTram =? and table2.TenTram =?\n" +
+            "and table2.STT-table1.STT=1", jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 0)
+                    , jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 1));
+            try {
+                if (rs.next())
             {
+                JOptionPane.showMessageDialog(this, "Có tuyến dùng khoảng cách trạm này, không thể xoá");
+            }
+            else
+            {
+                LopKetNoi.update("delete from KhoangCachTram where tenTramNay = ? and tenTramKia=?"
+                    , jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 0)
+                    , jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 1));
                 tbmBangKCTram.removeRow(hangDangChonKCTram);
                 JOptionPane.showMessageDialog(this, "Xoá thành công!");
+            }
+            } catch (Exception e) {
+                System.out.println("Xoá KCT bị lỗi");
             }
         }
     }//GEN-LAST:event_btnXoa1ActionPerformed
@@ -977,6 +987,8 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             "where TenTramNay=? and TenTramKia=?",khoangCach,soNgay,tenTramNay,tenTramKia))
             {
                 JOptionPane.showMessageDialog(this, "Sửa thành công!");
+                jtbKhoangCachTram.setValueAt(soNgay, hangDangChonKCTram, 2);
+                jtbKhoangCachTram.setValueAt(khoangCach, hangDangChonKCTram, 3);
                 jdlThemSuaKCTram.dispose();
             }
             else

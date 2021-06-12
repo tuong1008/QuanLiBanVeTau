@@ -475,22 +475,29 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
             int input = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa không?", "Cảnh báo", JOptionPane.YES_NO_OPTION);
             if (input == JOptionPane.YES_OPTION) {
                 String maTau = jtbTau.getValueAt(hangDangChon, 0).toString();
-                String thoiGianHieuChinhTau=jtbTau.getValueAt(hangDangChon, 1).toString();
+                String thoiGianHieuChinhTau = jtbTau.getValueAt(hangDangChon, 1).toString();
+
+                ResultSet rs = LopKetNoi.select("select ID_TCT from TauChayTuyen\n"
+                        + "	where MaTau=? and ThoiGianHieuChinhTau=?", maTau, thoiGianHieuChinhTau);
                 try {
-                    if (ketNoiCSDL.update("delete from ToaThuocTau\n" +
-                    "where MaTau=? and ThoiGianHieuChinhTau=?", maTau,thoiGianHieuChinhTau)
-                      &&ketNoiCSDL.update("delete from Tau\n" +
-                    "where MaTau=? and ThoiGianHieuChinhTau=?",maTau,thoiGianHieuChinhTau)) {//nếu xoá tàu k được vì đã phân tuyến cho tàu
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(this, "Không thể xóa vì có tàu đã được phân công");
+                    } else {
+                        ketNoiCSDL.update("delete from ToaThuocTau\n"
+                                + "where MaTau=? and ThoiGianHieuChinhTau=?", maTau, thoiGianHieuChinhTau);
+                        ketNoiCSDL.update("delete from Tau\n"
+                                + "where MaTau=? and ThoiGianHieuChinhTau=?", maTau, thoiGianHieuChinhTau); //nếu xoá tàu k được vì đã phân tuyến cho tàu
                         tbmTau.removeRow(hangDangChon);
                         hangDangChon = -1;
                         jtbTau.clearSelection();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Không thể xóa vì có tàu đang chạy");
+
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println("Lỗi xoá tàu");
                 }
+
             }
+
         }
     }//GEN-LAST:event_btnXoa1ActionPerformed
 

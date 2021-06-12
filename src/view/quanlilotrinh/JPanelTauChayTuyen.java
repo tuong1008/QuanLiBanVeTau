@@ -42,7 +42,10 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     private int hangDangChon = -1;
     TimePickerSettings timeSettings;
     TableRowSorter<DefaultTableModel> trsTauChayTuyen;
+    DatePickerSettings dateSettings;
     public JPanelTauChayTuyen() {
+        dateSettings = new DatePickerSettings();
+        dateSettings.setFormatForDatesCommonEra("yyyy-MM-dd");
         timeSettings = new TimePickerSettings();
         timeSettings.setDisplaySpinnerButtons(true);
         timeSettings.setFormatForDisplayTime(PickerUtilities.createFormatterFromPatternString(
@@ -94,8 +97,6 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jlbThoiGianKhoiHanh = new javax.swing.JLabel();
         cbbMaTau = new javax.swing.JComboBox<>();
-        DatePickerSettings dateSettings;
-        dateSettings = new DatePickerSettings();
         datePickerThoiGianKhoiHanh = new com.github.lgooddatepicker.components.DatePicker(dateSettings);
         timePickerThoiGianKhoiHanh = new com.github.lgooddatepicker.components.TimePicker(timeSettings);
         jLabel1 = new javax.swing.JLabel();
@@ -425,7 +426,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         // TODO add your handling code here:
         hienThiDialog(them);
     }//GEN-LAST:event_btnThem1ActionPerformed
-    private int kiemTraThemTau(LopKetNoi ketNoiCSDL,String maTau, String maTuyen, java.sql.Timestamp tsThoiGianKhoiHanh, java.sql.Timestamp tsThoiGianDen,java.sql.Timestamp tsThoiGianHieuChinhTau, java.sql.Timestamp tsThoiGianHieuChinhTuyen) {
+    private int kiemTraThemTau(LopKetNoi ketNoiCSDL,String maTau, String maTuyen, java.sql.Timestamp tsThoiGianKhoiHanh, java.sql.Timestamp tsThoiGianDen,String tsThoiGianHieuChinhTau, String tsThoiGianHieuChinhTuyen) {
         // kiem tra thời gian khởi hành và thời gian đến
         ArrayList<java.sql.Timestamp> DSThoiGianDiVaDen=new ArrayList<java.sql.Timestamp>();
         try {
@@ -470,6 +471,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     }
     private void btnSua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSua1ActionPerformed
         // TODO add your handling code here:
+        hangDangChon=jtbTau.getSelectedRow();
         int ID_TCT=-1;
         String maTauCu=jtbTau.getValueAt(hangDangChon, 0).toString();
         String strThoiGianHieuChinhTau=jtbTau.getValueAt(hangDangChon, 1).toString();
@@ -481,7 +483,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         if (hangDangChon < 0) {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn đối tượng! Vui lòng chọn 1 dòng trong bảng");
         } else {
-            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
                 ResultSet rs=LopKetNoi.select("select * from TauChayTuyen where MaTau=? and ThoiGianHieuChinhTau=? and MaTuyen=? and ThoiGianHieuChinh=? and ThoiGianKhoiHanh=? and ThoiGianDen=?",maTauCu, strThoiGianHieuChinhTau, maTuyenCu, strThoiGianHieuChinhTuyen, strThoiGianKhoiHanh,strThoiGianDen);
                 if (rs.next())
@@ -560,30 +562,36 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         java.sql.Timestamp tsThoiGianDen=null;
         try {
             String strThoiGianKhoiHanh=datePickerThoiGianKhoiHanh.toString()+" "+timePickerThoiGianKhoiHanh.toString();
-            maTau = cbbMaTau.getSelectedItem().toString();
-            maTuyen=cbbTuyen.getSelectedItem().toString();
-            ResultSet rs=LopKetNoi.select("select MAX(ThoiGianHieuChinhTau) as ThoiGianHieuChinhMax from Tau\n" +
-            "where MaTau=?", maTau);
-            if (rs.next())
+            tsThoiGianKhoiHanh=(new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanh).getTime()));
+            if (tsThoiGianKhoiHanh.compareTo(new java.sql.Timestamp(System.currentTimeMillis()))>0)
             {
-                tsThoiGianHieuChinhTau=rs.getTimestamp(1);
+                maTau = cbbMaTau.getSelectedItem().toString();
+                maTuyen = cbbTuyen.getSelectedItem().toString();
+                ResultSet rs = LopKetNoi.select("select MAX(ThoiGianHieuChinhTau) as ThoiGianHieuChinhMax from Tau\n"
+                        + "where MaTau=?", maTau);
+                if (rs.next()) {
+                    tsThoiGianHieuChinhTau = rs.getTimestamp(1);
+                }
+                rs = LopKetNoi.select("select MAX(ThoiGianHieuChinh) as ThoiGianHieuChinhMax from Tuyen\n"
+                        + "where MaTuyen=?", maTuyen);
+                if (rs.next()) {
+                    tsThoiGianHieuChinhTuyen = rs.getTimestamp(1);
+                }
+                tsThoiGianKhoiHanh = new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanh).getTime());
+                rs = LopKetNoi.select("select [dbo].[tinhThoiGianDenCuaTau](?,?,?)", maTuyen, tsThoiGianHieuChinhTuyen, tsThoiGianKhoiHanh);
+                if (rs.next()) {
+                    tsThoiGianDen = rs.getTimestamp(1);
+                }
             }
-            rs=LopKetNoi.select("select MAX(ThoiGianHieuChinh) as ThoiGianHieuChinhMax from Tuyen\n" +
-            "where MaTuyen=?", maTuyen);
-            if (rs.next())
+            else
             {
-                tsThoiGianHieuChinhTuyen=rs.getTimestamp(1);
-            }
-            tsThoiGianKhoiHanh=new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanh).getTime());
-            rs=LopKetNoi.select("select [dbo].[tinhThoiGianDenCuaTau](?,?,?)",maTuyen,tsThoiGianHieuChinhTuyen,tsThoiGianKhoiHanh);
-            if (rs.next())
-            {
-                tsThoiGianDen=rs.getTimestamp(1);
+                JOptionPane.showMessageDialog(this, "Thời gian khởi hành phải lớn hơn hiện tại");
+                return false;
             }
         } catch (Exception e) {
             System.out.println("Tính thời gian đến hoặc thêm TauChayTuyen bị lỗi");
         }
-        int ketQuaThemTauChayTuyen=kiemTraThemTau(ketNoiCSDL,maTau,maTuyen,tsThoiGianKhoiHanh,tsThoiGianDen,tsThoiGianHieuChinhTau,tsThoiGianHieuChinhTuyen);
+        int ketQuaThemTauChayTuyen=kiemTraThemTau(ketNoiCSDL,maTau,maTuyen,tsThoiGianKhoiHanh,tsThoiGianDen,tsThoiGianHieuChinhTau.toString(),tsThoiGianHieuChinhTuyen.toString());
         if (ketQuaThemTauChayTuyen==1) {
             // them vao bang
         tbmTau.addRow(new Object[]{maTau,tsThoiGianHieuChinhTau, maTuyen,tsThoiGianHieuChinhTuyen, tsThoiGianKhoiHanh,tsThoiGianDen});
@@ -602,70 +610,68 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     }
 
     private boolean suaTau() {
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String maTauCu=jtbTau.getValueAt(hangDangChon, 0).toString();
         String strThoiGianHieuChinhTau=jtbTau.getValueAt(hangDangChon, 1).toString();
         String maTuyenCu=jtbTau.getValueAt(hangDangChon, 2).toString();
         String strThoiGianHieuChinhTuyen=jtbTau.getValueAt(hangDangChon, 3).toString();
         String strThoiGianKhoiHanh=jtbTau.getValueAt(hangDangChon, 4).toString();
         String strThoiGianDen=jtbTau.getValueAt(hangDangChon, 5).toString();
-        java.sql.Timestamp thoiGianHieuChinhTauCu=null;
-        java.sql.Timestamp thoiGianKhoiHanhCu=null;
-        java.sql.Timestamp thoiGianDenCu=null;
-        try {
-            thoiGianHieuChinhTauCu=new java.sql.Timestamp(formatter.parse(strThoiGianHieuChinhTau).getTime());
-            thoiGianKhoiHanhCu=new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanh).getTime());
-            thoiGianDenCu=new java.sql.Timestamp(formatter.parse(strThoiGianDen).getTime());
-        } catch (Exception e) {
-            System.out.println("Lỗi parse sang Date ThoiGianKhoiHanhCu, ThoiGianDenCu");
-            e.printStackTrace();
-        }
-        ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=? and ThoiGianHieuChinhTau=? and ThoiGianHieuChinh=?",maTauCu,maTuyenCu,thoiGianKhoiHanhCu,strThoiGianHieuChinhTau,strThoiGianHieuChinhTuyen);
-        String maTauMoi=jtbTau.getValueAt(hangDangChon, 0).toString();
-        String maTuyenMoi=null;
-        java.sql.Timestamp strThoiGianHieuChinhTuyenMoi=null;
+//        java.sql.Timestamp thoiGianHieuChinhTauCu=null;
+//        java.sql.Timestamp thoiGianHieuChinhTuyenCu=null;
+//        java.sql.Timestamp thoiGianKhoiHanhCu=null;
+//        java.sql.Timestamp thoiGianDenCu=null;
+//        try {
+//            thoiGianHieuChinhTauCu=new java.sql.Timestamp(formatter.parse(strThoiGianHieuChinhTau).getTime());
+//            thoiGianHieuChinhTuyenCu=new java.sql.Timestamp(formatter.parse(strThoiGianHieuChinhTuyen).getTime());
+//            thoiGianKhoiHanhCu=new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanh).getTime());
+//            thoiGianDenCu=new java.sql.Timestamp(formatter.parse(strThoiGianDen).getTime());
+//        } catch (Exception e) {
+//            System.out.println("Lỗi parse sang Date ThoiGianKhoiHanhCu, ThoiGianDenCu");
+//            e.printStackTrace();
+//        }
         java.sql.Timestamp thoiGianKhoiHanhMoi=null;
         java.sql.Timestamp tsThoiGianDenMoi=null;
         try {
-            String strThoiGianKhoiHanhMoi=datePickerThoiGianKhoiHanh.toString()+" "+timePickerThoiGianKhoiHanh.toString();
-            maTuyenMoi=cbbTuyen.getSelectedItem().toString();
+            String strThoiGianKhoiHanhMoi=datePickerThoiGianKhoiHanh.toString()+" "+timePickerThoiGianKhoiHanh.toString();            
             thoiGianKhoiHanhMoi=new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanhMoi).getTime());
-            ResultSet rs=LopKetNoi.select("select MAX(ThoiGianHieuChinh) as ThoiGianHieuChinhMax from Tuyen\n" +
-            "where MaTuyen=?", maTuyenMoi);
-            if (rs.next())
+            if (thoiGianKhoiHanhMoi.compareTo(new java.sql.Timestamp(System.currentTimeMillis()))>0)
             {
-                strThoiGianHieuChinhTuyenMoi=rs.getTimestamp(1);
+                ResultSet rs=ketNoiCSDL.select("select [dbo].[tinhThoiGianDenCuaTau](?,?,?)",maTuyenCu,strThoiGianHieuChinhTuyen,thoiGianKhoiHanhMoi);
+                if (rs.next())
+                {
+                    tsThoiGianDenMoi=rs.getTimestamp(1);
+                }
+                ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=? and ThoiGianHieuChinhTau=? and ThoiGianHieuChinh=?",maTauCu,maTuyenCu,strThoiGianKhoiHanh,strThoiGianHieuChinhTau,strThoiGianHieuChinhTuyen);
             }
-            rs=ketNoiCSDL.select("select [dbo].[tinhThoiGianDenCuaTau](?,?,?)",maTuyenMoi,strThoiGianHieuChinhTuyenMoi,thoiGianKhoiHanhMoi);
-            if (rs.next())
+            else
             {
-                tsThoiGianDenMoi=rs.getTimestamp(1);
-            }
-            
-            
+                JOptionPane.showMessageDialog(this, "Thời gian khởi hành phải lớn hơn hiện tại");
+                return false;
+            }   
         } catch (Exception e) {
             System.out.println("Tính thời gian đến hoặc thêm TauChayTuyen bị lỗi");
         }
-        int ketQuaThemTauChayTuyen=kiemTraThemTau(ketNoiCSDL,maTauMoi,maTuyenMoi,thoiGianKhoiHanhMoi,tsThoiGianDenMoi,thoiGianHieuChinhTauCu,strThoiGianHieuChinhTuyenMoi);
+        int ketQuaThemTauChayTuyen=kiemTraThemTau(ketNoiCSDL,maTauCu,maTuyenCu,thoiGianKhoiHanhMoi,tsThoiGianDenMoi,strThoiGianHieuChinhTau,strThoiGianHieuChinhTuyen);
         if (ketQuaThemTauChayTuyen==1) {
             // update thành công 
-            tbmTau.setValueAt(maTauMoi, hangDangChon,0 );
-            tbmTau.setValueAt(maTuyenMoi,hangDangChon,2);
+            tbmTau.setValueAt(maTauCu, hangDangChon,0 );
+            tbmTau.setValueAt(maTuyenCu,hangDangChon,2);
             tbmTau.setValueAt(thoiGianKhoiHanhMoi,hangDangChon,4);
             tbmTau.setValueAt(tsThoiGianDenMoi,hangDangChon,5);
             return true;
             }
         else if (ketQuaThemTauChayTuyen==-1){
             //update không thành công xoá thằng mới
-            ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=? and ThoiGianHieuChinhTau=? and ThoiGianHieuChinh=?",maTauMoi,maTuyenMoi,thoiGianKhoiHanhMoi,thoiGianHieuChinhTauCu,strThoiGianHieuChinhTuyenMoi);
+            ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=? and ThoiGianHieuChinhTau=? and ThoiGianHieuChinh=?",maTauCu,maTuyenCu,thoiGianKhoiHanhMoi,strThoiGianHieuChinhTau,strThoiGianHieuChinhTuyen);
             //insert lại thằng cũ
-            ketNoiCSDL.update("insert into TauChayTuyen(MaTau,MaTuyen,ThoiGianKhoiHanh,ThoiGianDen, ThoiGianHieuChinhTau, ThoiGianHieuChinh) values(?,?,?,?,?,?)", maTauCu,maTuyenCu,thoiGianKhoiHanhCu,thoiGianDenCu,thoiGianHieuChinhTauCu,strThoiGianHieuChinhTuyenMoi);
+            ketNoiCSDL.update("insert into TauChayTuyen(MaTau,MaTuyen,ThoiGianKhoiHanh,ThoiGianDen, ThoiGianHieuChinhTau, ThoiGianHieuChinh) values(?,?,?,?,?,?)", maTauCu,maTuyenCu,strThoiGianKhoiHanh,strThoiGianDen,strThoiGianHieuChinhTau,strThoiGianHieuChinhTuyen);
             return false;
         }    
         else
         {
             //insert lại thằng cũ
-            ketNoiCSDL.update("insert into TauChayTuyen(MaTau,MaTuyen,ThoiGianKhoiHanh,ThoiGianDen, ThoiGianHieuChinhTau, ThoiGianHieuChinh) values(?,?,?,?,?,?)", maTauCu,maTuyenCu,thoiGianKhoiHanhCu,thoiGianDenCu,thoiGianHieuChinhTauCu,strThoiGianHieuChinhTuyenMoi);
+            ketNoiCSDL.update("insert into TauChayTuyen(MaTau,MaTuyen,ThoiGianKhoiHanh,ThoiGianDen, ThoiGianHieuChinhTau, ThoiGianHieuChinh) values(?,?,?,?,?,?)", maTauCu,maTuyenCu,strThoiGianKhoiHanh,strThoiGianDen,strThoiGianHieuChinhTau,strThoiGianHieuChinhTuyen);
         }
         return false;
     }
@@ -678,7 +684,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(jdlTauChayTuyen, "Thêm thất bại");
             }
-            hangDangChon = jtbTau.getRowCount() - 1;
+            //hangDangChon = jtbTau.getRowCount() - 1;
         } else if (loai.equals(sua)) {
             if (suaTau()) {
                 JOptionPane.showMessageDialog(jdlTauChayTuyen, "Sửa thành công");
@@ -695,8 +701,9 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         loadDSTuyenVaoCBB();
         cbbMaTau.setSelectedItem(maTau);
         cbbTuyen.setSelectedItem(maTuyen);
-        String strThoiGianKhoiHanh=jtbTau.getValueAt(hangDangChon, 4).toString();
-        //jtfThoiGianKhoiHanh.setText(strThoiGianKhoiHanh);
+        String[] strThoiGianKhoiHanh=jtbTau.getValueAt(hangDangChon, 4).toString().split("\\s");
+        datePickerThoiGianKhoiHanh.setText(strThoiGianKhoiHanh[0]);
+        timePickerThoiGianKhoiHanh.setText(strThoiGianKhoiHanh[1].substring(0, strThoiGianKhoiHanh[1].length()-2));
     }
     private void hienThiDialog(String loai) {
         setThongBaoRong();
@@ -707,6 +714,8 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
             loadDSTauVaoCBB();
             loadDSTuyenVaoCBB();
         } else if (loai.equals(sua)) {
+            cbbMaTau.setEnabled(false);
+            cbbTuyen.setEnabled(false);
             loadThongTinSua();
         }
 

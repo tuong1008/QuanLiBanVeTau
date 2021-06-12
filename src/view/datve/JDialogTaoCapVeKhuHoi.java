@@ -51,6 +51,7 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
     ArrayList<Toa> DSTatCaToa;
     ArrayList<Toa> DSTatCaToa_ChieuVe;
     JComboBox<String> cbbLoaiVe;
+    boolean doClear;
     int ID_TCT;
     public JDialogTaoCapVeKhuHoi()
     {
@@ -68,7 +69,7 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
 //        model2.addRow(new Object[] {"","","","",""});
     
     }
-    public JDialogTaoCapVeKhuHoi(TaiKhoan taiKhoan,Vector<Vector> dataTable,ArrayList<TuyenDiQuaTram[]> DSTuyen,ArrayList<TuyenDiQuaTram[]> DSTuyen_ChieuVe,ArrayList<TauChayTuyen> DSTauPhuHop, ArrayList<TauChayTuyen> DSTauPhuHop_ChieuVe, ArrayList<Toa> DSTatCaToa, ArrayList<Toa> DSTatCaToa_ChieuVe, boolean modal) {
+    public JDialogTaoCapVeKhuHoi(TaiKhoan taiKhoan,Vector<Vector> dataTable,ArrayList<TuyenDiQuaTram[]> DSTuyen,ArrayList<TuyenDiQuaTram[]> DSTuyen_ChieuVe,ArrayList<TauChayTuyen> DSTauPhuHop, ArrayList<TauChayTuyen> DSTauPhuHop_ChieuVe, ArrayList<Toa> DSTatCaToa, ArrayList<Toa> DSTatCaToa_ChieuVe, boolean modal,boolean doClear) {
         super((Frame) null, modal);
         this.taiKhoan=taiKhoan;
         initComponents();
@@ -83,6 +84,7 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
         this.DSTauPhuHop_ChieuVe=DSTauPhuHop_ChieuVe;
         this.DSTatCaToa=DSTatCaToa;
         this.DSTatCaToa_ChieuVe=DSTatCaToa_ChieuVe;
+        this.doClear=doClear;
         TableColumn cotLoaiVe = jTableNguoiDung.getColumnModel().getColumn(3);
         cbbLoaiVe = loadLoaiVeVaoCBB(ketNoiCSDL);
         cbbLoaiVe.addActionListener(new ActionListener() {
@@ -138,6 +140,11 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
         }
         
     } 
+
+    public boolean isDoClear() {
+        return doClear;
+    }
+    
     private void dieuChinhGia(int hangDangChon)
     {
                 NumberFormat myFormat = NumberFormat.getInstance();
@@ -447,6 +454,11 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
         });
 
         jButton6.setText("Huỷ");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -775,6 +787,12 @@ public class JDialogTaoCapVeKhuHoi extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(rootPane, "Phải nhập CMND và Tên");
         }
     }//GEN-LAST:event_jButtonXacNhanActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        doClear=false;
+        this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
     private void moveRowBy_ChieuDi(int by)
 {
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();

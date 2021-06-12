@@ -156,9 +156,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         btnXoaLoaiToa = new javax.swing.JButton();
         jLabel51 = new javax.swing.JLabel();
         jtfTimKiemLoaiToa = new javax.swing.JTextField();
-        cbbTimKiemLoaiToa = new javax.swing.JComboBox<>();
-        cbbSapXepLoaiToa = new javax.swing.JComboBox<>();
-        jLabel52 = new javax.swing.JLabel();
         btnTroVeLoaiToa = new javax.swing.JButton();
         jSeparator25 = new javax.swing.JSeparator();
         jSeparator26 = new javax.swing.JSeparator();
@@ -644,21 +641,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
             }
         });
 
-        cbbTimKiemLoaiToa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbTimKiemLoaiToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã loại toa" }));
-
-        cbbSapXepLoaiToa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbSapXepLoaiToa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã loại toa a-z", "Mã loại toa z-a", "Giá tăng dần", "Giá giảm dần" }));
-        cbbSapXepLoaiToa.setSelectedItem(null);
-        cbbSapXepLoaiToa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbSapXepLoaiToaActionPerformed(evt);
-            }
-        });
-
-        jLabel52.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel52.setText("Sắp xếp:");
-
         btnTroVeLoaiToa.setBackground(new java.awt.Color(255, 255, 255));
         btnTroVeLoaiToa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/outline_arrow_back_black_24dp_1.png"))); // NOI18N
         btnTroVeLoaiToa.addActionListener(new java.awt.event.ActionListener() {
@@ -694,16 +676,12 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                                         .addComponent(btnSuaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                                         .addComponent(btnXoaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jpnLoaiToaLayout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpnLoaiToaLayout.createSequentialGroup()
                                         .addComponent(jLabel51)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jtfTimKiemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbbTimKiemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel52)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbbSapXepLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(157, 157, 157)))
                         .addGap(0, 17, Short.MAX_VALUE))))
         );
         jpnLoaiToaLayout.setVerticalGroup(
@@ -726,13 +704,10 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                     .addComponent(btnXoaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator26, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(jpnLoaiToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbbSapXepLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel52)
                     .addComponent(jtfTimKiemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel51)
-                    .addComponent(cbbTimKiemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel51))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -784,10 +759,10 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         } else {
             String tempMaToa=jtbToa.getValueAt(jtbToa.getSelectedRow(), 0).toString();
             try {
-                ResultSet rs=ketNoiCSDL.select("select * from ToaThuocTau where MaToa=?",tempMaToa);
+                ResultSet rs=ketNoiCSDL.select("select * from ChuyenDi where MaToa=?",tempMaToa);
                 if (rs.next())
                 {
-                    JOptionPane.showMessageDialog(this, "Quá khứ có Tàu chứa Toa này, không thể sửa!");
+                    JOptionPane.showMessageDialog(this, "Toa này đã được đặt vé, không thể sửa!");
                 }
                 else
                 {
@@ -864,10 +839,11 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         } else {
             String tempMaLoaiToa=jtbLoaiToa.getValueAt(jtbLoaiToa.getSelectedRow(), 0).toString();
             try {
-                ResultSet rs=ketNoiCSDL.select("select * from Toa where MaLoaiToa=?",tempMaLoaiToa);
+                ResultSet rs=ketNoiCSDL.select("select MaChuyen from ChuyenDi \n" +
+                "where MaToa in (select MaToa from Toa where MaLoaiToa=?)",tempMaLoaiToa);
                 if (rs.next())
                 {
-                    JOptionPane.showMessageDialog(this, "Đang có Toa thuộc Loại Toa này, không thể sửa!");
+                    JOptionPane.showMessageDialog(this, "Loại toa này đã xuất hiện trong vé, không thể sửa");
                 }
                 else
                 {
@@ -902,72 +878,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
 
     private void jtfTimKiemLoaiToaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTimKiemLoaiToaKeyReleased
         // TODO add your handling code here:
-
-        if (cbbTimKiemLoaiToa.getSelectedIndex() == 0) {// tim kiem theo ma tuyen
-                        String maLoaiToa = jtfTimKiemLoaiToa.getText().trim();
-                        loadDSLoaiToaVaoBang(LopKetNoi.select("select * from LoaiToa where MaLoaiToa like ?",
-                                "%" + maLoaiToa + "%"));
-                }
+        trsLoaiToa.setRowFilter(RowFilter.regexFilter(jtfTimKiemLoaiToa.getText().toUpperCase().trim()));
     }//GEN-LAST:event_jtfTimKiemLoaiToaKeyReleased
-
-    private void cbbSapXepLoaiToaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXepLoaiToaActionPerformed
-        // TODO add your handling code here:
-        String loaiSapXep=cbbSapXepLoaiToa.getSelectedItem().toString();
-        ArrayList <LoaiToa> DSLoaiToaChuaSapXep=new ArrayList<LoaiToa>();
-        for (int i=0;i<jtbLoaiToa.getRowCount();i++)
-        {
-            LoaiToa loaiToa=new LoaiToa();
-            loaiToa.setMaLoaiToa(jtbLoaiToa.getValueAt(i, 0).toString());
-            loaiToa.setTenLoaiToa(jtbLoaiToa.getValueAt(i, 1).toString());
-            loaiToa.setSoChoNgoi(Integer.valueOf(jtbLoaiToa.getValueAt(i, 2).toString()));
-            loaiToa.setGiaChoNgoi(Integer.valueOf(jtbLoaiToa.getValueAt(i, 3).toString()));
-            DSLoaiToaChuaSapXep.add(loaiToa);
-        }
-        if (cbbSapXepLoaiToa.getSelectedIndex()==0)
-        {
-            Collections.sort(DSLoaiToaChuaSapXep, new Comparator<LoaiToa>() {
-            @Override
-            public int compare(LoaiToa lhs, LoaiToa rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                return lhs.getMaLoaiToa().compareTo(rhs.getMaLoaiToa());
-            }
-        });
-        }
-        else if (cbbSapXepLoaiToa.getSelectedIndex()==1)
-        {
-            Collections.sort(DSLoaiToaChuaSapXep, new Comparator<LoaiToa>() {
-            @Override
-            public int compare(LoaiToa lhs, LoaiToa rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                return -1 * lhs.getMaLoaiToa().compareTo(rhs.getMaLoaiToa());
-            }
-        });
-        }
-        else if (cbbSapXepLoaiToa.getSelectedIndex()==2)
-        {
-            Collections.sort(DSLoaiToaChuaSapXep, new Comparator<LoaiToa>() {
-            @Override
-            public int compare(LoaiToa lhs, LoaiToa rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                return lhs.getGiaChoNgoi()>(rhs.getGiaChoNgoi()) ? 1:-1;
-            }
-        });
-        }
-        else if (cbbSapXepLoaiToa.getSelectedIndex()==3)
-        {
-            Collections.sort(DSLoaiToaChuaSapXep, new Comparator<LoaiToa>() {
-            @Override
-            public int compare(LoaiToa lhs, LoaiToa rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                return lhs.getGiaChoNgoi()>(rhs.getGiaChoNgoi()) ? -1:1;
-            }
-        });
-        }
-        tbmLoaiToa.setRowCount(0);
-        for (LoaiToa i : DSLoaiToaChuaSapXep) {
-            tbmLoaiToa.addRow(new Object[]{i.getMaLoaiToa(),i.getTenLoaiToa(),i.getSoChoNgoi(),i.getGiaChoNgoi()});
-        }
-    }//GEN-LAST:event_cbbSapXepLoaiToaActionPerformed
 
     private void btnTroVeLoaiToaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTroVeLoaiToaActionPerformed
         // TODO add your handling code here:
@@ -1370,9 +1282,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private javax.swing.JButton btnXoaLoaiToa;
     private javax.swing.JButton btnXoaToa;
     private javax.swing.JComboBox<String> cbbLoaiToa;
-    private javax.swing.JComboBox<String> cbbSapXepLoaiToa;
     private javax.swing.JComboBox<String> cbbSoChoNgoi;
-    private javax.swing.JComboBox<String> cbbTimKiemLoaiToa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1383,7 +1293,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

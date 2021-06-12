@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
-import javax.swing.table.DefaultTableModel;
 import module.*;
 
 /**

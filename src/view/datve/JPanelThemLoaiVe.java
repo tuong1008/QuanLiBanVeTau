@@ -11,14 +11,13 @@ import javax.swing.table.DefaultTableModel;
 import view.JPanelDatVe;
 import java.sql.ResultSet;
 import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 import javax.swing.JOptionPane;
-import module.LoaiVe;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 import module.TaiKhoan;
-import module.Ve;
+import javax.swing.JFrame;
 
 /**
  *
@@ -31,6 +30,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
     DefaultTableModel jtbLoaiVeModel;
     int hangDangChon;
     TaiKhoan taiKhoan;
+    TableRowSorter<DefaultTableModel> trsLoaiVe;
     /**
      * Creates new form JPanelThemLoaiVe
      */
@@ -40,8 +40,18 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
         ketNoiCSDL=new LopKetNoi();
         jtbLoaiVeModel=(DefaultTableModel) jtbLoaiVe.getModel();
         loadLoaiVeVaoBang(LopKetNoi.select("select * from LoaiVe"));
+        trsLoaiVe =new TableRowSorter<>(jtbLoaiVeModel);
+        trsLoaiVe.setComparator(0, new Comparator<String>
+        () {
+            @Override
+            public int compare(String o1, String o2) {
+                Collator collator = Collator.getInstance( new Locale("vi","VN"));
+                return collator.compare(o1,o2);
+            }
+        });
+        jtbLoaiVe.setRowSorter(trsLoaiVe);
     }
-    public void loadLoaiVeVaoBang(ResultSet rs)
+    private void loadLoaiVeVaoBang(ResultSet rs)
     {
         jtbLoaiVeModel.setRowCount(0);
         try {
@@ -62,7 +72,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jdlLoaiVe = new javax.swing.JDialog();
+        jdlLoaiVe = new javax.swing.JDialog((JFrame) null,true);
         jPanel5 = new javax.swing.JPanel();
         jlbTenDialogLoaiVe = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -82,9 +92,6 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
         btnXoa = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jtfTimKiem = new javax.swing.JTextField();
-        cbbTimKiem = new javax.swing.JComboBox<>();
-        cbbSapXep = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
@@ -259,21 +266,6 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
             }
         });
 
-        cbbTimKiem.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên loại vé", "Hệ số" }));
-
-        cbbSapXep.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        cbbSapXep.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên loại vé a-z", "Tên loại vé z-a" }));
-        cbbSapXep.setSelectedItem(null);
-        cbbSapXep.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbSapXepActionPerformed(evt);
-            }
-        });
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel9.setText("Sắp xếp:");
-
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/outline_arrow_back_black_24dp_1.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -309,16 +301,12 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
                                         .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jtfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbbTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel9)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(157, 157, 157)))
                         .addGap(0, 32, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
@@ -344,11 +332,8 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbbSapXep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
                     .addComponent(jtfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(cbbTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -389,10 +374,10 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
         {
             if (loai.equals("SỬA")) {
             jtfTenLoaiVe.setEditable(false);
-            jtfTenLoaiVe.setText(jtbLoaiVeModel.getValueAt(hangDangChon, 0).toString());
+            jtfTenLoaiVe.setText(jtbLoaiVe.getValueAt(hangDangChon, 0).toString());
             jlbTenLoaiVe.setText("");
             jtfHeSo.setEditable(true);
-            jtfHeSo.setText(jtbLoaiVeModel.getValueAt(hangDangChon, 1).toString());
+            jtfHeSo.setText(jtbLoaiVe.getValueAt(hangDangChon, 1).toString());
             jlbHeSo.setText("");
         }
         }
@@ -412,6 +397,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
+        hangDangChon=jtbLoaiVe.getSelectedRow();
         if (hangDangChon < 0) {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn đối tượng! Vui lòng chọn 1 dòng trong bảng");
         } else {
@@ -458,51 +444,8 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
 
     private void jtfTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTimKiemKeyReleased
         // TODO add your handling code here:
-                if (cbbTimKiem.getSelectedIndex() == 0) {// tim kiem theo ma tuyen
-                        String tenLoaiVe = jtfTimKiem.getText().trim();
-                        loadLoaiVeVaoBang(LopKetNoi.select("select * from LoaiVe where TenLoaiVe like ?",
-                                "%" + tenLoaiVe + "%"));
-                }
+                trsLoaiVe.setRowFilter(RowFilter.regexFilter(jtfTimKiem.getText().toUpperCase().trim()));
     }//GEN-LAST:event_jtfTimKiemKeyReleased
-
-    private void cbbSapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSapXepActionPerformed
-        // TODO add your handling code here:
-        String loaiSapXep=cbbSapXep.getSelectedItem().toString();
-        ArrayList <LoaiVe> DSLoaiVeChuaSapXep=new ArrayList<LoaiVe>();
-        for (int i=0;i<jtbLoaiVe.getRowCount();i++)
-        {
-            LoaiVe loaiVe=new LoaiVe();
-            loaiVe.setTenLoaiVe(jtbLoaiVe.getValueAt(i, 0).toString());
-            loaiVe.setHeSo(Float.valueOf(jtbLoaiVe.getValueAt(i, 1).toString()));
-            DSLoaiVeChuaSapXep.add(loaiVe);
-        }
-        if (cbbSapXep.getSelectedItem().toString().equals("Tên loại vé a-z"))
-        {
-            Collections.sort(DSLoaiVeChuaSapXep, new Comparator<LoaiVe>() {
-            @Override
-            public int compare(LoaiVe lhs, LoaiVe rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                Collator collator = Collator.getInstance( new Locale("vi","VN"));
-                return collator.compare(lhs.getTenLoaiVe(), rhs.getTenLoaiVe());
-            }
-        });
-        }
-        else if (cbbSapXep.getSelectedItem().toString().equals("Tên loại vé z-a"))
-        {
-            Collections.sort(DSLoaiVeChuaSapXep, new Comparator<LoaiVe>() {
-            @Override
-            public int compare(LoaiVe lhs, LoaiVe rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                Collator collator = Collator.getInstance( new Locale("vi","VN"));
-                return -1 * collator.compare(lhs.getTenLoaiVe(), rhs.getTenLoaiVe());
-            }
-        });
-        }
-        jtbLoaiVeModel.setRowCount(0);
-        for (LoaiVe i : DSLoaiVeChuaSapXep) {
-            jtbLoaiVeModel.addRow(new Object[]{i.getTenLoaiVe(),i.getHeSo()});
-        }
-    }//GEN-LAST:event_cbbSapXepActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -537,6 +480,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
         if (loai.equals("THÊM")) {
             if (themLoaiVe()) {
                 JOptionPane.showMessageDialog(jdlLoaiVe, "Thêm thành công");
+                jtbLoaiVeModel.addRow(new Object[] {jtfTenLoaiVe.getText().toUpperCase().trim(),jtfHeSo.getText()});
                 jtfTenLoaiVe.setText("");
                 jlbTenLoaiVe.setText(" ");
                 jtfHeSo.setText("");
@@ -551,6 +495,7 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
         } else if (loai.equals("SỬA")) {
             if (suaLoaiVe()) {
                 JOptionPane.showMessageDialog(jdlLoaiVe, "Sửa thành công");
+                jtbLoaiVe.setValueAt(jtfHeSo.getText(), hangDangChon, 1);
                 jdlLoaiVe.dispose();
             } else {
                 JOptionPane.showMessageDialog(jdlLoaiVe, "Sửa thất bại");
@@ -565,15 +510,12 @@ public class JPanelThemLoaiVe extends javax.swing.JPanel {
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXacNhanLoaiVe;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JComboBox<String> cbbSapXep;
-    private javax.swing.JComboBox<String> cbbTimKiem;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;

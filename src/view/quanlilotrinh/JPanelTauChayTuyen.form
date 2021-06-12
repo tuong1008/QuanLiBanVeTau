@@ -206,7 +206,6 @@
             <Component class="com.github.lgooddatepicker.components.DatePicker" name="datePickerThoiGianKhoiHanh">
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.github.lgooddatepicker.components.DatePicker(dateSettings)"/>
-                <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="DatePickerSettings dateSettings;&#xa;dateSettings = new DatePickerSettings();"/>
                 <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="dateSettings.setVetoPolicy(new SampleDateVetoPolicy());"/>
               </AuxValues>
             </Component>

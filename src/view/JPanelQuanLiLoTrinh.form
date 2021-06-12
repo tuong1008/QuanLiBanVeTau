@@ -44,9 +44,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Component id="jpnTauDangChay" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jpnHieuChinh" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="393" max="32767" attributes="0"/>
+                  <EmptySpace pref="591" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -54,10 +52,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jpnHieuChinh" min="-2" max="-2" attributes="0"/>
-                      <Component id="jpnTauDangChay" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jpnTauDangChay" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="456" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -105,48 +100,6 @@
                   <Image iconType="3" name="/images/outline_subway_black_24dp.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="T&#xe0;u &#x111;ang ch&#x1ea1;y"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Container class="javax.swing.JPanel" name="jpnHieuChinh">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jpnHieuChinhMousePressed"/>
-          </Events>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jlbHieuChinh" pref="170" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jlbHieuChinh" alignment="1" pref="115" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="jlbHieuChinh">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="14" style="1"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/images/outline_edit_road_black_24dp.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Hi&#x1ec7;u ch&#x1ec9;nh"/>
               </Properties>
             </Component>
           </SubComponents>
