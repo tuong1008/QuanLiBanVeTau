@@ -24,7 +24,7 @@ public class JPanelDatVe extends javax.swing.JPanel {
     public JPanelDatVe(TaiKhoan taiKhoan) {
         initComponents();        
         this.taiKhoan=taiKhoan;
-        if (this.taiKhoan.getMaLoaiTaiKhoan().equals("KH")) jpnThemLoaiVe.setVisible(false);
+        if (this.taiKhoan.getMaLoaiTaiKhoan().equals("KH")||this.taiKhoan.getMaLoaiTaiKhoan().equals("NV")) jpnThemLoaiVe.setVisible(false);
         
       
     }

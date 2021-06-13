@@ -27,7 +27,7 @@ public class LopKetNoi {
 
     public LopKetNoi() {
 
-        String url = "jdbc:sqlserver://;databaseName=QuanLiVeTau4";
+        String url = "jdbc:sqlserver://;databaseName=QuanLiVeTau2";
         String user = "sa";
         String pass = "123";
         try {
