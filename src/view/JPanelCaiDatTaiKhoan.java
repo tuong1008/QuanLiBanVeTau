@@ -32,7 +32,7 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
         }
         else
         {
-            jButtonDangKyTKQT.setEnabled(true);
+            jButtonDangKyTKQT.setEnabled(false);
         }
         ketNoiCSDL = new LopKetNoi();
         nguoiDung=ketNoiCSDL.getThongTinNguoiDung(taiKhoan.getCMND());
@@ -139,6 +139,7 @@ public class JPanelCaiDatTaiKhoan extends javax.swing.JPanel {
         jpwMatKhau.setEnabled(false);
 
         jButtonDangKyTKQT.setText("Đăng ký tài khoản Quản trị");
+        jButtonDangKyTKQT.setEnabled(false);
         jButtonDangKyTKQT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDangKyTKQTActionPerformed(evt);

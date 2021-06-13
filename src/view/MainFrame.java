@@ -34,7 +34,7 @@ public class MainFrame extends javax.swing.JFrame{
         ChuyenManHinhController controller = new ChuyenManHinhController(jpnView);
         controller.setMainFrame(this);
         controller.setTaiKhoan(tk);
-        controller.setView(jpnDatVe, jlbDatVe);
+        controller.setView(jpnQuanLiLoTrinh, jlbQuanLiLoTrinh);
 
         List<DanhMucBean> list = new ArrayList<>();
         list.add(new DanhMucBean("DatVe", jpnDatVe, jlbDatVe));
@@ -126,7 +126,7 @@ public class MainFrame extends javax.swing.JFrame{
         setPreferredSize(new java.awt.Dimension(1366, 650));
         setResizable(false);
 
-        jpnRoot.setBackground(new java.awt.Color(102, 102, 102));
+        jpnRoot.setBackground(new java.awt.Color(0, 0, 0));
 
         jpnMenu.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -390,7 +390,7 @@ public class MainFrame extends javax.swing.JFrame{
         jpnView.setLayout(jpnViewLayout);
         jpnViewLayout.setHorizontalGroup(
             jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1043, Short.MAX_VALUE)
+            .addGap(0, 1006, Short.MAX_VALUE)
         );
         jpnViewLayout.setVerticalGroup(
             jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -403,9 +403,9 @@ public class MainFrame extends javax.swing.JFrame{
             jpnRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpnRootLayout.createSequentialGroup()
                 .addComponent(jpnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jpnView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jpnRootLayout.setVerticalGroup(
             jpnRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

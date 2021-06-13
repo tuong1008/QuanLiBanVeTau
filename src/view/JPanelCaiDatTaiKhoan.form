@@ -240,6 +240,7 @@
         <Component class="javax.swing.JButton" name="jButtonDangKyTKQT">
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng k&#xfd; t&#xe0;i kho&#x1ea3;n Qu&#x1ea3;n tr&#x1ecb;"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDangKyTKQTActionPerformed"/>
