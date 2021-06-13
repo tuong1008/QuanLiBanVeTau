@@ -117,7 +117,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
         jpnThongKe2.setLayout(jpnThongKe2Layout);
         jpnThongKe2Layout.setHorizontalGroup(
             jpnThongKe2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jpnThongKe2Layout.setVerticalGroup(
             jpnThongKe2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,8 +148,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
                             .addComponent(jpnThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jpnThongKe1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(17, 17, 17)
-                        .addComponent(jpnThongKe2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addComponent(jpnThongKe2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -173,13 +172,13 @@ public class JPanelThongKe extends javax.swing.JPanel {
                                 .addGap(36, 36, 36)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbbNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(cbbNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jtfSoTien, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addComponent(jLabel7)))
+                        .addGap(0, 280, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,8 +215,8 @@ public class JPanelThongKe extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,7 +272,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
         ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where cast(thoiGianLenTau as Date)=?", ngay);
         ResultSet rsVeKhuHoi = LopKetNoi.select("select SUM(Gia) from Ve_KhuHoi where cast(ThoiGianLenTau_ChieuVe as Date)=?", ngay);
         DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
-        int tongDoanhThu = 0;
+        long tongDoanhThu = 0;
         try {
             while (rsVe.next() && rsVeKhuHoi.next()) {
                 dateSet.addValue(rsVe.getInt(1), "Vé", ngay);
@@ -374,7 +373,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
                 + " and year(thoiGianlentau_chieuve)=?", thang, nam);
         DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
         String thoiGian = thang + "/" + nam;
-        int tongDoanhThu = 0;
+        long tongDoanhThu = 0;
         try {
             while (rsVe.next() && rsVeKhuHoi.next()) {
                 dateSet.addValue(rsVe.getInt(1), "Vé", thoiGian);
@@ -478,7 +477,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
                 + "  year(thoiGianlentau_chieuve)=?", nam);
         DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
         String thoiGian = "Năm" + nam;
-        int tongDoanhThu = 0;
+        long tongDoanhThu = 0;
         try {
             while (rsVe.next() && rsVeKhuHoi.next()) {
                 dateSet.addValue(rsVe.getInt(1), "Vé", thoiGian);
