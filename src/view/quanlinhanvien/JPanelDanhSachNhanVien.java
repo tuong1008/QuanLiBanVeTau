@@ -505,6 +505,14 @@ public class JPanelDanhSachNhanVien extends javax.swing.JPanel {
                 jtfSDT.requestFocus();
                 return false;
             }
+            
+            //kiem tra ho ten 
+            
+            if(!CheckInPut.checkTenVietNam(hoTen)){
+                JOptionPane.showMessageDialog(this, "Tên không hợp lệ");
+                jtfHoTen.requestFocus();
+                return false;
+            }
             // kiem tra tai khoan
             if (!CheckInPut.checkTenTaiKhoan(tk)) {
                 JOptionPane.showMessageDialog(this, "Tài khoản phải từ 5 kí tự trở lên");
@@ -618,6 +626,7 @@ public class JPanelDanhSachNhanVien extends javax.swing.JPanel {
             if (kiemTraThongTinNhap()) {
                 String cmnd = jtfCMND.getText().trim();
                 String hoTen = jtfHoTen.getText().trim();
+                hoTen = CheckInPut.chuanHoaTen(hoTen);
                 String sdt = jtfSDT.getText().trim();
                 String email = jtfEmail.getText().trim();
                 String tk = jtfTaiKhoan.getText().trim();
@@ -634,6 +643,7 @@ public class JPanelDanhSachNhanVien extends javax.swing.JPanel {
             if (kiemTraTruongRong()) {
                 String cmnd = jtfCMND.getText().trim();
                 String hoTen = jtfHoTen.getText().trim();
+                   hoTen = CheckInPut.chuanHoaTen(hoTen);
                 String sdt = jtfSDT.getText().trim();
                 String email = jtfEmail.getText().trim();
                 String tk = jtfTaiKhoan.getText().trim();
