@@ -27,7 +27,7 @@ public class LopKetNoi {
 
     public LopKetNoi() {
 
-        String url = "jdbc:sqlserver://;databaseName=QuanLiVeTau2";
+        String url = "jdbc:sqlserver://;databaseName=QuanLiVeTau4";
         String user = "sa";
         String pass = "123";
         try {
@@ -283,7 +283,9 @@ public class LopKetNoi {
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("xoa khong thanh cong");
+            e.printStackTrace();
             return false; // khóa bị trùng khi thêm , còn sửa và xóa thì chắc là không lỗi đâu
+            
         }
         return true;
     }

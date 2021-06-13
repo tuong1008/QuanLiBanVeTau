@@ -21,6 +21,7 @@ import view.JPanelCaiDatTaiKhoan;
 
 import view.JPanelDatVe;
 import view.JPanelQuanLiLoTrinh;
+import view.JPanelQuanLiNhanVien;
 import view.JPanelQuanLiToaTau;
 import view.JPanelQuanLiTuyen;
 import view.JPanelThongKe;
@@ -137,6 +138,15 @@ public class ChuyenManHinhController {
                     break;
                 case "CaiDatTaiKhoan":
                     node = new JPanelCaiDatTaiKhoan(taiKhoan);
+                    view.removeAll();
+                    view.setLayout(new BorderLayout());
+                    view.add(node);
+                    view.validate();
+                    view.repaint();
+                    setChangeBackground();
+                    break;
+                case "QuanLiNhanVien":
+                    node = new JPanelQuanLiNhanVien();
                     view.removeAll();
                     view.setLayout(new BorderLayout());
                     view.add(node);
