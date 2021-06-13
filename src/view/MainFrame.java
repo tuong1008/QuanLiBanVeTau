@@ -17,12 +17,13 @@ import module.TaiKhoan;
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class MainFrame extends javax.swing.JFrame{
+public class MainFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form MainFrame
      */
     view.LoginFrame loginFrame;
+
     public MainFrame(TaiKhoan tk) {
 //        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 //        this.setUndecorated(true);
@@ -34,20 +35,17 @@ public class MainFrame extends javax.swing.JFrame{
         ChuyenManHinhController controller = new ChuyenManHinhController(jpnView);
         controller.setMainFrame(this);
         controller.setTaiKhoan(tk);
-        controller.setView(jpnQuanLiLoTrinh, jlbQuanLiLoTrinh);
+        controller.setView(jpnDatVe, jlbDatVe);
 
         List<DanhMucBean> list = new ArrayList<>();
         list.add(new DanhMucBean("DatVe", jpnDatVe, jlbDatVe));
-        if (tk.getMaLoaiTaiKhoan().equals("QT"))
-        {
+        if (tk.getMaLoaiTaiKhoan().equals("QT")) {
             list.add(new DanhMucBean("QuanLiLoTrinh", jpnQuanLiLoTrinh, jlbQuanLiLoTrinh));
             list.add(new DanhMucBean("QuanLiTau", jpnQuanLiTau, jlbQuanLiTau));
             list.add(new DanhMucBean("QuanLiTuyen", jpnQuanLiTuyen, jlbQuanLiTuyen));
             list.add(new DanhMucBean("ThongKe", jpnThongKe, jlbThongKe));
             list.add(new DanhMucBean("QuanLiNhanVien", jpnQuanLiNhanVien, jlbQuanLiNhanVien));
-        }
-        else
-        {
+        } else {
             jpnQuanLiLoTrinh.setVisible(false);
             jpnQuanLiTau.setVisible(false);
             jpnQuanLiTuyen.setVisible(false);
@@ -82,14 +80,15 @@ public class MainFrame extends javax.swing.JFrame{
 //        controller.setEvents(list);
 //
 //    }
-    public void setLoginFrame(view.LoginFrame loginFrame)
-    {
-        this.loginFrame=loginFrame;
+
+    public void setLoginFrame(view.LoginFrame loginFrame) {
+        this.loginFrame = loginFrame;
     }
-    public view.LoginFrame getLoginFrame()
-    {
+
+    public view.LoginFrame getLoginFrame() {
         return loginFrame;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
