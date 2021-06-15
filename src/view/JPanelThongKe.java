@@ -5,11 +5,14 @@
  */
 package view;
 
+import com.sun.source.tree.Tree;
 import connectSQL.LopKetNoi;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.Set;
+import java.util.TreeMap;
 import javax.swing.JPanel;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -266,19 +269,32 @@ public class JPanelThongKe extends javax.swing.JPanel {
 
     private void thongKeVeNgay(JPanel jpn) {
         LocalDate ngay = dpNgay.getDate();
-        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where cast(thoiGianLenTau as Date)=?", ngay);
-        ResultSet rsVeKhuHoi = LopKetNoi.select("select SUM(Gia) from Ve_KhuHoi where cast(ThoiGianLenTau_ChieuVe as Date)=?", ngay);
+        ResultSet rsVe = LopKetNoi.select("select Gia from Ve where cast(thoiGianLenTau as Date)=? and KhuHoi='false'", ngay);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("select Ve.Gia,Ve_KhuHoi.Gia from Ve_KhuHoi\n"
+                + "join Ve\n"
+                + "on Ve.MaVe=Ve_KhuHoi.MaVe_ChieuDi and Ve.ThoiGianLenTau=Ve_KhuHoi.ThoiGianLenTau_ChieuDi\n"
+                + "where cast(ThoiGianLenTau as Date)=?", ngay);
         DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
-        long tongDoanhThu = 0;
+        long tongDoanhThu1Chieu = 0;
+        long tongDoanhThuKhuHoi = 0;
         try {
-            while (rsVe.next() && rsVeKhuHoi.next()) {
-                dateSet.addValue(rsVe.getInt(1), "Vé", ngay);
-                dateSet.addValue(rsVeKhuHoi.getInt(1), "Vé khứ hồi", ngay);
-                tongDoanhThu = rsVe.getInt(1) + rsVeKhuHoi.getInt(1);
+            while (rsVe.next())
+            {
+                tongDoanhThu1Chieu = tongDoanhThu1Chieu+rsVe.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();            
+        }
+        try {
+            while (rsVeKhuHoi.next())
+            {
+                tongDoanhThuKhuHoi=tongDoanhThuKhuHoi+rsVeKhuHoi.getInt(1)+rsVeKhuHoi.getInt(2);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        dateSet.addValue(tongDoanhThu1Chieu, "Vé", ngay);
+        dateSet.addValue(tongDoanhThuKhuHoi, "Vé khứ hồi", ngay);
         JFreeChart chart = ChartFactory.createBarChart("Thống kê vé, vé khứ hồi theo ngày", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
                 true, true, false);
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -288,27 +304,39 @@ public class JPanelThongKe extends javax.swing.JPanel {
         jpn.add(chartPanel);
         jpn.validate();
         jpn.repaint();
-        jtfSoTien.setText(tongDoanhThu+"");
+        jtfSoTien.setText(tongDoanhThu1Chieu+tongDoanhThuKhuHoi+"");
     }
 
     private void thongKeLoaiDoiTuongNgay(JPanel jpn) {
+        TreeMap<String,Long> treeLoaiVe=new TreeMap<String,Long>();
         LocalDate ngay = dpNgay.getDate();
-        ResultSet rsVe = LopKetNoi.select("select loaive.tenloaive, sum(gia) from loaive full outer join ve"
-                + " on loaive.tenLoaiVe = Ve.tenLoaiVe "
-                + "and cast(thoiGianLenTau as date) = ? where loaive.tenloaive != N'KHỨ HỒI' group by loaive.tenloaive", ngay);
-        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(loaidoituong, gia) as ("
-                + "select ve.tenLoaiVe, Ve_khuHoi.gia "
-                + "from ve, ve_khuHoi "
-                + "where ve.mave = ve_khuHoi.mave_chieuDi and cast(thoiGianLenTau_chieuVe as date) = ?) "
-                + "select loaive.tenLoaiVe, sum(gia) from loaiVe full outer join temp"
-                + " on loaive.tenLoaive = temp.loaidoiTuong where loaive.tenloaive != N'KHỨ HỒI' group by loaive.tenLoaiVe", ngay);
-        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        ResultSet loaiVe = LopKetNoi.select("select TenLoaiVe from LoaiVe where TenLoaiVe!=N'KHỨ HỒI'");
         try {
-            while (rsVe.next() && rsVeKhuHoi.next()) {
-                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), ngay);
-            }
+            while (loaiVe.next())
+        {
+            treeLoaiVe.put(loaiVe.getString(1), Long.valueOf("0"));
+        }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        ResultSet rsVe = LopKetNoi.select("select LoaiVe.TenLoaiVe,table1.Gia, table1.GiaKhuHoi from LoaiVe \n"
+                +"left join (select Ve.TenLoaiVe,Ve.Gia, Ve_KhuHoi.Gia as GiaKhuHoi  from Ve\n"
+                + "left join Ve_KhuHoi\n"
+                + "on Ve.MaVe=Ve_KhuHoi.MaVe_ChieuDi and Ve.ThoiGianLenTau=Ve_KhuHoi.ThoiGianLenTau_ChieuDi\n"
+                + "where cast(thoiGianLenTau as date) = ?) as table1\n"
+                + "on LoaiVe.TenLoaiVe=table1.TenLoaiVe\n"
+                + "where LoaiVe.TenLoaiVe!=N'KHỨ HỒI'", ngay);
+        try {
+            while (rsVe.next())
+            {
+                treeLoaiVe.replace(rsVe.getString(1), treeLoaiVe.get(rsVe.getString(1))+Long.valueOf(rsVe.getInt(2))+Long.valueOf(rsVe.getInt(3)));
+            }
+        } catch (Exception e) {
+        }
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        Set<String> keySet = treeLoaiVe.keySet();
+        for (String key : keySet) {
+            dateSet.addValue(treeLoaiVe.get(key), key, ngay);
         }
         JFreeChart chart = ChartFactory.createBarChart("Thống kê loại đối tượng theo ngày", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
                 true, true, false);
@@ -323,25 +351,47 @@ public class JPanelThongKe extends javax.swing.JPanel {
 
     private void thongKeTuyenTheoNgay(JPanel jpn) {
         LocalDate ngay = dpNgay.getDate();
-        ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve "
-                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
-                + "and chuyenDi.maChuyen = ve.maChuyen "
-                + "and cast(thoigianlentau as date) = ?)"
-                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
-                + "group by tuyen.matuyen", ngay);
-        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi "
-                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
-                + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe "
-                + "and cast(thoigianlentau_chieuVe as date) = ?) "
-                + "select tuyen.matuyen, sum(temp.gia) from tuyen full outer join temp on tuyen.matuyen = temp.matuyen "
-                + "group by tuyen.matuyen", ngay);
-        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        TreeMap<String,Long> treeTuyen=new TreeMap<String,Long>();
+        ResultSet rsTuyen=LopKetNoi.select("select distinct MaTuyen from Tuyen");
         try {
-            while (rsVe.next() && rsVeKhuHoi.next()) {
-                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), ngay);
+            while (rsTuyen.next())
+            {
+                treeTuyen.put(rsTuyen.getString(1), Long.valueOf(0));
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve\n"
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT \n"
+                + "and chuyenDi.maChuyen = ve.maChuyen \n"
+                + "and cast(thoigianlentau as date) = ?)\n"
+                + "select table1.matuyen, temp.gia from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen", ngay);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi\n"
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT\n"
+                + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe\n"
+                + "and cast(thoigianlentau_chieuVe as date) = ?)\n"
+                + "select table1.matuyen, temp.gia from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen", ngay);
+        try {
+            while (rsVe.next())
+            {
+                treeTuyen.replace(rsVe.getString(1), treeTuyen.get(rsVe.getString(1))+Long.valueOf(rsVe.getInt(2)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            while (rsVeKhuHoi.next())
+            {
+                treeTuyen.replace(rsVeKhuHoi.getString(1), treeTuyen.get(rsVeKhuHoi.getString(1))+Long.valueOf(rsVeKhuHoi.getInt(2)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        Set<String> keySet=treeTuyen.keySet();
+        for (String key:keySet)
+        {
+            dateSet.addValue(treeTuyen.get(key), key, ngay);
         }
         JFreeChart chart = ChartFactory.createBarChart("Thống kê tuyến theo ngày", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
                 true, true, false);
@@ -365,21 +415,33 @@ public class JPanelThongKe extends javax.swing.JPanel {
     private void thongKeVeThang(JPanel jpn) {
         int thang = Integer.parseInt(cbbThang.getSelectedItem().toString());
         int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
-        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where month(thoiGianLenTau)=? and year(thoiGianlentau)=?", thang, nam);
-        ResultSet rsVeKhuHoi = LopKetNoi.select("select SUM(Gia) from Ve_KhuHoi where month(thoiGianLenTau_chieuve)=?"
-                + " and year(thoiGianlentau_chieuve)=?", thang, nam);
+        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where month(thoiGianLenTau)=? and year(thoiGianlentau)=? and KhuHoi='false'", thang, nam);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("select Ve.Gia,Ve_KhuHoi.Gia from Ve_KhuHoi\n"
+                + "join Ve\n"
+                + "on Ve.MaVe=Ve_KhuHoi.MaVe_ChieuDi and Ve.ThoiGianLenTau=Ve_KhuHoi.ThoiGianLenTau_ChieuDi\n"
+                + "where month(thoiGianLenTau)=? and year(thoiGianlentau)=?", thang, nam);
         DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
         String thoiGian = thang + "/" + nam;
-        long tongDoanhThu = 0;
+        long tongDoanhThu1Chieu = 0;
+        long tongDoanhThuKhuHoi = 0;
         try {
-            while (rsVe.next() && rsVeKhuHoi.next()) {
-                dateSet.addValue(rsVe.getInt(1), "Vé", thoiGian);
-                dateSet.addValue(rsVeKhuHoi.getInt(1), "Vé khứ hồi", thoiGian);
-                   tongDoanhThu = rsVe.getInt(1) + rsVeKhuHoi.getInt(1);
+            while (rsVe.next())
+            {
+                tongDoanhThu1Chieu = tongDoanhThu1Chieu+rsVe.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();            
+        }
+        try {
+            while (rsVeKhuHoi.next())
+            {
+                tongDoanhThuKhuHoi=tongDoanhThuKhuHoi+rsVeKhuHoi.getInt(1)+rsVeKhuHoi.getInt(2);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        dateSet.addValue(tongDoanhThu1Chieu, "Vé", thoiGian);
+        dateSet.addValue(tongDoanhThuKhuHoi, "Vé khứ hồi", thoiGian);
         JFreeChart chart = ChartFactory.createBarChart("Thống kê vé, vé khứ hồi theo tháng", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
                 true, true, false);
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -389,30 +451,42 @@ public class JPanelThongKe extends javax.swing.JPanel {
         jpn.add(chartPanel);
         jpn.validate();
         jpn.repaint();
-        jtfSoTien.setText(tongDoanhThu + "");
+        jtfSoTien.setText(tongDoanhThu1Chieu+tongDoanhThuKhuHoi + "");
     }
 
     private void thongKeLoaiDoiTuongThang(JPanel jpn) {
         int thang = Integer.parseInt(cbbThang.getSelectedItem().toString());
         int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
         String thoiGian = thang + "/" + nam;
-        ResultSet rsVe = LopKetNoi.select("select loaive.tenloaive, sum(gia) from loaive full outer join ve"
-                + " on loaive.tenLoaiVe = Ve.tenLoaiVe "
-                + "and month(thoiGianLenTau)=? and year(thoiGianlentau)=? where loaive.tenloaive != N'KHỨ HỒI' "
-                + "group by loaive.tenloaive", thang, nam);
-        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(loaidoituong, gia) as ("
-                + "select ve.tenLoaiVe, Ve_khuHoi.gia "
-                + "from ve, ve_khuHoi "
-                + "where ve.mave = ve_khuHoi.mave_chieuDi and month(thoiGianLenTau_chieuVe)=? and year(thoiGianlentau_chieuVe)=?) "
-                + "select loaive.tenLoaiVe, sum(gia) from loaiVe full outer join temp"
-                + " on loaive.tenLoaive = temp.loaidoiTuong where loaive.tenloaive != N'KHỨ HỒI' group by loaive.tenLoaiVe", thang, nam);
-        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        
+        TreeMap<String,Long> treeLoaiVe=new TreeMap<String,Long>();
+        ResultSet loaiVe = LopKetNoi.select("select TenLoaiVe from LoaiVe where TenLoaiVe!=N'KHỨ HỒI'");
         try {
-            while (rsVe.next() && rsVeKhuHoi.next()) {
-                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), thoiGian);
-            }
+            while (loaiVe.next())
+        {
+            treeLoaiVe.put(loaiVe.getString(1), Long.valueOf("0"));
+        }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        ResultSet rsVe = LopKetNoi.select("select LoaiVe.TenLoaiVe,table1.Gia, table1.GiaKhuHoi from LoaiVe \n"
+                +"left join (select Ve.TenLoaiVe,Ve.Gia, Ve_KhuHoi.Gia as GiaKhuHoi  from Ve\n"
+                + "left join Ve_KhuHoi\n"
+                + "on Ve.MaVe=Ve_KhuHoi.MaVe_ChieuDi and Ve.ThoiGianLenTau=Ve_KhuHoi.ThoiGianLenTau_ChieuDi\n"
+                + "where month(thoiGianLenTau)=? and year(thoiGianlentau)=?) as table1\n"
+                + "on LoaiVe.TenLoaiVe=table1.TenLoaiVe\n"
+                + "where LoaiVe.TenLoaiVe!=N'KHỨ HỒI'", thang, nam);
+        try {
+            while (rsVe.next())
+            {
+                treeLoaiVe.replace(rsVe.getString(1), treeLoaiVe.get(rsVe.getString(1))+Long.valueOf(rsVe.getInt(2))+Long.valueOf(rsVe.getInt(3)));
+            }
+        } catch (Exception e) {
+        }
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        Set<String> keySet = treeLoaiVe.keySet();
+        for (String key : keySet) {
+            dateSet.addValue(treeLoaiVe.get(key), key, thoiGian);
         }
         JFreeChart chart = ChartFactory.createBarChart("Thống kê loại đối tượng theo tháng", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
                 true, true, false);
@@ -429,25 +503,47 @@ public class JPanelThongKe extends javax.swing.JPanel {
         int thang = Integer.parseInt(cbbThang.getSelectedItem().toString());
         int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
         String thoiGian = thang + "/" + nam;
+        TreeMap<String,Long> treeTuyen=new TreeMap<String,Long>();
+        ResultSet rsTuyen=LopKetNoi.select("select distinct MaTuyen from Tuyen");
+        try {
+            while (rsTuyen.next())
+            {
+                treeTuyen.put(rsTuyen.getString(1), Long.valueOf(0));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi\n"
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT\n"
+                + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe\n"
+                + "and month(thoiGianLenTau_chieuVe)=? and year(thoiGianlentau_chieuVe)=?)\n"
+                + "select table1.matuyen, temp.gia from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen", thang, nam);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
         ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve\n"
                 + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT\n"
                 + "and chuyenDi.maChuyen = ve.maChuyen\n"
                 + "and month(thoiGianLenTau)=? and year(thoiGianlentau)=?)\n"
-                + "select table1.matuyen, sum(temp.gia) from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen\n"
-                + "group by table1.matuyen", thang, nam);
-        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi "
-                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
-                + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe "
-                + "and month(thoiGianLenTau_chieuVe)=? and year(thoiGianlentau_chieuVe)=?) "
-                + "select table1.matuyen, sum(temp.gia) from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen "
-                + "group by table1.matuyen", thang, nam);
-        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+                + "select table1.matuyen, temp.gia from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen", thang, nam);
         try {
-            while (rsVe.next() && rsVeKhuHoi.next()) {
-                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), thoiGian);
+            while (rsVe.next())
+            {
+                treeTuyen.replace(rsVe.getString(1), treeTuyen.get(rsVe.getString(1))+Long.valueOf(rsVe.getInt(2)));
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        try {
+            while (rsVeKhuHoi.next())
+            {
+                treeTuyen.replace(rsVeKhuHoi.getString(1), treeTuyen.get(rsVeKhuHoi.getString(1))+Long.valueOf(rsVeKhuHoi.getInt(2)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Set<String> keySet=treeTuyen.keySet();
+        for (String key:keySet)
+        {
+            dateSet.addValue(treeTuyen.get(key), key, thoiGian);
         }
         JFreeChart chart = ChartFactory.createBarChart("Thống kê tuyến theo tháng", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
                 true, true, false);
@@ -469,21 +565,33 @@ public class JPanelThongKe extends javax.swing.JPanel {
     
      private void thongKeVeNam(JPanel jpn) {
         int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
-        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where  year(thoiGianlentau)=?",  nam);
-        ResultSet rsVeKhuHoi = LopKetNoi.select("select SUM(Gia) from Ve_KhuHoi where "
-                + "  year(thoiGianlentau_chieuve)=?", nam);
+        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where  year(thoiGianlentau)=? and KhuHoi='false'",  nam);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("select Ve.Gia,Ve_KhuHoi.Gia from Ve_KhuHoi\n"
+                + "join Ve\n"
+                + "on Ve.MaVe=Ve_KhuHoi.MaVe_ChieuDi and Ve.ThoiGianLenTau=Ve_KhuHoi.ThoiGianLenTau_ChieuDi\n"
+                + "where year(thoiGianlentau)=?", nam);
         DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
         String thoiGian = "Năm" + nam;
-        long tongDoanhThu = 0;
+        long tongDoanhThu1Chieu = 0;
+        long tongDoanhThuKhuHoi = 0;
         try {
-            while (rsVe.next() && rsVeKhuHoi.next()) {
-                dateSet.addValue(rsVe.getInt(1), "Vé", thoiGian);
-                dateSet.addValue(rsVeKhuHoi.getInt(1), "Vé khứ hồi", thoiGian);
-                   tongDoanhThu = rsVe.getInt(1) + rsVeKhuHoi.getInt(1);
+            while (rsVe.next())
+            {
+                tongDoanhThu1Chieu = tongDoanhThu1Chieu+rsVe.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();            
+        }
+        try {
+            while (rsVeKhuHoi.next())
+            {
+                tongDoanhThuKhuHoi=tongDoanhThuKhuHoi+rsVeKhuHoi.getInt(1)+rsVeKhuHoi.getInt(2);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        dateSet.addValue(tongDoanhThu1Chieu, "Vé", thoiGian);
+        dateSet.addValue(tongDoanhThuKhuHoi, "Vé khứ hồi", thoiGian);
         JFreeChart chart = ChartFactory.createBarChart("Thống kê vé, vé khứ hồi theo năm", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
                 true, true, false);
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -493,29 +601,43 @@ public class JPanelThongKe extends javax.swing.JPanel {
         jpn.add(chartPanel);
         jpn.validate();
         jpn.repaint();
-        jtfSoTien.setText(tongDoanhThu+"");
+        jtfSoTien.setText(tongDoanhThu1Chieu+tongDoanhThuKhuHoi+"");
     }
 
     private void thongKeLoaiDoiTuongNam(JPanel jpn) {
         int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
         String thoiGian =   "Năm" + nam;
-        ResultSet rsVe = LopKetNoi.select("select loaive.tenloaive, sum(gia) from loaive full outer join ve"
-                + " on loaive.tenLoaiVe = Ve.tenLoaiVe "
-                + "and  year(thoiGianlentau)=? where loaive.tenloaive != N'KHỨ HỒI' "
-                + "group by loaive.tenloaive",  nam);
-        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(loaidoituong, gia) as ("
-                + "select ve.tenLoaiVe, Ve_khuHoi.gia "
-                + "from ve, ve_khuHoi "
-                + "where ve.mave = ve_khuHoi.mave_chieuDi and  year(thoiGianlentau_chieuVe)=?) "
-                + "select loaive.tenLoaiVe, sum(gia) from loaiVe full outer join temp"
-                + " on loaive.tenLoaive = temp.loaidoiTuong where loaive.tenloaive != N'KHỨ HỒI' group by loaive.tenLoaiVe", nam);
-        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        
+        
+        TreeMap<String,Long> treeLoaiVe=new TreeMap<String,Long>();
+        ResultSet loaiVe = LopKetNoi.select("select TenLoaiVe from LoaiVe where TenLoaiVe!=N'KHỨ HỒI'");
         try {
-            while (rsVe.next() && rsVeKhuHoi.next()) {
-                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), thoiGian);
+            while (loaiVe.next())
+        {
+            treeLoaiVe.put(loaiVe.getString(1), Long.valueOf("0"));
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ResultSet rsVe = LopKetNoi.select("select LoaiVe.TenLoaiVe,table1.Gia, table1.GiaKhuHoi from LoaiVe \n"
+                +"left join (select Ve.TenLoaiVe,Ve.Gia, Ve_KhuHoi.Gia as GiaKhuHoi  from Ve\n"
+                + "left join Ve_KhuHoi\n"
+                + "on Ve.MaVe=Ve_KhuHoi.MaVe_ChieuDi and Ve.ThoiGianLenTau=Ve_KhuHoi.ThoiGianLenTau_ChieuDi\n"
+                + "where year(thoiGianlentau)=?) as table1\n"
+                + "on LoaiVe.TenLoaiVe=table1.TenLoaiVe\n"
+                + "where LoaiVe.TenLoaiVe!=N'KHỨ HỒI'", nam);
+        try {
+            while (rsVe.next())
+            {
+                treeLoaiVe.replace(rsVe.getString(1), treeLoaiVe.get(rsVe.getString(1))+Long.valueOf(rsVe.getInt(2))+Long.valueOf(rsVe.getInt(3)));
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        Set<String> keySet = treeLoaiVe.keySet();
+        for (String key : keySet) {
+            dateSet.addValue(treeLoaiVe.get(key), key, thoiGian);
         }
         JFreeChart chart = ChartFactory.createBarChart("Thống kê loại đối tượng theo năm", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
                 true, true, false);
@@ -531,25 +653,47 @@ public class JPanelThongKe extends javax.swing.JPanel {
     private void thongKeTuyenTheoNam(JPanel jpn) {
         int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
         String thoiGian = "Năm" + nam;
-        ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve "
-                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
-                + "and chuyenDi.maChuyen = ve.maChuyen "
-                + " and year(thoiGianlentau)=?)"
-                + "select table1.matuyen, sum(temp.gia) from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen "
-                + "group by table1.matuyen",nam);
-        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi "
-                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT "
-                + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe "
-                + " and year(thoiGianlentau_chieuVe)=?) "
-                + "select table1.matuyen, sum(temp.gia) from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen "
-                + "group by table1.matuyen", nam);
-        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        TreeMap<String,Long> treeTuyen=new TreeMap<String,Long>();
+        ResultSet rsTuyen=LopKetNoi.select("select distinct MaTuyen from Tuyen");
         try {
-            while (rsVe.next() && rsVeKhuHoi.next()) {
-                dateSet.addValue(rsVe.getInt(2) + rsVeKhuHoi.getInt(2), rsVe.getString(1), thoiGian);
+            while (rsTuyen.next())
+            {
+                treeTuyen.put(rsTuyen.getString(1), Long.valueOf(0));
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        ResultSet rsVe = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve.gia from tauChayTuyen, chuyenDi, ve\n"
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT\n"
+                + "and chuyenDi.maChuyen = ve.maChuyen\n"
+                + "and year(thoiGianlentau)=?)\n"
+                + "select table1.matuyen, temp.gia from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen",nam);
+        ResultSet rsVeKhuHoi = LopKetNoi.select("with temp(matuyen, gia) as (select matuyen, ve_khuhoi.gia from tauChayTuyen, chuyenDi, ve_KhuHoi\n"
+                + "where tauChayTuyen.ID_TCT = chuyenDi.ID_TCT\n"
+                + "and chuyenDi.maChuyen = ve_KhuHoi.maChuyen_chieuVe\n"
+                + "and year(thoiGianlentau_chieuVe)=?)\n"
+                + "select table1.matuyen, temp.gia from (select distinct MaTuyen from Tuyen) as table1 full outer join temp on table1.matuyen = temp.matuyen", nam);
+        DefaultCategoryDataset dateSet = new DefaultCategoryDataset();
+        try {
+            while (rsVe.next())
+            {
+                treeTuyen.replace(rsVe.getString(1), treeTuyen.get(rsVe.getString(1))+Long.valueOf(rsVe.getInt(2)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            while (rsVeKhuHoi.next())
+            {
+                treeTuyen.replace(rsVeKhuHoi.getString(1), treeTuyen.get(rsVeKhuHoi.getString(1))+Long.valueOf(rsVeKhuHoi.getInt(2)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Set<String> keySet=treeTuyen.keySet();
+        for (String key:keySet)
+        {
+            dateSet.addValue(treeTuyen.get(key), key, thoiGian);
         }
         JFreeChart chart = ChartFactory.createBarChart("Thống kê tuyến theo năm", "Thời gian", "Doanh thu(vnd)", dateSet, PlotOrientation.VERTICAL,
                 true, true, false);

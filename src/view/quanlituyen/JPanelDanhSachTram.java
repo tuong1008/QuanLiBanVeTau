@@ -591,22 +591,22 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jButton2)
-                                        .addGap(218, 218, 218)
-                                        .addComponent(jLabel4))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel10)
                                         .addGap(2, 2, 2)
-                                        .addComponent(jtfTimKiemKCTram, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jtfTimKiemKCTram, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jButton2)
+                                        .addGap(344, 344, 344)
+                                        .addComponent(jLabel4)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(23, 23, 23))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(64, 64, 64)
                         .addComponent(btnThem1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 380, Short.MAX_VALUE)
+                        .addGap(262, 262, 262)
                         .addComponent(btnSua1)
-                        .addGap(144, 144, 144)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 262, Short.MAX_VALUE)
                         .addComponent(btnXoa1)
                         .addGap(145, 145, 145))))
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -708,7 +708,6 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             jComboBoxTenTramKia.setSelectedItem(jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 1) + "");
             jSpinnerSoNgay.setValue(Integer.valueOf(jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 2).toString()));
             String strKhoangThoiGian=jtbKhoangCachTram.getValueAt(hangDangChonKCTram, 3).toString();
-            strKhoangThoiGian=strKhoangThoiGian.substring(0, strKhoangThoiGian.length()-11);
             timePickerKCTRam.setText(strKhoangThoiGian);
         }
         jdlThemSuaKCTram.setLocationRelativeTo(this);
@@ -845,7 +844,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         model.setRowCount(0);
         try {
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getString(1), rs.getString(2),rs.getString(4),rs.getString(3)});
+                model.addRow(new Object[]{rs.getString(1), rs.getString(2),rs.getString(4),rs.getString(3).substring(0, rs.getString(3).length()-11)});
             }
         } catch (SQLException ex) {
             System.out.println("Load KC Trạm bị lỗi");
