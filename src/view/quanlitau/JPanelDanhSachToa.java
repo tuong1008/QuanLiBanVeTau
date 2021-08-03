@@ -14,6 +14,7 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ import javax.swing.table.TableRowSorter;
 import module.CheckInPut;
 import module.LoaiToa;
 import javax.swing.JFrame;
+import module.ComboboxToolTipRenderer;
 import view.JPanelQuanLiToaTau;
 
 
@@ -160,7 +162,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         jSeparator25 = new javax.swing.JSeparator();
         jSeparator26 = new javax.swing.JSeparator();
 
-        jdlLoaiToa.setMinimumSize(new java.awt.Dimension(430, 403));
+        jdlLoaiToa.setMinimumSize(new java.awt.Dimension(546, 391));
+        jdlLoaiToa.setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -189,7 +192,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
 
         jlbMaLoaiToa.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
         jlbMaLoaiToa.setForeground(new java.awt.Color(255, 0, 0));
-        jlbMaLoaiToa.setText("A ");
+        jlbMaLoaiToa.setText("a");
 
         jlbTenLoaiToa.setFont(new java.awt.Font("Tahoma", 2, 14)); // NOI18N
         jlbTenLoaiToa.setForeground(new java.awt.Color(255, 0, 0));
@@ -214,10 +217,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jlbTenDialogLoaiToa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(145, Short.MAX_VALUE)
-                .addComponent(btnXacNhanLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(140, 140, 140))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -226,15 +225,19 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addComponent(jLabel3))
                 .addGap(43, 43, 43)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jlbMaLoaiToa, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                    .addComponent(jtfMaLoaiToa)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlbMaLoaiToa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jtfTenLoaiToa)
                     .addComponent(jlbTenLoaiToa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cbbSoChoNgoi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jtfGiaChoNgoi2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jlbGiaChoNgoi2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jlbGiaChoNgoi2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtfMaLoaiToa))
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(208, 208, 208)
+                .addComponent(btnXacNhanLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(215, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,18 +265,16 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                     .addComponent(jtfGiaChoNgoi2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlbGiaChoNgoi2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnXacNhanLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jdlLoaiToaLayout = new javax.swing.GroupLayout(jdlLoaiToa.getContentPane());
         jdlLoaiToa.getContentPane().setLayout(jdlLoaiToaLayout);
         jdlLoaiToaLayout.setHorizontalGroup(
             jdlLoaiToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jdlLoaiToaLayout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jdlLoaiToaLayout.setVerticalGroup(
             jdlLoaiToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,7 +283,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jdlToa.setMinimumSize(new java.awt.Dimension(430, 403));
+        jdlToa.setMinimumSize(new java.awt.Dimension(646, 393));
+        jdlToa.setResizable(false);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -341,7 +343,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlbTenDialogToa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -350,14 +351,20 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnXacNhanToa, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfMaToa, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                    .addComponent(jlbMaToa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlbMaToa, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                     .addComponent(jlbLoaiToa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbbLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfGiaChoNgoi)
-                    .addComponent(jlbGiaChoNgoi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(69, Short.MAX_VALUE))
+                    .addComponent(jlbGiaChoNgoi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(btnXacNhanToa, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfGiaChoNgoi, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfMaToa, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlbTenDialogToa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -381,18 +388,16 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                     .addComponent(jtfGiaChoNgoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlbGiaChoNgoi)
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
                 .addComponent(btnXacNhanToa, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 93, Short.MAX_VALUE))
+                .addGap(0, 121, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jdlToaLayout = new javax.swing.GroupLayout(jdlToa.getContentPane());
         jdlToa.getContentPane().setLayout(jdlToaLayout);
         jdlToaLayout.setHorizontalGroup(
             jdlToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jdlToaLayout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jdlToaLayout.setVerticalGroup(
             jdlToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -515,24 +520,23 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                     .addGroup(jpnToaLayout.createSequentialGroup()
                         .addComponent(btnTroVeToa)
                         .addGap(396, 396, 396)
-                        .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jpnToaLayout.createSequentialGroup()
-                        .addGroup(jpnToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 959, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator1)
-                            .addGroup(jpnToaLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(59, 59, 59)
-                                .addComponent(btnThemToa, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(74, 74, 74)
-                                .addComponent(btnSuaToa, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(64, 64, 64)
-                                .addComponent(btnXoaToa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(60, 60, 60)
-                                .addComponent(btnThongTinToa))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE))
-                        .addGap(0, 53, Short.MAX_VALUE))))
+                        .addComponent(jLabel1))
+                    .addGroup(jpnToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 959, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSeparator1)
+                        .addGroup(jpnToaLayout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addGap(59, 59, 59)
+                            .addComponent(btnThemToa, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSuaToa, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(135, 135, 135)
+                            .addComponent(btnXoaToa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(130, 130, 130)
+                            .addComponent(btnThongTinToa)
+                            .addGap(22, 22, 22))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpnToaLayout.setVerticalGroup(
             jpnToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -560,8 +564,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                     .addComponent(jtfTimKiemToa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("TOA", jpnToa);
@@ -663,26 +667,25 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                             .addComponent(jSeparator25, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jpnLoaiToaLayout.createSequentialGroup()
+                        .addComponent(jLabel50)
+                        .addGap(59, 59, 59)
+                        .addComponent(btnThemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(221, 221, 221)
+                        .addComponent(btnSuaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 223, Short.MAX_VALUE)
+                        .addComponent(btnXoaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(109, 109, 109))
+                    .addGroup(jpnLoaiToaLayout.createSequentialGroup()
                         .addGroup(jpnLoaiToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpnLoaiToaLayout.createSequentialGroup()
                                 .addComponent(btnTroVeLoaiToa)
                                 .addGap(369, 369, 369)
                                 .addComponent(jLabel49))
-                            .addGroup(jpnLoaiToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jpnLoaiToaLayout.createSequentialGroup()
-                                    .addComponent(jLabel50)
-                                    .addGap(59, 59, 59)
-                                    .addComponent(btnThemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(74, 74, 74)
-                                    .addComponent(btnSuaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                                    .addComponent(btnXoaLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpnLoaiToaLayout.createSequentialGroup()
-                                    .addComponent(jLabel51)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jtfTimKiemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))))
-                        .addGap(157, 434, Short.MAX_VALUE))))
+                            .addGroup(jpnLoaiToaLayout.createSequentialGroup()
+                                .addComponent(jLabel51)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfTimKiemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jpnLoaiToaLayout.setVerticalGroup(
             jpnLoaiToaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -709,8 +712,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                     .addComponent(jtfTimKiemLoaiToa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel51))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
 
         jTabbedPane1.addTab("LOẠI TOA", jpnLoaiToa);
@@ -719,10 +722,9 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1045, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -989,8 +991,8 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
 
     private boolean kiemTraThemLoaiToa() {
         String maLoaiToa = jtfMaLoaiToa.getText().trim();
-        if (CheckInPut.checkCacLoaiMa(maLoaiToa)) {
-            jlbMaLoaiToa.setText("Chỉ nhập Tiếng Việt không dấu, -, khoảng trắng và không được để trống");
+        if (!CheckInPut.checkCacLoaiMa(maLoaiToa)) {
+            jlbMaLoaiToa.setText("Chỉ chữ cái,số , -, khoảng trắng và không rỗng");
         } else {
             try {
                 ResultSet rs = LopKetNoi.select("select maLoaiToa from LoaiToa where maLoaiToa = ?", maLoaiToa);
@@ -1089,7 +1091,6 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
         hienCacTruongLoaiToa();
         tatThongBaoLoaiToa();
         if (loai.equals(them)) {
-            themLoaiToa(ketNoiCSDL);
         } else if (loai.equals(sua)) {
             jtfMaLoaiToa.setText(jtbLoaiToa.getValueAt(hangDangChonLoaiToa, 0) + "");
             jtfMaLoaiToa.setEditable(false);
@@ -1120,11 +1121,16 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
     private void loadDSLoaiToaVaoCBB(LopKetNoi ketNoiCSDL) {
         cbbLoaiToa.setEnabled(true);
         cbbLoaiToa.removeAllItems();
+        ComboboxToolTipRenderer renderer = new ComboboxToolTipRenderer();
+        List<String> tooltips=new ArrayList<String>();
+        cbbLoaiToa.setRenderer(renderer);
         try {
-            ResultSet rs = ketNoiCSDL.select("select MaLoaiToa from LoaiToa order by MaLoaiToa ASC");
+            ResultSet rs = ketNoiCSDL.select("select MaLoaiToa,TenLoaiToa from LoaiToa order by MaLoaiToa ASC");
             while (rs.next()) {
                 cbbLoaiToa.addItem(rs.getString(1));
+                tooltips.add(rs.getString(2));
             }
+            renderer.setTooltips(tooltips);
         } catch (Exception e) {
             System.out.println("load ds loai toa vao cbb that bai");
         }
@@ -1135,17 +1141,17 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
             jlbGiaChoNgoi2.setText("Không được để trống");
         } else {
             try {
-                int soChoNgoi = Integer.parseInt(jtfGiaChoNgoi2.getText().trim());
-                if (soChoNgoi>0)
+                int giaChoNgoi = Integer.parseInt(jtfGiaChoNgoi2.getText().trim());
+                if (giaChoNgoi>0&&giaChoNgoi<=10000000)
                 {
                     jlbGiaChoNgoi2.setText(" ");
                 }
                 else
                 {
-                    jlbGiaChoNgoi2.setText("Giá chỗ ngồi phải lớn hơn 0");
+                    jlbGiaChoNgoi2.setText("Giá chỗ ngồi phải >0 và <=1 triệu");
                 }
             } catch (Exception e) {
-                jlbGiaChoNgoi2.setText("Phải là một số nguyên");
+                jlbGiaChoNgoi2.setText("Phải là một số nguyên nhỏ hơn");
             }
         }
     }

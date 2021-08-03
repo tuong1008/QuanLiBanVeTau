@@ -113,18 +113,18 @@ public class JPanelThongKe extends javax.swing.JPanel {
         );
         jpnThongKe1Layout.setVerticalGroup(
             jpnThongKe1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 225, Short.MAX_VALUE)
+            .addGap(0, 207, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jpnThongKe2Layout = new javax.swing.GroupLayout(jpnThongKe2);
         jpnThongKe2.setLayout(jpnThongKe2Layout);
         jpnThongKe2Layout.setHorizontalGroup(
             jpnThongKe2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 573, Short.MAX_VALUE)
         );
         jpnThongKe2Layout.setVerticalGroup(
             jpnThongKe2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 211, Short.MAX_VALUE)
+            .addGap(0, 205, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jpnThongKeLayout = new javax.swing.GroupLayout(jpnThongKe);
@@ -150,8 +150,8 @@ public class JPanelThongKe extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jpnThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jpnThongKe1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(17, 17, 17)
-                        .addComponent(jpnThongKe2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addComponent(jpnThongKe2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -179,9 +179,8 @@ public class JPanelThongKe extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jtfSoTien, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7)))
-                        .addGap(0, 408, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jLabel7)))))
+                .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,7 +208,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
                     .addComponent(jpnThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jpnThongKe1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(29, 29, 29))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -415,7 +414,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
     private void thongKeVeThang(JPanel jpn) {
         int thang = Integer.parseInt(cbbThang.getSelectedItem().toString());
         int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
-        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where month(thoiGianLenTau)=? and year(thoiGianlentau)=? and KhuHoi='false'", thang, nam);
+        ResultSet rsVe = LopKetNoi.select("select Gia from Ve where month(thoiGianLenTau)=? and year(thoiGianlentau)=? and KhuHoi='false'", thang, nam);
         ResultSet rsVeKhuHoi = LopKetNoi.select("select Ve.Gia,Ve_KhuHoi.Gia from Ve_KhuHoi\n"
                 + "join Ve\n"
                 + "on Ve.MaVe=Ve_KhuHoi.MaVe_ChieuDi and Ve.ThoiGianLenTau=Ve_KhuHoi.ThoiGianLenTau_ChieuDi\n"
@@ -565,7 +564,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
     
      private void thongKeVeNam(JPanel jpn) {
         int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
-        ResultSet rsVe = LopKetNoi.select("select SUM(Gia) from Ve where  year(thoiGianlentau)=? and KhuHoi='false'",  nam);
+        ResultSet rsVe = LopKetNoi.select("select Gia from Ve where  year(thoiGianlentau)=? and KhuHoi='false'",  nam);
         ResultSet rsVeKhuHoi = LopKetNoi.select("select Ve.Gia,Ve_KhuHoi.Gia from Ve_KhuHoi\n"
                 + "join Ve\n"
                 + "on Ve.MaVe=Ve_KhuHoi.MaVe_ChieuDi and Ve.ThoiGianLenTau=Ve_KhuHoi.ThoiGianLenTau_ChieuDi\n"

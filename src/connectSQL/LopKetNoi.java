@@ -101,6 +101,7 @@ public class LopKetNoi {
         }
         return tk;
     }
+    @SuppressWarnings("unchecked")
     public DefaultListModel getJListTramTrongTuyen(String maTuyen,String thoiGianHieuChinh) {
         String sql = 
         "select * from TuyenDiQuaTram where MaTuyen=? and ThoiGianHieuChinh=? order by STT asc";
@@ -323,7 +324,7 @@ public class LopKetNoi {
     }
     public ArrayList<Tram> getDSTram() {
         ArrayList<Tram> listTram = new ArrayList<Tram>();
-        String sql = "select * from Tram";
+        String sql = "select * from Tram order by TenTram asc";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -476,6 +477,7 @@ String sql =
                     Toa s=new Toa();
                     s.setMaToa(rs.getString("MaToa"));
                     s.setMaLoaiToa(rs.getString("MaLoaiToa"));
+                    s.setTenLoaiToa(rs.getString("TenLoaiToa"));
                     s.setSoChoNgoi(rs.getInt("SoChoNgoi"));
                     s.setGiaChoNgoi(rs.getInt("GiaChoNgoi"));
                     s.setThoiGianHieuChinhTau(rs.getTimestamp("ThoiGianHieuChinhTau"));

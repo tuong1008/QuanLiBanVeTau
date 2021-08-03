@@ -19,10 +19,12 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.optionalusertools.PickerUtilities;
 import java.text.Collator;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JFrame;
+import module.ComboboxToolTipRenderer;
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -518,16 +520,9 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
                 String maTau=jtbTau.getValueAt(hangDangChon, 0).toString();
                 String maTuyen=jtbTau.getValueAt(hangDangChon, 2).toString();
                 String strThoiGianKhoiHanh=jtbTau.getValueAt(hangDangChon, 4).toString();
-                java.sql.Timestamp thoiGianKhoiHanh=null;
-                try {
-                    thoiGianKhoiHanh=new java.sql.Timestamp(formatter.parse(strThoiGianKhoiHanh).getTime());
-                } catch (Exception e) {
-                    System.out.println("Lỗi parse sang Date ThoiGianKhoiHanh");
-                    e.printStackTrace();
-                }
                 
                 try {
-                    if (ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=?",maTau,maTuyen,thoiGianKhoiHanh)) {
+                    if (ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=?",maTau,maTuyen,strThoiGianKhoiHanh)) {
                         tbmTau.removeRow(hangDangChon);
                         hangDangChon = -1;
                         jtbTau.clearSelection();
@@ -600,6 +595,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         return true;
         }
         else if (ketQuaThemTauChayTuyen==-1) {
+            JOptionPane.showMessageDialog(this, "Thời gian này tàu còn đang chạy");
             ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=? and ThoiGianDen=? and ThoiGianHieuChinhTau=? and ThoiGianHieuChinh=?",maTau,maTuyen,tsThoiGianKhoiHanh,tsThoiGianDen, tsThoiGianHieuChinhTau,tsThoiGianHieuChinhTuyen);
             return false;
         }
@@ -660,6 +656,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
             return true;
             }
         else if (ketQuaThemTauChayTuyen==-1){
+            JOptionPane.showMessageDialog(this, "Thời gian này tàu còn đang chạy");
             //update không thành công xoá thằng mới
             ketNoiCSDL.update("delete from TauChayTuyen where MaTau=? and MaTuyen=? and ThoiGianKhoiHanh=? and ThoiGianHieuChinhTau=? and ThoiGianHieuChinh=?",maTauCu,maTuyenCu,thoiGianKhoiHanhMoi,strThoiGianHieuChinhTau,strThoiGianHieuChinhTuyen);
             //insert lại thằng cũ
@@ -707,6 +704,8 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         setThongBaoRong();
         hienTruong();
         if (loai.equals(them)) {
+            cbbMaTau.setEnabled(true);
+            cbbTuyen.setEnabled(true);
             setTruongRong();
             setThongBaoRong();
             loadDSTauVaoCBB();
@@ -738,13 +737,18 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
     private void loadDSTuyenVaoCBB()
     {
         cbbTuyen.removeAllItems();
+        ComboboxToolTipRenderer renderer = new ComboboxToolTipRenderer();
+        List<String> tooltips=new ArrayList<String>();
+        cbbTuyen.setRenderer(renderer);
         try {
-            ResultSet rs = ketNoiCSDL.select("select MaTuyen,MAX(ThoiGianHieuChinh) as ThoiGianHieuChinhMax from Tuyen\n" +
-            "group by MaTuyen;");
+            ResultSet rs = ketNoiCSDL.select("select MaTuyen,TenTuyen,MAX(ThoiGianHieuChinh) as ThoiGianHieuChinhMax from Tuyen\n"
+                    + "group by MaTuyen,TenTuyen;");
             while (rs.next())
             {
                 cbbTuyen.addItem(rs.getString(1));
+                tooltips.add(rs.getString(2));
             }
+            renderer.setTooltips(tooltips);
         } catch (Exception e) {
             System.out.println("Load mã Tuyến vào cbb bị lỗi");
         }

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package view.datve;
+
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import connectSQL.LopKetNoi;
 import java.sql.Timestamp;
@@ -11,17 +12,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import module.Tram;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
-import module.Tau;
 import javax.swing.JTabbedPane;
 import module.Toa;
 import javax.swing.table.DefaultTableModel;
-import java.util.Date;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import module.SampleDateVetoPolicy;
 import module.TaiKhoan;
 import module.TauChayTuyen;
@@ -31,7 +27,6 @@ import module.TuyenDiQuaTram;
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-
 public class JPanelTimVeTau extends javax.swing.JPanel {
 
     LopKetNoi ketNoiCSDL;
@@ -46,7 +41,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
     ArrayList<Toa> DSToaCuaTatCaTau;
     ArrayList<Toa> DSToaCuaTatCaTau_ChieuVe;
     //TreeMap<String,JTabbedPane> JTabbedPaneDSTau;
-    TreeMap<String,NewJPanel> JTabbedPaneDSToa;
+    TreeMap<String, NewJPanel> JTabbedPaneDSToa;
     DefaultTableModel model;
     int maVeChieuDi; //lưu để tạo vé Khứ hồi, vì thêm vào csdl rồi sẽ khó lấy ra 1 cách chính xác,
     Timestamp thoiGianLenTauChieuDi;// ví dụ như chạy nhiều luồng thì lấy maVeChieuDi sẽ không chính xác
@@ -54,6 +49,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelChieuVe;
     DatePickerSettings dateSettingsNgayDi;
     DatePickerSettings dateSettingsNgayVe;
+
     /**
      * Creates new form PanelTimVeTau
      */
@@ -61,28 +57,27 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         dateSettingsNgayDi = new DatePickerSettings();
         dateSettingsNgayVe = new DatePickerSettings();
         initComponents();
-        this.taiKhoan=taiKhoan;
+        this.taiKhoan = taiKhoan;
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jLabelChieuVe = new javax.swing.JLabel();
         jLabelChieuVe.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelChieuVe.setForeground(new java.awt.Color(0, 0, 255));
 
         //JTabbedPaneDSTau=new TreeMap<String,JTabbedPane>();
-        JTabbedPaneDSToa=new TreeMap<String, NewJPanel>();
-        DSTauPhuHop=new ArrayList<TauChayTuyen>();
-        DSTauPhuHop_ChieuVe=new ArrayList<TauChayTuyen>();
-        DSToaCuaTatCaTau= new ArrayList<Toa>();
-        DSToaCuaTatCaTau_ChieuVe= new ArrayList<Toa>();
-        ketNoiCSDL=new LopKetNoi();
-        DSTram=ketNoiCSDL.getDSTram();
-        for (Tram i: DSTram)
-        {
+        JTabbedPaneDSToa = new TreeMap<String, NewJPanel>();
+        DSTauPhuHop = new ArrayList<TauChayTuyen>();
+        DSTauPhuHop_ChieuVe = new ArrayList<TauChayTuyen>();
+        DSToaCuaTatCaTau = new ArrayList<Toa>();
+        DSToaCuaTatCaTau_ChieuVe = new ArrayList<Toa>();
+        ketNoiCSDL = new LopKetNoi();
+        DSTram = ketNoiCSDL.getDSTram();
+        for (Tram i : DSTram) {
             jComboBoxGaDi.addItem(i.getTenTram());
             jComboBoxGaDen.addItem(i.getTenTram());
         }
-        
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -118,6 +113,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         datePickerNgayVe = new com.github.lgooddatepicker.components.DatePicker(dateSettingsNgayVe);
 
         setBackground(new java.awt.Color(204, 204, 255));
+        setPreferredSize(new java.awt.Dimension(1030, 694));
 
         jLabel1.setText("TÌM VÉ TÀU");
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -355,19 +351,17 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         jLabelChieuDi.setText("Chiều đi");
         jLabelChieuVe.setText("Chiều về");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Chiều","Mã Tàu", "Mã Toa", "Ghế Số","Giá", "Thời Gian Đi", "Thời Gian Đến"
-            }
+                new Object[][]{},
+                new String[]{
+                    "Chiều", "Mã Tàu", "Mã Toa", "Ghế Số", "Giá", "Thời Gian Đi", "Thời Gian Đến"
+                }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false,false,false,false
+            boolean[] canEdit = new boolean[]{
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -388,28 +382,28 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelChieuVe, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane2)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabelChieuDi, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 608, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1)
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabelChieuVe, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jTabbedPane2)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabelChieuDi, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 608, Short.MAX_VALUE))
+                        .addComponent(jTabbedPane1)
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabelChieuDi, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabelChieuVe, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabelChieuDi, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelChieuVe, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel2);
@@ -417,264 +411,235 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
 
     private void jButtonTimVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTimVeActionPerformed
         // TODO add your handling code here:
-        String tenTramDi=(String)jComboBoxGaDi.getSelectedItem();
-        String tenTramDen=(String)jComboBoxGaDen.getSelectedItem(); 
-        String strNgayDi=datePickerNgayDi.toString();
-        String strNgayVe=datePickerNgayVe.toString();
+        String tenTramDi = (String) jComboBoxGaDi.getSelectedItem();
+        String tenTramDen = (String) jComboBoxGaDen.getSelectedItem();
+        String strNgayDi = datePickerNgayDi.toString();
+        String strNgayVe = datePickerNgayVe.toString();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
             formatter.parse(strNgayDi);
-            DSTuyen=ketNoiCSDL.getTuyenPhuHop(tenTramDi, tenTramDen);
-            if (DSTuyen.isEmpty())
-            {
-                JOptionPane.showMessageDialog(this, "Không có tàu nào chạy "+jLabelChieuDi.getText().toLowerCase()+" trong ngày đã chọn!");
-                if (jRadioButton1Chieu.isSelected())
-                    {
-                        datePickerNgayDi.setEnabled(true);
-                        datePickerNgayVe.setEnabled(false);
-                    }
-                    else
-                    {
-                        datePickerNgayDi.setEnabled(true);
-                        datePickerNgayVe.setEnabled(true);  
-                    }
+            DSTuyen = ketNoiCSDL.getTuyenPhuHop(tenTramDi, tenTramDen);
+            if (DSTuyen.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Không có tàu nào chạy " + jLabelChieuDi.getText().toLowerCase() + " trong ngày đã chọn!");
+                if (jRadioButton1Chieu.isSelected()) {
+                    datePickerNgayDi.setEnabled(true);
+                    datePickerNgayVe.setEnabled(false);
+                } else {
+                    datePickerNgayDi.setEnabled(true);
+                    datePickerNgayVe.setEnabled(true);
+                }
                 jButtonTimVe.setEnabled(true);
                 jButtonDatVe1.setEnabled(false);
-            }
-            else
-            {
+            } else {
                 jRadioButton1Chieu.setEnabled(false);
                 jRadioButtonKhuHoi.setEnabled(false);
                 datePickerNgayDi.setEnabled(false);
                 datePickerNgayVe.setEnabled(false);
                 jButtonTimVe.setEnabled(false);
                 jButtonDatVe1.setEnabled(true);
-                model=(DefaultTableModel) jTable1.getModel();
-                boolean timDuocItNhat1Tau=false;
-                for (TuyenDiQuaTram[] i:DSTuyen)
-                {
-                    DSTau=ketNoiCSDL.getTauTheoMaTuyen(i[0].getMaTuyen(),strNgayDi,i[0].getThoiGianHieuChinh()); //DS Tàu có khoảng thời gian phù hợp}
-                    for (TauChayTuyen j:DSTau)
-                {
-                    TauChayTuyen tauPhuHop=ketNoiCSDL.getTauPhuHop(i,j.getMaTau(), j.getThoiGianKhoiHanh(), strNgayDi, j.getThoiGianHieuChinhTau());
-                    if (tauPhuHop!=null)
-                    {  
-                    timDuocItNhat1Tau=true;
-                    jButtonTimVe.setEnabled(false);
-                    jButtonDatVe1.setEnabled(true);
-                    jComboBoxGaDi.setEnabled(false);
-                    jComboBoxGaDen.setEnabled(false);
-                    DSTauPhuHop.add(tauPhuHop);
-                    String thoiGianDi=tauPhuHop.getThoiGianDenTramDi().toString();  
-                    String thoiGianDen=tauPhuHop.getThoiGianDen().toString();
-                    thoiGianDi=thoiGianDi.substring(0, thoiGianDi.length()-5);  //bỏ giây và mili giây
-                    thoiGianDen=thoiGianDen.substring(0, thoiGianDen.length()-5);  //bỏ giây và mili giây
-                    JTabbedPane jTabbedPaneTau=new JTabbedPane();
-                    //JTabbedPaneDSTau.put(tauPhuHop.getMaTau(),jTabbedPaneTau);
-                    jTabbedPane1.add(tauPhuHop.getMaTau(),jTabbedPaneTau);
-                    DSToa=ketNoiCSDL.getToaTheoMaTau(tauPhuHop.getMaTau(),tauPhuHop.getThoiGianHieuChinhTau());
-                    for (Toa l:DSToa)
-                    {   
-                        DSToaCuaTatCaTau.add(l);
-                        ArrayList<Integer> DSGheDaDat= ketNoiCSDL.getChoNgoiDaDat(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianKhoiHanh(), l.getMaToa(), tauPhuHop.getThoiGianHieuChinhTuyen(),l.getThoiGianHieuChinhTau(),tauPhuHop.getMaTuyen());
-                        NewJPanel newJPanel;
-                        switch (l.getSoChoNgoi()) {
-                            case 80:
-                                newJPanel=new JPanelNgoiCung80(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều đi",DSGheDaDat,l.getGiaChoNgoi());
-                                jTabbedPaneTau.add(l.getMaToa(),newJPanel);
-                                JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
-                                break;
-                            case 56:
-                                newJPanel=new JPanelNgoiMem56(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều đi",DSGheDaDat,l.getGiaChoNgoi());
-                                JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
-                                jTabbedPaneTau.add(l.getMaToa(),newJPanel);
-                                break;
-                            case 42:
-                                newJPanel=new JPanelGiuongNamKhoang642(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều đi",DSGheDaDat,l.getGiaChoNgoi());
-                                JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
-                                jTabbedPaneTau.add(l.getMaToa(),newJPanel);
-                                break;
-                            case 28:
-                                newJPanel=new JPanelGiuongNamKhoang428(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều đi",DSGheDaDat,l.getGiaChoNgoi());
-                                JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
-                                jTabbedPaneTau.add(l.getMaToa(),newJPanel);
-                                break;
-                        }
-                        }
-                    }
-                }
-                }
-                if (timDuocItNhat1Tau==false) 
-                        {
-                            if (jRadioButton1Chieu.isSelected()) 
-                            {
-                                JOptionPane.showMessageDialog(this, "Không có tàu nào chạy trong ngày đã chọn!");
-                                jRadioButton1Chieu.setEnabled(true);
-                                jRadioButtonKhuHoi.setEnabled(true);
-                                datePickerNgayDi.setEnabled(true);
-                                datePickerNgayVe.setEnabled(false);
+                model = (DefaultTableModel) jTable1.getModel();
+                boolean timDuocItNhat1Tau = false;
+                for (TuyenDiQuaTram[] i : DSTuyen) {
+                    DSTau = ketNoiCSDL.getTauTheoMaTuyen(i[0].getMaTuyen(), strNgayDi, i[0].getThoiGianHieuChinh()); //DS Tàu có khoảng thời gian phù hợp}
+                    for (TauChayTuyen j : DSTau) {
+                        TauChayTuyen tauPhuHop = ketNoiCSDL.getTauPhuHop(i, j.getMaTau(), j.getThoiGianKhoiHanh(), strNgayDi, j.getThoiGianHieuChinhTau());
+                        if (tauPhuHop != null) {
+                            timDuocItNhat1Tau = true;
+                            jButtonTimVe.setEnabled(false);
+                            jButtonDatVe1.setEnabled(true);
+                            jComboBoxGaDi.setEnabled(false);
+                            jComboBoxGaDen.setEnabled(false);
+                            DSTauPhuHop.add(tauPhuHop);
+                            String thoiGianDi = tauPhuHop.getThoiGianDenTramDi().toString();
+                            String thoiGianDen = tauPhuHop.getThoiGianDen().toString();
+                            thoiGianDi = thoiGianDi.substring(0, thoiGianDi.length() - 5);  //bỏ giây và mili giây
+                            thoiGianDen = thoiGianDen.substring(0, thoiGianDen.length() - 5);  //bỏ giây và mili giây
+                            JTabbedPane jTabbedPaneTau = new JTabbedPane();
+                            //JTabbedPaneDSTau.put(tauPhuHop.getMaTau(),jTabbedPaneTau);
+                            jTabbedPane1.add(tauPhuHop.getMaTau(), jTabbedPaneTau);
+                            DSToa = ketNoiCSDL.getToaTheoMaTau(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianHieuChinhTau());
+                            for (Toa l : DSToa) {
+                                DSToaCuaTatCaTau.add(l);
+                                ArrayList<Integer> DSGheDaDat = ketNoiCSDL.getChoNgoiDaDat(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianKhoiHanh(), l.getMaToa(), tauPhuHop.getThoiGianHieuChinhTuyen(), l.getThoiGianHieuChinhTau(), tauPhuHop.getMaTuyen());
+                                NewJPanel newJPanel;
+                                switch (l.getSoChoNgoi()) {
+                                    case 80:
+                                        newJPanel = new JPanelNgoiCung80(tauPhuHop.getMaTau(), l.getMaToa(), thoiGianDi, thoiGianDen, model, jRadioButton1Chieu, "Chiều đi", DSGheDaDat, l.getGiaChoNgoi());
+                                        jTabbedPaneTau.add(l.getMaToa(), newJPanel);
+                                        JTabbedPaneDSToa.put(l.getMaToa() + " " + thoiGianDi, newJPanel);
+                                        break;
+                                    case 56:
+                                        newJPanel = new JPanelNgoiMem56(tauPhuHop.getMaTau(), l.getMaToa(), thoiGianDi, thoiGianDen, model, jRadioButton1Chieu, "Chiều đi", DSGheDaDat, l.getGiaChoNgoi());
+                                        JTabbedPaneDSToa.put(l.getMaToa() + " " + thoiGianDi, newJPanel);
+                                        jTabbedPaneTau.add(l.getMaToa(), newJPanel);
+                                        break;
+                                    case 42:
+                                        newJPanel = new JPanelGiuongNamKhoang642(tauPhuHop.getMaTau(), l.getMaToa(), thoiGianDi, thoiGianDen, model, jRadioButton1Chieu, "Chiều đi", DSGheDaDat, l.getGiaChoNgoi());
+                                        JTabbedPaneDSToa.put(l.getMaToa() + " " + thoiGianDi, newJPanel);
+                                        jTabbedPaneTau.add(l.getMaToa(), newJPanel);
+                                        break;
+                                    case 28:
+                                        newJPanel = new JPanelGiuongNamKhoang428(tauPhuHop.getMaTau(), l.getMaToa(), thoiGianDi, thoiGianDen, model, jRadioButton1Chieu, "Chiều đi", DSGheDaDat, l.getGiaChoNgoi());
+                                        JTabbedPaneDSToa.put(l.getMaToa() + " " + thoiGianDi, newJPanel);
+                                        jTabbedPaneTau.add(l.getMaToa(), newJPanel);
+                                        break;
+                                }
+                                jTabbedPaneTau.setToolTipTextAt(jTabbedPaneTau.getTabCount()-1, l.getTenLoaiToa());
                             }
-                            else
-                            {
-                                JOptionPane.showMessageDialog(this, "Không có tàu nào chạy "+jLabelChieuDi.getText().toLowerCase()+" trong ngày đã chọn!");
-                                jRadioButton1Chieu.setEnabled(true);
-                                jRadioButtonKhuHoi.setEnabled(true);
-                                datePickerNgayDi.setEnabled(true);
-                                datePickerNgayVe.setEnabled(true);
-                            }
-                            jComboBoxGaDi.setEnabled(true);
-                            jComboBoxGaDen.setEnabled(true);
-                            jButtonTimVe.setEnabled(true);
-                            jButtonDatVe1.setEnabled(false);
-                        }
-            }
-            if (jRadioButtonKhuHoi.isSelected())
-            {    
-                formatter.parse(strNgayVe);
-                String tempTenTram;
-                tempTenTram=tenTramDi;
-                tenTramDi=tenTramDen;
-                tenTramDen=tempTenTram;
-                DSTuyen_ChieuVe=ketNoiCSDL.getTuyenPhuHop(tenTramDi, tenTramDen);
-            if (DSTuyen_ChieuVe.size()==0)
-            {
-                JOptionPane.showMessageDialog(this, "Không có tàu nào chạy "+jLabelChieuDi.getText().toLowerCase()+" trong ngày đã chọn!");
-                if (jRadioButton1Chieu.isSelected())
-                    {
-                        datePickerNgayDi.setEnabled(true);
-                        datePickerNgayVe.setEnabled(false);
-                    }
-                    else
-                    {
-                        datePickerNgayDi.setEnabled(true);
-                        datePickerNgayVe.setEnabled(true);  
-                    }
-                jButtonTimVe.setEnabled(true);
-                jButtonDatVe1.setEnabled(false);
-            }
-            else
-            {
-                strNgayDi=strNgayVe;
-                jRadioButton1Chieu.setEnabled(false);
-                jRadioButtonKhuHoi.setEnabled(false);
-                datePickerNgayDi.setEnabled(false);
-                datePickerNgayVe.setEnabled(false);
-                jButtonTimVe.setEnabled(false);
-                jButtonDatVe1.setEnabled(true);
-                model=(DefaultTableModel) jTable1.getModel();
-                boolean timDuocItNhat1Tau=false;
-                for (TuyenDiQuaTram[] i:DSTuyen_ChieuVe)
-                {
-                    DSTau=ketNoiCSDL.getTauTheoMaTuyen(i[0].getMaTuyen(),strNgayDi,i[0].getThoiGianHieuChinh()); //DS Tàu có khoảng thời gian phù hợp                   
-                    for (TauChayTuyen j:DSTau)
-                {
-                    TauChayTuyen tauPhuHop=ketNoiCSDL.getTauPhuHop(i,j.getMaTau(), j.getThoiGianKhoiHanh(), strNgayDi,j.getThoiGianHieuChinhTau());
-                    if (tauPhuHop!=null)
-                    {
-                    timDuocItNhat1Tau=true;
-                    jButtonTimVe.setEnabled(false);
-                    jButtonDatVe1.setEnabled(true);
-                    jComboBoxGaDi.setEnabled(false);
-                    jComboBoxGaDen.setEnabled(false);
-                    DSTauPhuHop_ChieuVe.add(tauPhuHop);
-                    String thoiGianDi=tauPhuHop.getThoiGianDenTramDi().toString();  
-                    String thoiGianDen=tauPhuHop.getThoiGianDen().toString();
-                    thoiGianDi=thoiGianDi.substring(0, thoiGianDi.length()-5);  //bỏ giây và mili giây
-                    thoiGianDen=thoiGianDen.substring(0, thoiGianDen.length()-5);  //bỏ giây và mili giây
-                    JTabbedPane jTabbedPaneTau=new JTabbedPane();
-                    //JTabbedPaneDSTau.put(tauPhuHop.getMaTau(),jTabbedPaneTau);
-                    jTabbedPane2.add(tauPhuHop.getMaTau(),jTabbedPaneTau);
-                    DSToa=ketNoiCSDL.getToaTheoMaTau(tauPhuHop.getMaTau(),tauPhuHop.getThoiGianHieuChinhTau());
-                    for (Toa l:DSToa)
-                    {   
-                        DSToaCuaTatCaTau_ChieuVe.add(l);
-                        ArrayList<Integer> DSGheDaDat= ketNoiCSDL.getChoNgoiDaDat(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianKhoiHanh(), l.getMaToa(), tauPhuHop.getThoiGianHieuChinhTuyen(),l.getThoiGianHieuChinhTau(),tauPhuHop.getMaTuyen());
-                        NewJPanel newJPanel;
-                        switch (l.getSoChoNgoi()) {
-                            case 80:
-                                newJPanel=new JPanelNgoiCung80(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều về",DSGheDaDat,l.getGiaChoNgoi());
-                                jTabbedPaneTau.add(l.getMaToa(),newJPanel);
-                                JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
-                                break;
-                            case 56:
-                                newJPanel=new JPanelNgoiMem56(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều về",DSGheDaDat,l.getGiaChoNgoi());
-                                JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
-                                jTabbedPaneTau.add(l.getMaToa(),newJPanel);
-                                break;
-                            case 42:
-                                newJPanel=new JPanelGiuongNamKhoang642(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều về",DSGheDaDat,l.getGiaChoNgoi());
-                                JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
-                                jTabbedPaneTau.add(l.getMaToa(),newJPanel);
-                                break;
-                            case 28:
-                                newJPanel=new JPanelGiuongNamKhoang428(tauPhuHop.getMaTau(),l.getMaToa(),thoiGianDi,thoiGianDen,model,jRadioButton1Chieu,"Chiều về",DSGheDaDat,l.getGiaChoNgoi());
-                                JTabbedPaneDSToa.put(l.getMaToa()+" "+thoiGianDi,newJPanel);
-                                jTabbedPaneTau.add(l.getMaToa(),newJPanel);
-                                break;
-                        }
+
                         }
                     }
-                }
                 }
                 if (timDuocItNhat1Tau == false) {
+                    if (jRadioButton1Chieu.isSelected()) {
+                        JOptionPane.showMessageDialog(this, "Không có tàu nào chạy trong ngày đã chọn!");
+                        jRadioButton1Chieu.setEnabled(true);
+                        jRadioButtonKhuHoi.setEnabled(true);
+                        datePickerNgayDi.setEnabled(true);
+                        datePickerNgayVe.setEnabled(false);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Không có tàu nào chạy " + jLabelChieuDi.getText().toLowerCase() + " trong ngày đã chọn!");
+                        jRadioButton1Chieu.setEnabled(true);
+                        jRadioButtonKhuHoi.setEnabled(true);
+                        datePickerNgayDi.setEnabled(true);
+                        datePickerNgayVe.setEnabled(true);
+                    }
+                    jComboBoxGaDi.setEnabled(true);
+                    jComboBoxGaDen.setEnabled(true);
+                    jButtonTimVe.setEnabled(true);
+                    jButtonDatVe1.setEnabled(false);
+                }
+            }
+            if (jRadioButtonKhuHoi.isSelected()) {
+                formatter.parse(strNgayVe);
+                String tempTenTram;
+                tempTenTram = tenTramDi;
+                tenTramDi = tenTramDen;
+                tenTramDen = tempTenTram;
+                DSTuyen_ChieuVe = ketNoiCSDL.getTuyenPhuHop(tenTramDi, tenTramDen);
+                if (DSTuyen_ChieuVe.size() == 0) {
+                    JOptionPane.showMessageDialog(this, "Không có tàu nào chạy " + jLabelChieuDi.getText().toLowerCase() + " trong ngày đã chọn!");
+                    if (jRadioButton1Chieu.isSelected()) {
+                        datePickerNgayDi.setEnabled(true);
+                        datePickerNgayVe.setEnabled(false);
+                    } else {
+                        datePickerNgayDi.setEnabled(true);
+                        datePickerNgayVe.setEnabled(true);
+                    }
+                    jButtonTimVe.setEnabled(true);
+                    jButtonDatVe1.setEnabled(false);
+                } else {
+                    strNgayDi = strNgayVe;
+                    jRadioButton1Chieu.setEnabled(false);
+                    jRadioButtonKhuHoi.setEnabled(false);
+                    datePickerNgayDi.setEnabled(false);
+                    datePickerNgayVe.setEnabled(false);
+                    jButtonTimVe.setEnabled(false);
+                    jButtonDatVe1.setEnabled(true);
+                    model = (DefaultTableModel) jTable1.getModel();
+                    boolean timDuocItNhat1Tau = false;
+                    for (TuyenDiQuaTram[] i : DSTuyen_ChieuVe) {
+                        DSTau = ketNoiCSDL.getTauTheoMaTuyen(i[0].getMaTuyen(), strNgayDi, i[0].getThoiGianHieuChinh()); //DS Tàu có khoảng thời gian phù hợp                   
+                        for (TauChayTuyen j : DSTau) {
+                            TauChayTuyen tauPhuHop = ketNoiCSDL.getTauPhuHop(i, j.getMaTau(), j.getThoiGianKhoiHanh(), strNgayDi, j.getThoiGianHieuChinhTau());
+                            if (tauPhuHop != null) {
+                                timDuocItNhat1Tau = true;
+                                jButtonTimVe.setEnabled(false);
+                                jButtonDatVe1.setEnabled(true);
+                                jComboBoxGaDi.setEnabled(false);
+                                jComboBoxGaDen.setEnabled(false);
+                                DSTauPhuHop_ChieuVe.add(tauPhuHop);
+                                String thoiGianDi = tauPhuHop.getThoiGianDenTramDi().toString();
+                                String thoiGianDen = tauPhuHop.getThoiGianDen().toString();
+                                thoiGianDi = thoiGianDi.substring(0, thoiGianDi.length() - 5);  //bỏ giây và mili giây
+                                thoiGianDen = thoiGianDen.substring(0, thoiGianDen.length() - 5);  //bỏ giây và mili giây
+                                JTabbedPane jTabbedPaneTau = new JTabbedPane();
+                                //JTabbedPaneDSTau.put(tauPhuHop.getMaTau(),jTabbedPaneTau);
+                                jTabbedPane2.add(tauPhuHop.getMaTau(), jTabbedPaneTau);
+                                DSToa = ketNoiCSDL.getToaTheoMaTau(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianHieuChinhTau());
+                                for (Toa l : DSToa) {
+                                    DSToaCuaTatCaTau_ChieuVe.add(l);
+                                    ArrayList<Integer> DSGheDaDat = ketNoiCSDL.getChoNgoiDaDat(tauPhuHop.getMaTau(), tauPhuHop.getThoiGianKhoiHanh(), l.getMaToa(), tauPhuHop.getThoiGianHieuChinhTuyen(), l.getThoiGianHieuChinhTau(), tauPhuHop.getMaTuyen());
+                                    NewJPanel newJPanel;
+                                    switch (l.getSoChoNgoi()) {
+                                        case 80:
+                                            newJPanel = new JPanelNgoiCung80(tauPhuHop.getMaTau(), l.getMaToa(), thoiGianDi, thoiGianDen, model, jRadioButton1Chieu, "Chiều về", DSGheDaDat, l.getGiaChoNgoi());
+                                            jTabbedPaneTau.add(l.getMaToa(), newJPanel);
+                                            JTabbedPaneDSToa.put(l.getMaToa() + " " + thoiGianDi, newJPanel);
+                                            break;
+                                        case 56:
+                                            newJPanel = new JPanelNgoiMem56(tauPhuHop.getMaTau(), l.getMaToa(), thoiGianDi, thoiGianDen, model, jRadioButton1Chieu, "Chiều về", DSGheDaDat, l.getGiaChoNgoi());
+                                            JTabbedPaneDSToa.put(l.getMaToa() + " " + thoiGianDi, newJPanel);
+                                            jTabbedPaneTau.add(l.getMaToa(), newJPanel);
+                                            break;
+                                        case 42:
+                                            newJPanel = new JPanelGiuongNamKhoang642(tauPhuHop.getMaTau(), l.getMaToa(), thoiGianDi, thoiGianDen, model, jRadioButton1Chieu, "Chiều về", DSGheDaDat, l.getGiaChoNgoi());
+                                            JTabbedPaneDSToa.put(l.getMaToa() + " " + thoiGianDi, newJPanel);
+                                            jTabbedPaneTau.add(l.getMaToa(), newJPanel);
+                                            break;
+                                        case 28:
+                                            newJPanel = new JPanelGiuongNamKhoang428(tauPhuHop.getMaTau(), l.getMaToa(), thoiGianDi, thoiGianDen, model, jRadioButton1Chieu, "Chiều về", DSGheDaDat, l.getGiaChoNgoi());
+                                            JTabbedPaneDSToa.put(l.getMaToa() + " " + thoiGianDi, newJPanel);
+                                            jTabbedPaneTau.add(l.getMaToa(), newJPanel);
+                                            break;
+                                    }
+                                    jTabbedPaneTau.setToolTipTextAt(jTabbedPaneTau.getTabCount()-1, l.getTenLoaiToa());
+                                }
+                            }
+                        }
+                    }
+                    if (timDuocItNhat1Tau == false) {
                         if (jLabelChieuDi.getText().equals("")) {
                             JOptionPane.showMessageDialog(this, "Không có tàu nào chạy trong ngày đã chọn!");
                             jRadioButton1Chieu.setEnabled(true);
                             jRadioButtonKhuHoi.setEnabled(true);
                             datePickerNgayDi.setEnabled(true);
-                            datePickerNgayVe.setEnabled(false); 
+                            datePickerNgayVe.setEnabled(false);
                         } else {
-                            JOptionPane.showMessageDialog(this, "Không có tàu nào chạy " + jLabelChieuDi.getText().toLowerCase() + " trong ngày đã chọn!");
+                            JOptionPane.showMessageDialog(this, "Không có tàu nào chạy " + jLabelChieuVe.getText().toLowerCase() + " trong ngày đã chọn!");
                             jRadioButton1Chieu.setEnabled(true);
                             jRadioButtonKhuHoi.setEnabled(true);
                             datePickerNgayDi.setEnabled(true);
-                            datePickerNgayVe.setEnabled(true); 
+                            datePickerNgayVe.setEnabled(true);
                         }
                         jComboBoxGaDi.setEnabled(true);
                         jComboBoxGaDen.setEnabled(true);
                         jButtonTimVe.setEnabled(true);
                         jButtonDatVe1.setEnabled(false);
                     }
-            }
+                }
             }
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(this, "Không được để trống. Hãy nhập ngày theo định dạng yyyy-MM-dd");
         }
-        
-        
-        
+
+
     }//GEN-LAST:event_jButtonTimVeActionPerformed
 
     private void jLabel5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel5MousePressed
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int dongDuocChon= jTable1.getSelectedRow();
-        if (dongDuocChon!=-1)
-        {
-            if (jRadioButton1Chieu.isSelected())
-            {
-                String maToaCanXoa=model.getValueAt(dongDuocChon,1).toString();
-                String soCuaChoNgoiCanXoa=model.getValueAt(dongDuocChon, 2).toString();
-                String thoiGianDiCuaToaCanXoa=model.getValueAt(dongDuocChon,4).toString();
-                NewJPanel jpnChuaChoNgoiCanXoa=JTabbedPaneDSToa.get(maToaCanXoa+" "+thoiGianDiCuaToaCanXoa);  //jpn chứa chỗ ngồi cần xoá
+        int dongDuocChon = jTable1.getSelectedRow();
+        if (dongDuocChon != -1) {
+            if (jRadioButton1Chieu.isSelected()) {
+                String maToaCanXoa = model.getValueAt(dongDuocChon, 1).toString();
+                String soCuaChoNgoiCanXoa = model.getValueAt(dongDuocChon, 2).toString();
+                String thoiGianDiCuaToaCanXoa = model.getValueAt(dongDuocChon, 4).toString();
+                NewJPanel jpnChuaChoNgoiCanXoa = JTabbedPaneDSToa.get(maToaCanXoa + " " + thoiGianDiCuaToaCanXoa);  //jpn chứa chỗ ngồi cần xoá
+                jpnChuaChoNgoiCanXoa.enableJToggleButton(jpnChuaChoNgoiCanXoa.getJToggleButtonByText(soCuaChoNgoiCanXoa));//lấy JToggleButton rồi enable nó
+                model.removeRow(dongDuocChon);
+            } else {
+                String maToaCanXoa = model.getValueAt(dongDuocChon, 2).toString();
+                String soCuaChoNgoiCanXoa = model.getValueAt(dongDuocChon, 3).toString();
+                String thoiGianDiCuaToaCanXoa = model.getValueAt(dongDuocChon, 5).toString();
+                NewJPanel jpnChuaChoNgoiCanXoa = JTabbedPaneDSToa.get(maToaCanXoa + " " + thoiGianDiCuaToaCanXoa);  //jpn chứa chỗ ngồi cần xoá
                 jpnChuaChoNgoiCanXoa.enableJToggleButton(jpnChuaChoNgoiCanXoa.getJToggleButtonByText(soCuaChoNgoiCanXoa));//lấy JToggleButton rồi enable nó
                 model.removeRow(dongDuocChon);
             }
-            else
-            {
-                String maToaCanXoa=model.getValueAt(dongDuocChon,2).toString();
-                String soCuaChoNgoiCanXoa=model.getValueAt(dongDuocChon, 3).toString();
-                String thoiGianDiCuaToaCanXoa=model.getValueAt(dongDuocChon,5).toString();
-                NewJPanel jpnChuaChoNgoiCanXoa=JTabbedPaneDSToa.get(maToaCanXoa+" "+thoiGianDiCuaToaCanXoa);  //jpn chứa chỗ ngồi cần xoá
-                jpnChuaChoNgoiCanXoa.enableJToggleButton(jpnChuaChoNgoiCanXoa.getJToggleButtonByText(soCuaChoNgoiCanXoa));//lấy JToggleButton rồi enable nó
-                model.removeRow(dongDuocChon);
-            }
-        }
-        else
-        {
+        } else {
             JOptionPane.showMessageDialog(this, "Chọn 1 dòng muốn xoá trong bảng!");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -699,19 +664,17 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         datePickerNgayVe.setEnabled(false);
         jLabelChieuDi.setText("");
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã Tàu", "Mã Toa", "Ghế Số","Giá", "Thời Gian Đi", "Thời Gian Đến"
-            }
+                new Object[][]{},
+                new String[]{
+                    "Mã Tàu", "Mã Toa", "Ghế Số", "Giá", "Thời Gian Đi", "Thời Gian Đến"
+                }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false,false,false
+            boolean[] canEdit = new boolean[]{
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -727,20 +690,20 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(5).setResizable(false);
             jTable1.getColumnModel().getColumn(5).setPreferredWidth(163);
         }
-        
+
         //giao dien
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-        ));
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                                .addGap(0, 0, 0)
+                        ));
 
         jScrollPane2.setViewportView(jPanel2);
         ///
@@ -748,42 +711,44 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
 
     private void jButtonDatVe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDatVe1ActionPerformed
         // TODO add your handling code here:
-        if (jRadioButton1Chieu.isSelected())
-        {
-            Vector<Vector> dataTable=model.getDataVector();
+        if (jRadioButton1Chieu.isSelected()) {
+            Vector<Vector> dataTable = model.getDataVector();
 //              System.out.println(dataTable.elementAt(i));
-            JDialogTaoVe1Chieu temp= new JDialogTaoVe1Chieu(taiKhoan,dataTable,DSTuyen,DSTuyen_ChieuVe,DSTauPhuHop,DSTauPhuHop_ChieuVe,DSToaCuaTatCaTau,DSToaCuaTatCaTau_ChieuVe, true,true);
+            JDialogTaoVe1Chieu temp = new JDialogTaoVe1Chieu(taiKhoan, dataTable, DSTuyen, DSTuyen_ChieuVe, DSTauPhuHop, DSTauPhuHop_ChieuVe, DSToaCuaTatCaTau, DSToaCuaTatCaTau_ChieuVe, true, true);
             temp.setVisible(true);
-            if (temp.isDoClear()) jButtonResetActionPerformed(evt);
+            if (temp.isDoClear()) {
+                jButtonResetActionPerformed(evt);
+            }
         }
-        if (jRadioButtonKhuHoi.isSelected())
-        {
-                Vector<Vector> dataTable=model.getDataVector();
+        if (jRadioButtonKhuHoi.isSelected()) {
+            Vector<Vector> dataTable = model.getDataVector();
 //              System.out.println(dataTable.elementAt(i));
-                JDialogTaoCapVeKhuHoi temp=new JDialogTaoCapVeKhuHoi(taiKhoan,dataTable,DSTuyen,DSTuyen_ChieuVe,DSTauPhuHop,DSTauPhuHop_ChieuVe,DSToaCuaTatCaTau,DSToaCuaTatCaTau_ChieuVe, true,true);
-                temp.setVisible(true);
-                if (temp.isDoClear()) jButtonResetActionPerformed(evt);
+            JDialogTaoCapVeKhuHoi temp = new JDialogTaoCapVeKhuHoi(taiKhoan, dataTable, DSTuyen, DSTuyen_ChieuVe, DSTauPhuHop, DSTauPhuHop_ChieuVe, DSToaCuaTatCaTau, DSToaCuaTatCaTau_ChieuVe, true, true);
+            temp.setVisible(true);
+            if (temp.isDoClear()) {
+                jButtonResetActionPerformed(evt);
+            }
         }
-        
-        
+
+
     }//GEN-LAST:event_jButtonDatVe1ActionPerformed
 
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
         // TODO add your handling code here:
         jComboBoxGaDi.setSelectedIndex(0);
         jComboBoxGaDen.setSelectedIndex(0);
-        if (!datePickerNgayDi.getText().equals("")) 
-        {
+        if (!datePickerNgayDi.getText().equals("")) {
             datePickerNgayDi.setText("");
             datePickerNgayDi.setEnabled(true);
         }
-        if (!datePickerNgayVe.getText().equals("")) 
-        {
+        if (!datePickerNgayVe.getText().equals("")) {
             datePickerNgayVe.setText("");
             datePickerNgayVe.setEnabled(true);
         }
         jTabbedPane1.removeAll();
-        if (jRadioButtonKhuHoi.isSelected()) jTabbedPane2.removeAll();
+        if (jRadioButtonKhuHoi.isSelected()) {
+            jTabbedPane2.removeAll();
+        }
         model.setRowCount(0);
         jButtonTimVe.setEnabled(true);
         jButtonDatVe1.setEnabled(false);
@@ -793,7 +758,7 @@ public class JPanelTimVeTau extends javax.swing.JPanel {
         jRadioButtonKhuHoi.setEnabled(true);
         jComboBoxGaDi.setEnabled(true);
         jComboBoxGaDen.setEnabled(true);
-        
+
     }//GEN-LAST:event_jButtonResetActionPerformed
 //    public String TimMaTramTuongUng(String tenTram)
 //    {

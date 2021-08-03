@@ -277,9 +277,9 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             }
         });
 
-        jComboBoxTenTramNay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxTenTramNayActionPerformed(evt);
+        jComboBoxTenTramNay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBoxTenTramNayMouseClicked(evt);
             }
         });
 
@@ -441,29 +441,32 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jSeparator2)
-                    .addComponent(jSeparator1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jSeparator2)
+                            .addComponent(jSeparator1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(2, 2, 2)
-                                .addComponent(jtfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(64, 64, 64)
-                                .addComponent(btnThem)
-                                .addGap(76, 76, 76)
-                                .addComponent(btnSua)
-                                .addGap(78, 78, 78)
-                                .addComponent(btnXoa))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(375, 375, 375)
-                                .addComponent(jLabel2)))
-                        .addGap(0, 397, Short.MAX_VALUE)))
-                .addGap(23, 23, 23))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(2, 2, 2)
+                                        .addComponent(jtfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton1)
+                                        .addGap(375, 375, 375)
+                                        .addComponent(jLabel2)))
+                                .addGap(0, 397, Short.MAX_VALUE)))
+                        .addGap(23, 23, 23))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64)
+                        .addComponent(btnThem)
+                        .addGap(242, 242, 242)
+                        .addComponent(btnSua)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnXoa)
+                        .addGap(142, 142, 142))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -490,8 +493,8 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(jtfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
-                .addGap(18, 18, 18))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Trạm", jPanel1);
@@ -666,14 +669,13 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1045, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1045, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -734,6 +736,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             tramDao.themTramVaoDB(tram);
             tramDao.themTramVaoBang(tram, jtbDanhSachTram);
             JOptionPane.showMessageDialog(jdlThemSuaTram, "Thêm thành công");
+            jdlThemSuaTram.dispose();
             //cap nhat lai cac truong
             capNhatSauKhiThem();
         }
@@ -758,6 +761,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             tbmBangKCTram.addRow(new Object[]{jComboBoxTenTramNay.getSelectedItem()
                     ,jComboBoxTenTramKia.getSelectedItem(),jSpinnerSoNgay.getValue().toString(),timePickerKCTRam.toString()});
             JOptionPane.showMessageDialog(this, "Thêm thành công");
+            jdlThemSuaKCTram.dispose();
         }
     }
     
@@ -791,7 +795,6 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (jdlThemSuaTram.getTitle().equalsIgnoreCase("Thêm trạm")) {
             themTram();
-            jdlThemSuaTram.dispose();
         } else {
             suaTram();
             jdlThemSuaTram.dispose();
@@ -977,7 +980,6 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (jdlThemSuaKCTram.getTitle().equals("THÊM")) {
             themKCTram();
-            jdlThemSuaKCTram.dispose();
         } else {
             String tenTramNay=jComboBoxTenTramNay.getSelectedItem().toString();
             String tenTramKia=jComboBoxTenTramKia.getSelectedItem().toString();
@@ -1002,7 +1004,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnXacNhanDialog1KeyPressed
 
-    private void jComboBoxTenTramNayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTenTramNayActionPerformed
+    private void jComboBoxTenTramNayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxTenTramNayMouseClicked
         // TODO add your handling code here:
         if (jdlThemSuaKCTram.getTitle().equals("THÊM"))
         {
@@ -1010,8 +1012,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
 "where TenTram not in (select TenTramKia from KhoangCachTram\n" +
 "where TenTramNay=?) and TenTram!=?", jComboBoxTenTramNay.getSelectedItem().toString(), jComboBoxTenTramNay.getSelectedItem().toString()), jComboBoxTenTramKia);
         }
-        
-    }//GEN-LAST:event_jComboBoxTenTramNayActionPerformed
+    }//GEN-LAST:event_jComboBoxTenTramNayMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
