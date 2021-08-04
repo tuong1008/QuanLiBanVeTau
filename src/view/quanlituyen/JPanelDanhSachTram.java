@@ -69,7 +69,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
                 return collator.compare(o1,o2);
             }
         });
-        jtbDanhSachTram.setRowSorter(trsTram);
+        jtbKhoangCachTram.setRowSorter(trsKCTram);
         trsTram =new TableRowSorter<>(tbmBangTram);
         trsTram.setComparator(0, new Comparator<String>
         () {

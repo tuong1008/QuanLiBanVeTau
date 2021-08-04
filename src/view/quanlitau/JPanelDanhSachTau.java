@@ -493,14 +493,38 @@ public class JPanelDanhSachTau extends javax.swing.JPanel {
                     if (rs.next()) {
                         JOptionPane.showMessageDialog(this, "Không thể xóa vì có tàu đã được phân công");
                     } else {
-                        ketNoiCSDL.update("delete from ToaThuocTau\n"
-                                + "where MaTau=? and ThoiGianHieuChinhTau=?", maTau, thoiGianHieuChinhTau);
-                        ketNoiCSDL.update("delete from Tau\n"
-                                + "where MaTau=? and ThoiGianHieuChinhTau=?", maTau, thoiGianHieuChinhTau); //nếu xoá tàu k được vì đã phân tuyến cho tàu
-                        tbmTau.removeRow(hangDangChon);
-                        hangDangChon = -1;
-                        jtbTau.clearSelection();
-
+//                        ResultSet rs2 = LopKetNoi.select("select MaToa,count(MaToa) from  (select MaTau,MaToa,ThoiGianHieuChinhTau as ThoiGianHieuChinhTau from ToaThuocTau as table3\n"
+//                                + "where ThoiGianHieuChinhTau = \n"
+//                                + "(select MAX(ThoiGianHieuChinhTau) as TGHCT1 from ToaThuocTau where MaTau=table3.MaTau)) as table2\n"
+//                                + "group by MaToa\n"
+//                                + "having count(MaToa)>1");
+//                        if (rs2.next()){
+//                            JOptionPane.showMessageDialog(this, "Không thể xoá tàu này vì gây xung đột toa");
+//                        }
+//                        else{
+//                            ketNoiCSDL.update("delete from ToaThuocTau\n"
+//                                    + "where MaTau=? and ThoiGianHieuChinhTau=?", maTau, thoiGianHieuChinhTau);
+//                            ketNoiCSDL.update("delete from Tau\n"
+//                                    + "where MaTau=? and ThoiGianHieuChinhTau=?", maTau, thoiGianHieuChinhTau); //nếu xoá tàu k được vì đã phân tuyến cho tàu
+//                            tbmTau.removeRow(hangDangChon);
+//                            hangDangChon = -1;
+//                            jtbTau.clearSelection();
+//                        }
+                        if (ketNoiCSDL.update("delete from ToaThuocTau\n"
+                                + "where MaTau=? and ThoiGianHieuChinhTau=?", maTau, thoiGianHieuChinhTau))
+                        {
+                            if (ketNoiCSDL.update("delete from Tau\n"
+                                + "where MaTau=? and ThoiGianHieuChinhTau=?", maTau, thoiGianHieuChinhTau))//nếu xoá tàu k được vì đã phân tuyến cho tàu
+                            {
+                                tbmTau.removeRow(hangDangChon);
+                                hangDangChon = -1;
+                                jtbTau.clearSelection();
+                            }
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(this, "Không thể xoá vì gây xung đột toa!");
+                        }
                     }
                 } catch (Exception e) {
                     System.out.println("Lỗi xoá tàu");

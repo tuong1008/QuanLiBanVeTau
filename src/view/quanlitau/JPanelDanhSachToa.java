@@ -1162,7 +1162,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
             jlbMaToa.setText("Không được để trống");
         } else {
             try {
-                ResultSet rs = LopKetNoi.select("select maToa from Toa where maToa", jtfMaToa.getText().trim());
+                ResultSet rs = LopKetNoi.select("select maToa from Toa where maToa=?", jtfMaToa.getText().trim());
                 if (rs.next()) {
                     jlbMaToa.setText("Mã toa đã tồn tại");
                 } else {
@@ -1170,6 +1170,7 @@ public class JPanelDanhSachToa extends javax.swing.JPanel {
                 }
 
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("Kiem tra ma toa that bai");
             }
         }

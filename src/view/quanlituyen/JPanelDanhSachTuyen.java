@@ -943,7 +943,45 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                 //                    jtfMaTuyen.requestFocus();
                 break;
                 case "sửa tuyến":
-                //xử lý dữ liệu dialog thêm tuyến
+                // xử lý bên dialog Thêm tuyến
+                    if (chucNangSua==1) {//tuyến đã đặt vé nên insert
+                        java.sql.Timestamp tsThoiGianHieuChinh2 = new java.sql.Timestamp(System.currentTimeMillis());
+                        tuyen.setThoiGianHieuChinh(tsThoiGianHieuChinh2);
+                        tuyenDao.themTuyenVaoDB(tuyen, tsThoiGianHieuChinh2);
+                        //Thêm Tuyến đi qua trạm vào DB
+                        for (int i = 0; i < jListCacTramDiQuaModel.size(); i++) {
+                            TuyenDiQuaTram tempTuyenDiQuaTram = new TuyenDiQuaTram();
+                            tempTuyenDiQuaTram.setMaTuyen(tuyen.getMaTuyen());
+                            tempTuyenDiQuaTram.setTenTram(jListCacTramDiQuaModel.getElementAt(i).toString());
+                            tempTuyenDiQuaTram.setSTT(i + 1);
+                            ketNoiCSDL.addTuyenDiQuaTram(tempTuyenDiQuaTram, tsThoiGianHieuChinh2);
+                        }
+                        tuyenDao.themTuyenVaoBang(tuyen, jtbTuyen);
+                        hangDangChon = jtbTuyen.getRowCount() - 1;
+                        //                    setRong();
+                        //                    setLabelThongBao();
+                        //                    jtfMaTuyen.requestFocus();
+                    } else if (chucNangSua==0) {
+                        //tuyến chưa đặt vé nên update
+                        String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
+                        String strThoiGianHieuChinhTuyen=jtbTuyen.getValueAt(hangDangChon, 2).toString();
+                        ketNoiCSDL.update("delete from TuyenDiQuaTram where MaTuyen=? and ThoiGianHieuChinh=?",maTuyen,strThoiGianHieuChinhTuyen);
+                        //Thêm Tuyến đi qua trạm vào DB
+                        for (int i = 0; i < jListCacTramDiQuaModel.size(); i++) {
+                            TuyenDiQuaTram tempTuyenDiQuaTram = new TuyenDiQuaTram();
+                            tempTuyenDiQuaTram.setMaTuyen(tuyen.getMaTuyen());
+                            tempTuyenDiQuaTram.setTenTram(jListCacTramDiQuaModel.getElementAt(i).toString());
+                            tempTuyenDiQuaTram.setSTT(i + 1);
+                            try {
+                                ketNoiCSDL.addTuyenDiQuaTram(tempTuyenDiQuaTram, new java.sql.Timestamp(formatter.parse(strThoiGianHieuChinhTuyen).getTime()));
+                            } catch (Exception e) {
+                                System.out.println("Lỗi sửa update tuyến");
+                            }
+                        }
+                        //                    setRong();
+                        //                    setLabelThongBao();
+                        //                    jtfMaTuyen.requestFocus()
+                    }
                 //xử lý dữ liệu dialog khoảng cách
                 jTableKhoangCach.editCellAt(0, 0);//để bỏ chọn ô đang chọn, table mới save được ô mới nhập
                 formater=new SimpleDateFormat("HH:mm");
