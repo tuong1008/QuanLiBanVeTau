@@ -19,6 +19,7 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.optionalusertools.PickerUtilities;
 import java.text.Collator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.RowFilter;
@@ -706,6 +707,7 @@ public class JPanelTauChayTuyen extends javax.swing.JPanel {
         if (loai.equals(them)) {
             cbbMaTau.setEnabled(true);
             cbbTuyen.setEnabled(true);
+            datePickerThoiGianKhoiHanh.setText(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
             setTruongRong();
             setThongBaoRong();
             loadDSTauVaoCBB();

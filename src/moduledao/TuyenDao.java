@@ -6,6 +6,7 @@
 package moduledao;
 
 import connectSQL.LopKetNoi;
+import java.security.Timestamp;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -13,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import module.Tuyen;
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import module.KhoangCachTram;
 
@@ -57,10 +59,10 @@ public class TuyenDao {
      * @param maTuyen
      * @return
      */
-    public ArrayList<String> getDSTramDiQua(String maTuyen) {
+    public ArrayList<String> getDSTramDiQua(String maTuyen,  java.sql.Timestamp tsThoiGianHieuChinh) {
         ArrayList<String> DS = new ArrayList<>();
         try {
-            ResultSet rs = LopKetNoi.select("select tenTram from TuyenDiQuaTram where maTuyen=? order by thoiGianDen ASC", maTuyen);
+            ResultSet rs = LopKetNoi.select("select tenTram from TuyenDiQuaTram where maTuyen=? and thoiGianHieuChinh=? order by STT ASC", maTuyen,tsThoiGianHieuChinh);
             while (rs.next()) {
                 DS.add(rs.getString(1));
             }
@@ -93,14 +95,30 @@ public class TuyenDao {
      * @param rs
      * @param model
      */
+    public String getDSTramDiQuaString(String maTuyen, java.sql.Timestamp tsThoiGianHieuChinh) {
+
+        ArrayList<String> dsTram = getDSTramDiQua(maTuyen, tsThoiGianHieuChinh);
+        String temp = "";
+        for (String s : dsTram) {
+            temp += s + "-";
+        }
+        temp = temp.substring(0, temp.length() - 1);
+        return temp;
+    }
     public void loadDSTuyenVaoBang(ResultSet rs, DefaultTableModel model) {
         model.setRowCount(0);
         try {
             while (rs.next()) {
                 String maTuyen = rs.getString("MaTuyen");
                 String tenTuyen = rs.getString("TenTuyen");
-                String thoiGianHieuChinh = rs.getString("ThoiGianHieuChinh");
-                model.addRow(new Object[]{maTuyen, tenTuyen, thoiGianHieuChinh});
+                java.sql.Timestamp thoiGianHieuChinh = rs.getTimestamp("ThoiGianHieuChinh");
+                ArrayList<String> dsTram = getDSTramDiQua(maTuyen, thoiGianHieuChinh);
+                String temp = "";
+                for(String s : dsTram){
+                    temp += s + "-";
+                }
+                temp = temp.substring(0, temp.length()-1);
+                model.addRow(new Object[]{maTuyen, tenTuyen, thoiGianHieuChinh, temp});
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,7 +191,8 @@ public class TuyenDao {
      */
     public void themTuyenVaoBang(Tuyen tuyen, JTable jtb) {
         DefaultTableModel model = (DefaultTableModel) jtb.getModel();
-        model.addRow(new Object[]{tuyen.getMaTuyen(), tuyen.getTenTuyen(),tuyen.getThoiGianHieuChinh()});
+         String dsTramDiQuaString = getDSTramDiQuaString(tuyen.getMaTuyen(), tuyen.getThoiGianHieuChinh());  
+        model.addRow(new Object[]{tuyen.getMaTuyen(), tuyen.getTenTuyen(),tuyen.getThoiGianHieuChinh(),dsTramDiQuaString});
         int hangCuoi = jtb.getRowCount();
         jtb.scrollRectToVisible(jtb.getCellRect(hangCuoi - 1, 0, true));
         jtb.clearSelection();
@@ -208,4 +227,5 @@ public class TuyenDao {
         maTuyen.setText(jtb.getValueAt(hang, 0) + "");
         tenTuyen.setText(jtb.getValueAt(hang, 1) + "");
     }
+
 }

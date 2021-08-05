@@ -27,9 +27,12 @@ import moduledao.TuyenDao;
 import view.JPanelQuanLiTuyen;
 import java.sql.Time;
 import java.text.Collator;
+import java.text.ParseException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.RowFilter;
 import javax.swing.table.TableColumn;
@@ -39,6 +42,7 @@ import module.KhoangCachTram;
 import module.MyDefaultTableModel;
 import module.TuyenDiQuaTram;
 import module.SpinnerEditor;
+
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -50,7 +54,7 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
     private LopKetNoi ketNoiCSDL;
     private ArrayList<Tuyen> DS;
     private ArrayList<Integer> DSKhoangCachConThieu; //lưu danh sách những hàng chứa ô Khoảng Thời gian còn thiếu
-                                                    //để check xem Tuyến đã được thêm đầy đủ Thời gian đi qua các Trạm chưa
+    //để check xem Tuyến đã được thêm đầy đủ Thời gian đi qua các Trạm chưa
     private DefaultTableModel tbmBangTuyen;
     private int count = 0;
     private int hangDangChon = -1;
@@ -61,34 +65,33 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
     SimpleDateFormat formatter;
     int chucNangSua;
     TableRowSorter<DefaultTableModel> trsTuyen;
+
     /**
      * Creates new form JPanelDanhSachTuyen
      */
     public JPanelDanhSachTuyen() {
         initComponents();
-        formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         jListCacTramDiQuaModel = new DefaultListModel();
-        lh=new ListTransferHandler();
+        lh = new ListTransferHandler();
         lmTram = new DefaultListModel<>();
         tuyenDao = new TuyenDao();
-        ketNoiCSDL=new LopKetNoi();
+        ketNoiCSDL = new LopKetNoi();
         connection = ketNoiCSDL.getConnection();
         tbmBangTuyen = (DefaultTableModel) jtbTuyen.getModel();
-        trsTuyen =new TableRowSorter<>(tbmBangTuyen);
-        trsTuyen.setComparator(0, new Comparator<String>
-        () {
+        trsTuyen = new TableRowSorter<>(tbmBangTuyen);
+        trsTuyen.setComparator(0, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                Collator collator = Collator.getInstance( new Locale("vi","VN"));
-                return collator.compare(o1,o2);
+                Collator collator = Collator.getInstance(new Locale("vi", "VN"));
+                return collator.compare(o1, o2);
             }
         });
-        trsTuyen.setComparator(1, new Comparator<String>
-        () {
+        trsTuyen.setComparator(1, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                Collator collator = Collator.getInstance( new Locale("vi","VN"));
-                return collator.compare(o1,o2);
+                Collator collator = Collator.getInstance(new Locale("vi", "VN"));
+                return collator.compare(o1, o2);
             }
         });
         jtbTuyen.setRowSorter(trsTuyen);
@@ -108,9 +111,6 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
         }
         jlTram.setModel(lmTram);
     }
-
-    
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -409,11 +409,11 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã tuyến", "Tên Tuyến", "Thời gian hiệu chỉnh"
+                "Mã tuyến", "Tên Tuyến", "Thời gian hiệu chỉnh", "Các trạm đi qua"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -593,17 +593,17 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                 setLabelThongBaoRong();
                 jtfMaTuyen.setEditable(false);
                 tuyenDao.getTuyenTuBang(jtbTuyen.getSelectedRow(), jtbTuyen, jtfMaTuyen, jtfTenTuyen);
-                String thoiGianHieuChinh=jtbTuyen.getValueAt(hangDangChon, 2).toString();
-                jListCacTramDiQuaModel=ketNoiCSDL.getJListTramTrongTuyen(jtfMaTuyen.getText(),thoiGianHieuChinh);
+                String thoiGianHieuChinh = jtbTuyen.getValueAt(hangDangChon, 2).toString();
+                jListCacTramDiQuaModel = ketNoiCSDL.getJListTramTrongTuyen(jtfMaTuyen.getText(), thoiGianHieuChinh);
                 jListCacTramDiQua.setModel(jListCacTramDiQuaModel);
-                lmTram=ketNoiCSDL.getJListTramChuaThem(jtfMaTuyen.getText(), thoiGianHieuChinh);
+                lmTram = ketNoiCSDL.getJListTramChuaThem(jtfMaTuyen.getText(), thoiGianHieuChinh);
                 jlTram.setModel(lmTram);
                 break;
             case "THÔNG TIN TUYẾN":
                 tatCacTruong();
                 setLabelThongBaoRong();
                 tuyenDao.getTuyenTuBang(jtbTuyen.getSelectedRow(), jtbTuyen, jtfMaTuyen, jtfTenTuyen);
-                jListCacTramDiQuaModel=ketNoiCSDL.getJListTramTrongTuyen(jtfMaTuyen.getText(),jtbTuyen.getValueAt(hangDangChon, 2).toString());
+                jListCacTramDiQuaModel = ketNoiCSDL.getJListTramTrongTuyen(jtfMaTuyen.getText(), jtbTuyen.getValueAt(hangDangChon, 2).toString());
                 jListCacTramDiQua.setModel(jListCacTramDiQuaModel);
                 lmTram.clear();
                 jListCacTramDiQua.setEnabled(false);
@@ -627,8 +627,6 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
         jlbCacTramDiQua.setText(" ");
     }
 
-   
-
     private void kiemTraJTFMaTuyen() {
         String maTuyen = jtfMaTuyen.getText().trim();
         if (maTuyen.equals("")) {
@@ -648,15 +646,12 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
 
     private void kiemTraJTFTenTuyen() {
         String tenTuyen = jtfTenTuyen.getText().trim();
-        if (CheckInPut.checkTenTuyen(tenTuyen))
-        {
+        if (CheckInPut.checkTenTuyen(tenTuyen)) {
             jlbTenTuyen.setText(" ");
-        }
-        else
-        {
+        } else {
             jlbTenTuyen.setText("Chỉ nhập tiếng Việt và -, không được để trống");
         }
-        
+
     }
 
 //    private boolean kiemTraTramDiQuaDB() {
@@ -677,14 +672,10 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
 //        }
 //        return true;
 //    }
-
     private void kiemTraJLCacTramDiQua() {
-        if (jListCacTramDiQuaModel.size()<2)
-        {
+        if (jListCacTramDiQuaModel.size() < 2) {
             jlbCacTramDiQua.setText("Không được để trống! Tuyến phải đi qua ít nhất 2 Trạm");
-        }
-        else
-        {
+        } else {
             jlbCacTramDiQua.setText(" ");
         }
     }
@@ -709,7 +700,9 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
     }
 
     private boolean kiemTraTruocKhiXacNhan(String loai) {
-        if (!loai.equals("sửa tuyến")) kiemTraJTFMaTuyen();
+        if (!loai.equals("sửa tuyến")) {
+            kiemTraJTFMaTuyen();
+        }
         kiemTraJTFTenTuyen();
         kiemTraJLCacTramDiQua();
         if (jlbMaTuyen.getText().equals(" ") && jlbTenTuyen.getText().equals(" ")
@@ -722,7 +715,7 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
 
     private ArrayList<String> getCacTramDiQua() {
         ArrayList<String> tam = new ArrayList<>();
-        for (int i=0; i<jListCacTramDiQuaModel.size();i++) {
+        for (int i = 0; i < jListCacTramDiQuaModel.size(); i++) {
             tam.add(jListCacTramDiQuaModel.getElementAt(i).toString());
         }
         return tam;
@@ -741,6 +734,7 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
 //        return tam;
 //    }
 //
+
     private Tuyen getTuyenTuDialog() {
         String maTuyen = jtfMaTuyen.getText().trim().toUpperCase();
         String tenTuyen = jtfTenTuyen.getText().trim().toUpperCase();
@@ -781,35 +775,28 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn đối tượng! Vui lòng chọn 1 dòng trong bảng");
         } else {
             String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
-            String strThoiGianHieuChinhTuyen=jtbTuyen.getValueAt(hangDangChon, 2).toString();
-            java.sql.Timestamp tsThoiGianHieuChinhTuyenMax=null;
+            String strThoiGianHieuChinhTuyen = jtbTuyen.getValueAt(hangDangChon, 2).toString();
+            java.sql.Timestamp tsThoiGianHieuChinhTuyenMax = null;
             try {
-                ResultSet rs=ketNoiCSDL.select("select MAX(ThoiGianHieuChinh) from Tuyen where MaTuyen=?",maTuyen);
-                if (rs.next())
-                {
-                    tsThoiGianHieuChinhTuyenMax=rs.getTimestamp(1);
+                ResultSet rs = ketNoiCSDL.select("select MAX(ThoiGianHieuChinh) from Tuyen where MaTuyen=?", maTuyen);
+                if (rs.next()) {
+                    tsThoiGianHieuChinhTuyenMax = rs.getTimestamp(1);
                 }
-                rs=ketNoiCSDL.select("select MaChuyen from ChuyenDi where ID_TCT in (select ID_TCT from TauChayTuyen\n" +
-                "where MaTuyen=? and ThoiGianHieuChinh=?)",maTuyen,strThoiGianHieuChinhTuyen);
-                if (rs.next())
-                {
-                    if (strThoiGianHieuChinhTuyen.equals(tsThoiGianHieuChinhTuyenMax.toString()))
-                    {
+                rs = ketNoiCSDL.select("select MaChuyen from ChuyenDi where ID_TCT in (select ID_TCT from TauChayTuyen\n"
+                        + "where MaTuyen=? and ThoiGianHieuChinh=?)", maTuyen, strThoiGianHieuChinhTuyen);
+                if (rs.next()) {
+                    if (strThoiGianHieuChinhTuyen.equals(tsThoiGianHieuChinhTuyenMax.toString())) {
                         //bằng max thì insert
-                        chucNangSua=1;
+                        chucNangSua = 1;
                         hienThiDialog("SỬA TUYẾN");
-                    }
-                    else
-                    {
+                    } else {
                         //không sửa vì đã đặt vé
-                        chucNangSua=-1;
+                        chucNangSua = -1;
                         JOptionPane.showMessageDialog(this, "Không sửa được vì đã đặt vé!");
                     }
-                }
-                else
-                {
+                } else {
                     //được update vì chưa thêm vào vé
-                    chucNangSua=0;
+                    chucNangSua = 0;
                     hienThiDialog("SỬA TUYẾN");
                 }
             } catch (Exception e) {
@@ -839,7 +826,7 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
             int input = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa không?", "Cảnh báo", JOptionPane.YES_NO_OPTION);
             if (input == JOptionPane.YES_OPTION) {
                 String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
-                String thoiGianHieuChinhTuyen=jtbTuyen.getValueAt(hangDangChon, 2).toString();
+                String thoiGianHieuChinhTuyen = jtbTuyen.getValueAt(hangDangChon, 2).toString();
                 boolean kt = tuyenDao.xoaTuyenTrongDB(maTuyen, ketNoiCSDL, thoiGianHieuChinhTuyen);
                 if (kt) {
                     tuyenDao.xoaTramKhoiBang(hangDangChon, tbmBangTuyen);
@@ -864,7 +851,7 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
 
     private void jtbTuyenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbTuyenMouseClicked
         // TODO add your handling code here:
-        hangDangChon=jtbTuyen.getSelectedRow();
+        hangDangChon = jtbTuyen.getSelectedRow();
     }//GEN-LAST:event_jtbTuyenMouseClicked
 
     private void btnThongTInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongTInActionPerformed
@@ -888,38 +875,37 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
         String loai = jlbTenDialog.getText().toLowerCase();
         Tuyen tuyen = getTuyenTuDialog();
         KhoangCachTram khoangCachTram;
-        boolean isOk=true;
-            switch (loai) {
-                case "thêm tuyến":
-                    // xử lý bên dialog Thêm tuyến
-                    java.sql.Timestamp tsThoiGianHieuChinh = new java.sql.Timestamp(System.currentTimeMillis());
-                    tuyen.setThoiGianHieuChinh(tsThoiGianHieuChinh);
-                    if (tuyenDao.themTuyenVaoDB(tuyen, tsThoiGianHieuChinh)) {
-                        //Thêm Tuyến đi qua trạm vào DB
-                        for (int i = 0; i < jListCacTramDiQuaModel.size(); i++) {
-                            TuyenDiQuaTram tempTuyenDiQuaTram = new TuyenDiQuaTram();
-                            tempTuyenDiQuaTram.setMaTuyen(tuyen.getMaTuyen());
-                            tempTuyenDiQuaTram.setTenTram(jListCacTramDiQuaModel.getElementAt(i).toString());
-                            tempTuyenDiQuaTram.setSTT(i + 1);
-                            ketNoiCSDL.addTuyenDiQuaTram(tempTuyenDiQuaTram, tsThoiGianHieuChinh);
-                        }
-                        tuyenDao.themTuyenVaoBang(tuyen, jtbTuyen);
-                        hangDangChon = jtbTuyen.getRowCount() - 1;
-                        //                    setRong();
-                        //                    setLabelThongBao();
-                        //                    jtfMaTuyen.requestFocus();
-                    } else {
-                        jlbMaTuyen.setText("Mã Tuyến bị trùng!");
+        boolean isOk = true;
+        switch (loai) {
+            case "thêm tuyến":
+                // xử lý bên dialog Thêm tuyến
+                java.sql.Timestamp tsThoiGianHieuChinh = new java.sql.Timestamp(System.currentTimeMillis());
+                tuyen.setThoiGianHieuChinh(tsThoiGianHieuChinh);
+                if (tuyenDao.themTuyenVaoDB(tuyen, tsThoiGianHieuChinh)) {
+                    //Thêm Tuyến đi qua trạm vào DB
+                    for (int i = 0; i < jListCacTramDiQuaModel.size(); i++) {
+                        TuyenDiQuaTram tempTuyenDiQuaTram = new TuyenDiQuaTram();
+                        tempTuyenDiQuaTram.setMaTuyen(tuyen.getMaTuyen());
+                        tempTuyenDiQuaTram.setTenTram(jListCacTramDiQuaModel.getElementAt(i).toString());
+                        tempTuyenDiQuaTram.setSTT(i + 1);
+                        ketNoiCSDL.addTuyenDiQuaTram(tempTuyenDiQuaTram, tsThoiGianHieuChinh);
                     }
+                    tuyenDao.themTuyenVaoBang(tuyen, jtbTuyen);
+                    hangDangChon = jtbTuyen.getRowCount() - 1;
+                    //                    setRong();
+                    //                    setLabelThongBao();
+                    //                    jtfMaTuyen.requestFocus();
+                } else {
+                    jlbMaTuyen.setText("Mã Tuyến bị trùng!");
+                }
                 //xử lý bên dialog khoảng cách   
                 jTableKhoangCach.editCellAt(0, 0);//để bỏ chọn ô đang chọn, table mới save được ô mới nhập
-                SimpleDateFormat formater=new SimpleDateFormat("HH:mm");
-                for (int i:DSKhoangCachConThieu)
-                {
-                    khoangCachTram=new KhoangCachTram();
+                SimpleDateFormat formater = new SimpleDateFormat("HH:mm");
+                for (int i : DSKhoangCachConThieu) {
+                    khoangCachTram = new KhoangCachTram();
                     try {
-                        String tempKhoangThoiGian=jTableKhoangCachModel.getValueAt(i, 3).toString();
-                        Time timeKhoangThoiGian= new Time(formater.parse(tempKhoangThoiGian).getTime());
+                        String tempKhoangThoiGian = jTableKhoangCachModel.getValueAt(i, 3).toString();
+                        Time timeKhoangThoiGian = new Time(formater.parse(tempKhoangThoiGian).getTime());
                         khoangCachTram.setKhoangThoiGian(timeKhoangThoiGian);
                         khoangCachTram.setSoNgay(Integer.valueOf(jTableKhoangCachModel.getValueAt(i, 2).toString()));
                         khoangCachTram.setTenTramNay(jTableKhoangCachModel.getValueAt(i, 0).toString());
@@ -927,13 +913,12 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                         tuyenDao.themKhoangCachVaoDB(khoangCachTram);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        isOk=false;
+                        isOk = false;
                         JOptionPane.showMessageDialog(this, "Nhập khoảng thời gian đúng định dạng HH:mm và không được để trống!");
                     }
-                    
+
                 }
-                if (isOk)
-                {
+                if (isOk) {
                     jdlNhapKhoangCach.dispose();
                     jdlThuocTinhTuyen.dispose();
                 }
@@ -942,94 +927,100 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                 //                    setLabelThongBao();
                 //                    jtfMaTuyen.requestFocus();
                 break;
-                case "sửa tuyến":
+            case "sửa tuyến":
                 // xử lý bên dialog Thêm tuyến
-                    if (chucNangSua==1) {//tuyến đã đặt vé nên insert
-                        java.sql.Timestamp tsThoiGianHieuChinh2 = new java.sql.Timestamp(System.currentTimeMillis());
-                        tuyen.setThoiGianHieuChinh(tsThoiGianHieuChinh2);
-                        tuyenDao.themTuyenVaoDB(tuyen, tsThoiGianHieuChinh2);
-                        //Thêm Tuyến đi qua trạm vào DB
-                        for (int i = 0; i < jListCacTramDiQuaModel.size(); i++) {
-                            TuyenDiQuaTram tempTuyenDiQuaTram = new TuyenDiQuaTram();
-                            tempTuyenDiQuaTram.setMaTuyen(tuyen.getMaTuyen());
-                            tempTuyenDiQuaTram.setTenTram(jListCacTramDiQuaModel.getElementAt(i).toString());
-                            tempTuyenDiQuaTram.setSTT(i + 1);
-                            ketNoiCSDL.addTuyenDiQuaTram(tempTuyenDiQuaTram, tsThoiGianHieuChinh2);
-                        }
-                        tuyenDao.themTuyenVaoBang(tuyen, jtbTuyen);
-                        hangDangChon = jtbTuyen.getRowCount() - 1;
-                        //                    setRong();
-                        //                    setLabelThongBao();
-                        //                    jtfMaTuyen.requestFocus();
-                    } else if (chucNangSua==0) {
-                        //tuyến chưa đặt vé nên update
-                        String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
-                        String strThoiGianHieuChinhTuyen=jtbTuyen.getValueAt(hangDangChon, 2).toString();
-                        ketNoiCSDL.update("delete from TuyenDiQuaTram where MaTuyen=? and ThoiGianHieuChinh=?",maTuyen,strThoiGianHieuChinhTuyen);
-                        //Thêm Tuyến đi qua trạm vào DB
-                        for (int i = 0; i < jListCacTramDiQuaModel.size(); i++) {
-                            TuyenDiQuaTram tempTuyenDiQuaTram = new TuyenDiQuaTram();
-                            tempTuyenDiQuaTram.setMaTuyen(tuyen.getMaTuyen());
-                            tempTuyenDiQuaTram.setTenTram(jListCacTramDiQuaModel.getElementAt(i).toString());
-                            tempTuyenDiQuaTram.setSTT(i + 1);
-                            try {
-                                ketNoiCSDL.addTuyenDiQuaTram(tempTuyenDiQuaTram, new java.sql.Timestamp(formatter.parse(strThoiGianHieuChinhTuyen).getTime()));
-                            } catch (Exception e) {
-                                System.out.println("Lỗi sửa update tuyến");
-                            }
-                        }
-                        //                    setRong();
-                        //                    setLabelThongBao();
-                        //                    jtfMaTuyen.requestFocus()
+                if (chucNangSua == 1) {//tuyến đã đặt vé nên insert
+                    java.sql.Timestamp tsThoiGianHieuChinh2 = new java.sql.Timestamp(System.currentTimeMillis());
+                    tuyen.setThoiGianHieuChinh(tsThoiGianHieuChinh2);
+                    tuyenDao.themTuyenVaoDB(tuyen, tsThoiGianHieuChinh2);
+                    //Thêm Tuyến đi qua trạm vào DB
+                    for (int i = 0; i < jListCacTramDiQuaModel.size(); i++) {
+                        TuyenDiQuaTram tempTuyenDiQuaTram = new TuyenDiQuaTram();
+                        tempTuyenDiQuaTram.setMaTuyen(tuyen.getMaTuyen());
+                        tempTuyenDiQuaTram.setTenTram(jListCacTramDiQuaModel.getElementAt(i).toString());
+                        tempTuyenDiQuaTram.setSTT(i + 1);
+                        ketNoiCSDL.addTuyenDiQuaTram(tempTuyenDiQuaTram, tsThoiGianHieuChinh2);
                     }
+                    tuyenDao.themTuyenVaoBang(tuyen, jtbTuyen);
+                    hangDangChon = jtbTuyen.getRowCount() - 1;
+                    //                    setRong();
+                    //                    setLabelThongBao();
+                    //                    jtfMaTuyen.requestFocus();
+                } else if (chucNangSua == 0) {
+                    //tuyến chưa đặt vé nên update
+                    String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
+                    String strThoiGianHieuChinhTuyen = jtbTuyen.getValueAt(hangDangChon, 2).toString();
+                    ketNoiCSDL.update("delete from TuyenDiQuaTram where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, strThoiGianHieuChinhTuyen);
+                    //Thêm Tuyến đi qua trạm vào DB
+                    for (int i = 0; i < jListCacTramDiQuaModel.size(); i++) {
+                        TuyenDiQuaTram tempTuyenDiQuaTram = new TuyenDiQuaTram();
+                        tempTuyenDiQuaTram.setMaTuyen(tuyen.getMaTuyen());
+                        tempTuyenDiQuaTram.setTenTram(jListCacTramDiQuaModel.getElementAt(i).toString());
+                        tempTuyenDiQuaTram.setSTT(i + 1);
+                        try {
+                            ketNoiCSDL.addTuyenDiQuaTram(tempTuyenDiQuaTram, new java.sql.Timestamp(formatter.parse(strThoiGianHieuChinhTuyen).getTime()));
+                        } catch (Exception e) {
+                            System.out.println("Lỗi sửa update tuyến");
+                        }
+                    }
+                    //                    setRong();
+                    //                    setLabelThongBao();
+                    //                    jtfMaTuyen.requestFocus()
+                }
                 //xử lý dữ liệu dialog khoảng cách
                 jTableKhoangCach.editCellAt(0, 0);//để bỏ chọn ô đang chọn, table mới save được ô mới nhập
-                formater=new SimpleDateFormat("HH:mm");
-                for (int i:DSKhoangCachConThieu)
-                {
-                    khoangCachTram=new KhoangCachTram();
+                formater = new SimpleDateFormat("HH:mm");
+                for (int i : DSKhoangCachConThieu) {
+                    khoangCachTram = new KhoangCachTram();
                     try {
-                        String tempKhoangThoiGian=jTableKhoangCachModel.getValueAt(i, 3).toString();
-                        Time timeKhoangThoiGian= new Time(formater.parse(tempKhoangThoiGian).getTime());
+                        String tempKhoangThoiGian = jTableKhoangCachModel.getValueAt(i, 3).toString();
+                        Time timeKhoangThoiGian = new Time(formater.parse(tempKhoangThoiGian).getTime());
                         khoangCachTram.setKhoangThoiGian(timeKhoangThoiGian);
                         khoangCachTram.setSoNgay(Integer.valueOf(jTableKhoangCachModel.getValueAt(i, 2).toString()));
                         khoangCachTram.setTenTramNay(jTableKhoangCachModel.getValueAt(i, 0).toString());
                         khoangCachTram.setTenTramKia(jTableKhoangCachModel.getValueAt(i, 1).toString());
                         tuyenDao.themKhoangCachVaoDB(khoangCachTram);
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
-                        isOk=false;
+                        isOk = false;
                         JOptionPane.showMessageDialog(this, "Nhập khoảng thời gian đúng định dạng HH:mm và không được để trống!");
                     }
                 }
                 //cập nhật lại thời gian đến cho Tàu chạy Tuyến này
-                        String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
-                        String strThoiGianHieuChinhTuyen=jtbTuyen.getValueAt(hangDangChon, 2).toString();
-                        LopKetNoi.update("update TauChayTuyen\n" +
-                        "set ThoiGianDen=dbo.tinhThoiGianDenCuaTau(MaTuyen, ThoiGianHieuChinh,ThoiGianKhoiHanh)\n" +
-                        "where MaTuyen=? and ThoiGianHieuChinh=?",maTuyen,strThoiGianHieuChinhTuyen);
-                if (isOk)
-                {
+                String maTuyen = jtbTuyen.getValueAt(hangDangChon, 0).toString();
+                String strThoiGianHieuChinhTuyen = jtbTuyen.getValueAt(hangDangChon, 2).toString();
+                LopKetNoi.update("update TauChayTuyen\n"
+                        + "set ThoiGianDen=dbo.tinhThoiGianDenCuaTau(MaTuyen, ThoiGianHieuChinh,ThoiGianKhoiHanh)\n"
+                        + "where MaTuyen=? and ThoiGianHieuChinh=?", maTuyen, strThoiGianHieuChinhTuyen);
+                if (isOk) {
                     jdlNhapKhoangCach.dispose();
                     jdlThuocTinhTuyen.dispose();
                 }
+                String dsTramDiQuaString = "";
+                try {
+                    dsTramDiQuaString = tuyenDao.getDSTramDiQuaString(maTuyen, new java.sql.Timestamp(formatter.parse(strThoiGianHieuChinhTuyen).getTime()));
+                } catch (ParseException ex) {
+                    System.out.println("loi chuyenn string sang timestamp luc cap nhat lai ds tram di qua");
+                }
+                jtbTuyen.setValueAt(dsTramDiQuaString, hangDangChon, 3);
+
                 break;
-                case "thông tin tuyến":
-                    jdlNhapKhoangCach.dispose();
-                    jdlThuocTinhTuyen.dispose();
+
+            case "thông tin tuyến":
+                jdlNhapKhoangCach.dispose();
+                jdlThuocTinhTuyen.dispose();
                 break;
-            }
-        
-        
+        }
+
+
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
     private void btnTiepTucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTiepTucActionPerformed
         // TODO add your handling code here:
 
         String loai = jlbTenDialog.getText().toLowerCase();
-        if (!loai.equals("thông tin tuyến"))
-        {
+        if (!loai.equals("thông tin tuyến")) {
             if (kiemTraTruocKhiXacNhan(loai)) {
                 //đã move code vì muốn thêm vào DB sau khi bấm xác nhận
                 jTableKhoangCachModel = new MyDefaultTableModel(jListCacTramDiQuaModel.getSize() - 1, 4);//vì có 4 Trạm đi qua thì có 4-1 row khoảng cách trong bảng Khoảng Cách
@@ -1063,34 +1054,28 @@ public class JPanelDanhSachTuyen extends javax.swing.JPanel {
                 jdlNhapKhoangCach.setLocationRelativeTo(this);
                 jdlNhapKhoangCach.setVisible(true);
             }
-        }
-        else
-        {
-            jTableKhoangCachModel=new MyDefaultTableModel(jListCacTramDiQuaModel.getSize()-1,4);//vì có 4 Trạm đi qua thì có 4-1 row khoảng cách trong bảng Khoảng Cách
-                    jTableKhoangCachModel.setDataVector(new Object[][]{}, new String[] {"Tên Trạm Này","Tên Trạm Kia","Số Ngày" ,"Khoảng Thời Gian"});
-                    jTableKhoangCach.setModel(jTableKhoangCachModel);
-                    DSKhoangCachConThieu=new ArrayList<Integer>();
-                    for (int i=0;i<=jListCacTramDiQuaModel.getSize()-2;i++)
-                    {
-                        String tenTramNay=jListCacTramDiQuaModel.getElementAt(i).toString();
-                        String tenTramKia=jListCacTramDiQuaModel.getElementAt(i+1).toString();
-                        KhoangCachTram khoangCachTram=tuyenDao.getKhoangCachTram(tenTramNay, tenTramKia);
-                        if (khoangCachTram!=null)
-                        {
-                            String strKhoangThoiGian=khoangCachTram.getKhoangThoiGian().toString();
-                            strKhoangThoiGian=strKhoangThoiGian.substring(0, strKhoangThoiGian.length()-3);  //bỏ mili giây
-                            jTableKhoangCachModel.addRow(new Object[] {tenTramNay,tenTramKia,khoangCachTram.getSoNgay(),strKhoangThoiGian});
-                        }
-                        else
-                        {
-                            jTableKhoangCachModel.addRow(new Object[] {tenTramNay,tenTramKia,"",""});
-                            jTableKhoangCachModel.setCellEditable(i, 2, true);
-                            jTableKhoangCachModel.setCellEditable(i, 3, true);
-                            DSKhoangCachConThieu.add(i);
-                        }
-                    }
-                    jdlNhapKhoangCach.setLocationRelativeTo(this);
-                    jdlNhapKhoangCach.setVisible(true);
+        } else {
+            jTableKhoangCachModel = new MyDefaultTableModel(jListCacTramDiQuaModel.getSize() - 1, 4);//vì có 4 Trạm đi qua thì có 4-1 row khoảng cách trong bảng Khoảng Cách
+            jTableKhoangCachModel.setDataVector(new Object[][]{}, new String[]{"Tên Trạm Này", "Tên Trạm Kia", "Số Ngày", "Khoảng Thời Gian"});
+            jTableKhoangCach.setModel(jTableKhoangCachModel);
+            DSKhoangCachConThieu = new ArrayList<Integer>();
+            for (int i = 0; i <= jListCacTramDiQuaModel.getSize() - 2; i++) {
+                String tenTramNay = jListCacTramDiQuaModel.getElementAt(i).toString();
+                String tenTramKia = jListCacTramDiQuaModel.getElementAt(i + 1).toString();
+                KhoangCachTram khoangCachTram = tuyenDao.getKhoangCachTram(tenTramNay, tenTramKia);
+                if (khoangCachTram != null) {
+                    String strKhoangThoiGian = khoangCachTram.getKhoangThoiGian().toString();
+                    strKhoangThoiGian = strKhoangThoiGian.substring(0, strKhoangThoiGian.length() - 3);  //bỏ mili giây
+                    jTableKhoangCachModel.addRow(new Object[]{tenTramNay, tenTramKia, khoangCachTram.getSoNgay(), strKhoangThoiGian});
+                } else {
+                    jTableKhoangCachModel.addRow(new Object[]{tenTramNay, tenTramKia, "", ""});
+                    jTableKhoangCachModel.setCellEditable(i, 2, true);
+                    jTableKhoangCachModel.setCellEditable(i, 3, true);
+                    DSKhoangCachConThieu.add(i);
+                }
+            }
+            jdlNhapKhoangCach.setLocationRelativeTo(this);
+            jdlNhapKhoangCach.setVisible(true);
         }
     }//GEN-LAST:event_btnTiepTucActionPerformed
 

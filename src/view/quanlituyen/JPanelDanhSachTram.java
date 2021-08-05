@@ -690,6 +690,7 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
         } else {
             jtfTenTramDialog.setText(jtbDanhSachTram.getValueAt(hangDangChon, 0) + "");
             jtfTenTramDialog.setEnabled(false);
+            jlbTenDialog.setText(" ");
             jtfDiaChiDialog.setText(jtbDanhSachTram.getValueAt(hangDangChon, 1) + "");
         }
         jdlThemSuaTram.setLocationRelativeTo(this);
@@ -886,23 +887,23 @@ public class JPanelDanhSachTram extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 dòng muốn sửa");
         } else
         {
-            String tempTenTram=jtbDanhSachTram.getValueAt(hangDangChon, 0).toString();
-            try {
-                ResultSet rs=ketNoiCSDL.select("select * from ChuyenDi where TenTramDi=? or TenTramDen=?",tempTenTram,tempTenTram);
-                if (rs.next())
-                {
-                    JOptionPane.showMessageDialog(this, "Đang có Tuyến đi qua Trạm này, không thể sửa!");
-                }
-                else
-                {
+//            String tempTenTram=jtbDanhSachTram.getValueAt(hangDangChon, 0).toString();
+//            try {
+//                ResultSet rs=ketNoiCSDL.select("select * from ChuyenDi where TenTramDi=? or TenTramDen=?",tempTenTram,tempTenTram);
+//                if (rs.next())
+//                {
+//                    JOptionPane.showMessageDialog(this, "Đang có Tuyến đi qua Trạm này, không thể sửa!");
+//                }
+//                else
+//                {
                     
                         hienThiDialog("SỬA TRẠM");
                     
-                }
-            } catch (Exception e) {
-                System.out.println("Lỗi lúc bấm nút sửa");
-                e.printStackTrace();
-            }
+//                }
+//            } catch (Exception e) {
+//                System.out.println("Lỗi lúc bấm nút sửa");
+//                e.printStackTrace();
+//            }
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
